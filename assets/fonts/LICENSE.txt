@@ -1,0 +1,3 @@
+eden-display.woff2 = Unbounded (Copyright The Unbounded Project Authors), SIL Open Font License 1.1, subset Latin.
+eden-mono.woff2    = JetBrains Mono (Copyright The JetBrains Mono Project Authors), SIL Open Font License 1.1, subset Latin.
+OFL text: https://openfontlicense.org
