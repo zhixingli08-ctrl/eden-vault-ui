@@ -1,38 +1,136 @@
 <!doctype html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>EDEN · 分钟燃烧金库（预览 · 模拟数据）</title>
-<meta name="description" content="EDEN 分钟燃烧金库 dapp 预览：与 Flap 定制金库 UI 同一套组件。全部为本地模拟数据，不连钱包、不发交易。">
-<meta name="theme-color" content="#070808">
+<meta name="description" content="EDEN 分钟燃烧金库 dapp 预览。全部为本地模拟数据，不连钱包、不发交易。">
+<meta name="theme-color" content="#020303">
 <meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070808'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23D0FF00' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D0FF00'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/eden-vault.css">
-<link rel="stylesheet" href="assets/dapp.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23020303'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23D0FF00' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D0FF00'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/eden-v4.css">
 </head>
 <body>
-<div class="pv" role="note"><span class="pv-tag">预览 · 模拟数据</span><span class="pv-txt">不连钱包、不发交易；数字为本地模拟。</span></div>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="flash" id="flash" aria-hidden="true"></div>
+
+<div class="pv" role="note"><b>预览 · 模拟数据</b><span>不连钱包、不发交易，所有数字为浏览器本地模拟</span></div>
 <header class="hd">
-  <a class="brand" href="./" aria-label="EDEN">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5" stroke-dasharray="1.5 2.5"/><circle cx="12" cy="12" r="1.8" class="f"/></svg>
-    <b>EDEN</b><i>//</i><span>BURN VAULT</span>
+  <a class="brand" href="#hero" aria-label="EDEN">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5" stroke-dasharray="1.6 2.2"/><circle cx="12" cy="12" r="2" class="f"/></svg>
+    <b>EDEN</b><i>MINUTE BURN VAULT</i>
   </a>
-  <nav class="nv">
-    <a href="./flap-custom/index.html">Flap 定制 UI</a>
-    <a href="./flap/index.html">Flap 通用面板</a>
+  <nav class="nv" id="nav">
+    <a href="#hero" data-i="0"><em>01</em>熔炉</a><a href="#pools" data-i="1"><em>02</em>三池</a><a href="#plots" data-i="2"><em>03</em>地块</a><a href="#round" data-i="3"><em>04</em>回购</a>
   </nav>
   <div class="act">
-    <button id="langBtn" class="hb" type="button">EN</button>
-    <button id="connectBtn" class="hb hb-l" type="button" title="预览：模拟连接，不调用任何钱包">连接钱包</button>
+    <div class="spd" id="spd" title="模拟时间倍速"><button data-s="1" class="on">×1</button><button data-s="10">×10</button><button data-s="60">×60</button></div>
+    <button id="walletBtn" class="wb" type="button" title="预览：模拟连接，不调用任何钱包"><i></i><span>连接钱包</span></button>
   </div>
 </header>
-<main class="mn">
-  <div id="eden-vault-root"></div>
-  <p class="ft">BNB Chain · 金库组件与 Flap 定制 UI 同源（flap-vault-component-template）· <a href="./flap-custom/index.html">在 Flap 代币页中查看 →</a></p>
+
+<main id="main">
+  <!-- 01 熔炉 -->
+  <section class="sec hero" id="hero" data-i="0">
+    <div class="h-left">
+      <div class="kick rv"><span class="dot"></span>BNB CHAIN · FLAP VAULT · 第 <b data-k="minute" data-d="0">1874</b> 分钟</div>
+      <h1 class="title rv" aria-label="EDEN"><span>EDEN</span></h1>
+      <p class="tag rv">每 60 秒开一炉。烧得越多，分得越多。<br><em>最后 15 秒随机截止</em>，谁也不知道哪一秒落锤。</p>
+      <div class="big rv">
+        <div class="lbl">本分钟奖池</div>
+        <div class="num"><span data-k="prize" data-d="4">0.0000</span><small>BNB</small></div>
+        <div class="sub">≈ $<span data-k="prizeUsd" data-d="0">0</span> · 分钟奖池 <span data-k="minutePool" data-d="2">0</span> BNB × 2%</div>
+      </div>
+      <div class="stats rv">
+        <div><span class="l">本分钟已燃烧</span><b data-k="burned" data-f="tok">0</b><i class="bar"><u id="burnBar"></u><s title="10 万枚线"></s></i></div>
+        <div><span class="l">参与地址</span><b data-k="addrs" data-d="0">0</b></div>
+        <div><span class="l">你的燃烧</span><b data-k="myBurn" data-f="tok">0</b></div>
+      </div>
+      <div class="cta rv"><button class="btn-l" id="heroBurn" type="button">立即燃烧</button><a class="btn-g" href="#pools">钱去哪了 ↓</a></div>
+    </div>
+    <div class="clock" id="clock" aria-live="off">
+      <div class="c-ph" id="cPh">确定区</div>
+      <div class="c-n" id="cN">20</div>
+      <div class="c-s" id="cS">秒后进入随机窗口</div>
+    </div>
+    <div class="feed" id="feed" aria-label="实时燃烧"></div>
+    <div class="result" id="result" aria-live="polite"></div>
+  </section>
+
+  <!-- 02 三池 -->
+  <section class="sec pools" id="pools" data-i="1">
+    <div class="s-head rv"><em>02 / 税去哪了</em><h2>一笔税，三股能量</h2><p>买卖各 3% 税 100% 进金库 · 0 运营 · 0 项目方地址</p></div>
+    <div class="pcards">
+      <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n">分钟奖池</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d">每分钟放 2% 给燃烧者</div></div>
+      <div class="pc rv" style="--c:var(--cyan)"><div class="pc-p">30%</div><div class="pc-n">地块池</div><div class="pc-v"><span data-k="plotPool" data-d="3">0</span> BNB</div><div class="pc-d">每小时放 2% 给地主</div></div>
+      <div class="pc rv" style="--c:var(--ember)"><div class="pc-p">25%</div><div class="pc-n">地板储备</div><div class="pc-v"><span data-k="reserveAll" data-d="3">0</span> BNB</div><div class="pc-d">整笔用于限量回购并销毁</div></div>
+    </div>
+  </section>
+
+  <!-- 03 地块 -->
+  <section class="sec plots" id="plots" data-i="2">
+    <div class="panel side rv">
+      <div class="s-head"><em>03 / 地块星球</em><h2>3300 块地，<br>谁都能买</h2><p>烧币时指定一块地，这块地就分地块池。随时按现价买走任意一块，每成交一次涨 10%。</p></div>
+      <div class="legend"><span><i style="background:#0a3a44"></i>地板价</span><span><i style="background:var(--cyan)"></i>有溢价</span><span><i style="background:var(--ember)"></i>抢手</span><span><i style="background:var(--lime)"></i>我的</span></div>
+      <div class="plot" id="plotCard"></div>
+      <p class="hint">拖动星球旋转 · 点击地块查看</p>
+    </div>
+  </section>
+
+  <!-- 04 回购 -->
+  <section class="sec round" id="round" data-i="3">
+    <div class="panel side rv">
+      <div class="s-head"><em>04 / 回购熔池</em><h2>每轮 1500 万枚，<br>收进来就烧掉</h2><p>开轮那一刻，地板储备全部余额 ÷ 1500 万 = 本轮回购价，锁定不变。收满或满 24 小时换轮，剩下的钱滚进下一轮。</p></div>
+      <div class="rd">
+        <div class="rd-top"><span>第 <b data-k="roundId" data-d="0">6</b> 轮 · 回购价</span><span class="rd-left" data-k="roundLeft" data-f="raw">--</span></div>
+        <div class="rd-price"><span data-k="roundPrice" data-f="px">0</span><small>BNB / 枚</small></div>
+        <div class="rd-sub">每 <b data-k="perBnb" data-f="tok">0</b> 枚换 1 BNB · 本轮资金 <b data-k="roundPool" data-d="3">0</b> BNB</div>
+        <div class="rd-bar"><u id="roundBar"></u></div>
+        <div class="rd-row"><span>已收 <b data-k="roundFilled" data-f="tok">0</b> / 15M</span><span>累计回购销毁 <b data-k="roundBurned" data-f="tok">0</b></span></div>
+        <button class="btn-l wide" id="roundSell" type="button">卖给本轮</button>
+        <p class="hint">限量回购，最高可到市价约 75%；不是硬托底。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 规则 -->
+  <section class="sec rules" id="rules" data-i="4">
+    <div class="s-head rv center"><em>05 / 一屏看懂</em><h2>规则全部写在合约里</h2></div>
+    <div class="rgrid">
+      <div class="rc rv"><b>60s</b><span>每分钟一炉，前 45 秒确定计入；最后 15 秒随机截止，没赶上的自动并入下一分钟</span></div>
+      <div class="rc rv"><b>2%</b><span>每分钟放分钟奖池的 2%，按本分钟燃烧量比例分</span></div>
+      <div class="rc rv"><b>10 万</b><span>单笔最少 1 万枚；整分钟不到 10 万枚不发奖，燃烧量带到下一分钟</span></div>
+      <div class="rc rv"><b>3300</b><span>创世 30 分钟发地块，每 10 万枚燃烧 1 块；地块池每小时放 2%，按过路燃烧分（每块每小时最多计 100 万）</span></div>
+      <div class="rc rv"><b>+10%</b><span>任何人可按现价买任何地块；成交价 98% 给卖家、2% 进分钟奖池；没人买每天回落 5%，不低于地板</span></div>
+      <div class="rc rv"><b>100%</b><span>回购收进来的币全部销毁；每轮 1500 万枚，价格开轮锁定</span></div>
+    </div>
+    <div class="links rv"><a href="./flap-custom/">Flap 定制 UI 预览 →</a><a href="./flap/">Flap 通用金库面板 →</a></div>
+    <p class="foot">BNB Chain · Flap Tax Token V3 · 税 3% / 3% · 预览页，所有数字为模拟</p>
+  </section>
 </main>
+
+<div class="ticker" aria-hidden="true"><div class="tk" id="tk"></div></div>
+
+<!-- 底部常驻：一个主操作 -->
+<div class="dock" id="dock">
+  <div class="sheet" id="sheet" role="dialog" aria-label="操作面板">
+    <div class="sh-tabs" id="shTabs"><button data-t="claim">领取<i id="claimDot"></i></button><button data-t="plot">地块</button><button data-t="round">回购</button><button class="sh-x" id="shX" aria-label="收起">×</button></div>
+    <div class="sh-body" id="shBody"></div>
+  </div>
+  <div class="dk">
+    <div class="dk-in"><input id="amt" inputmode="numeric" autocomplete="off" value="100,000" aria-label="燃烧数量"><span>EDEN</span></div>
+    <div class="dk-chips"><button data-a="100000">10万</button><button data-a="500000">50万</button><button data-a="1000000">100万</button><button data-a="max">MAX</button></div>
+    <label class="dk-plot" title="烧币时指定地块：这块地本小时的过路量 +"><span>指定地块</span><input id="ptr" inputmode="numeric" value="7" aria-label="指定地块编号"></label>
+    <button class="burn" id="burnBtn" type="button"><span>燃烧</span><i></i></button>
+    <div class="dk-tabs"><button data-t="claim">领取<i id="claimDot2"></i></button><button data-t="plot">地块</button><button data-t="round">回购</button></div>
+  </div>
+</div>
+
+<div class="hov" id="hov"></div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
-<script src="assets/eden-vault.js"></script>
-<script src="assets/dapp.js"></script>
+<div class="dbg" id="dbg"></div>
+<noscript><p style="padding:80px 24px;color:#ccc">需要启用 JavaScript 才能查看 EDEN 预览。</p></noscript>
+<script src="assets/eden-v4.js"></script>
 </body>
 </html>

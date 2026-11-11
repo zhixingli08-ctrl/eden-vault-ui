@@ -1,12 +1,10 @@
-# EDEN 分钟燃烧金库 · 预览站（v3 · 科幻 HUD）
+# EDEN 分钟燃烧金库 · 预览站（v4 · WebGL）
 
-纯静态，可直接放 GitHub Pages 或 file:// 打开。全部数字是浏览器里的本地模拟：不连钱包、不发交易，页面顶部常驻「预览 · 模拟数据」。
+纯静态，直接放 GitHub Pages。所有数字都是浏览器本地模拟：不连钱包、不发交易，页面顶部常驻「预览 · 模拟数据」。
 
-- `index.html` — 独立 dapp。与 Flap 定制 UI 用**同一个组件**（`assets/eden-vault.js` / `assets/eden-vault.css`），外面只多一个极简顶栏（`assets/dapp.css` / `assets/dapp.js`）。
-- `flap-custom/` — Flap 定制金库 UI 预览：组件嵌在仿 flap.sh 代币页（顶栏 / 面包屑 / 代币卡 / VAULT INFORMATION / 开发者行）里；顶部预览条可切换模拟钱包、错误网络、宿主 riskLevel、marketPhase。
-- `flap/` — Flap 通用金库面板预览（合约 `vaultUISchema()` 渲染，上一版交付）。
-- `schema.json` / `schema.js` — 合约导出的 Flap schema。
-
-组件源码：Flap 官方模板 `src/vaults/eden-burn-vault/`（Component.tsx / manifest.json / VaultABI.ts / i18n.json）。预览构建把 `@/src/sdk` 换成本地模拟 shim，`@/src/ui` 用模板原件。
-性能约束：无全屏 canvas、无常驻 rAF；1 秒节拍只在可见时运行（IntersectionObserver）；动画只动 transform / opacity；尊重 prefers-reduced-motion；不加载外部字体（系统等宽字体）。
-自查脚本：`screenshots/shots.js`（截图 + 控制台错误）、`screenshots/flow.js`（模拟授权→燃烧→买地→回购流程）。
+- `index.html` + `assets/eden-v4.js|css` + `assets/fonts/`：独立 dapp（v4）。three.js r187 已打进 `eden-v4.js`（本地，无 CDN），字体自托管（Unbounded / JetBrains Mono 拉丁子集，OFL，见 `assets/fonts/LICENSE.txt`），不加载 Google Fonts。
+- 同一个 WebGL 场景随滚动换镜头：反应堆核心（倒计时环 / 随机窗口 / 揭晓爆炸）→ 三池能量流 45/30/25 → 3300 块地块星球（InstancedMesh，一次绘制，悬停 / 点击 / 买入闪光）→ 回购黑洞（每轮 1500 万枚进度弧）。
+- 底部常驻一个主操作「燃烧」，次级：领取 / 地块 / 回购。
+- `flap-custom/`：Flap 定制金库 UI 预览（依赖 `assets/eden-vault.js|css`，原样保留）。`flap/`：Flap 通用金库面板预览。
+- 性能：DPR 上限 1.5（手机 1.0）；帧时间 > 20ms 自动降画质（关泛光、减粒子）；标签页隐藏即停渲染；不在帧循环里读布局；`prefers-reduced-motion` 时改为静态低频渲染。
+- 调试参数：`?debug=1` 显示帧率 / draw call / 三角形；`?q=0|1|2` 锁定画质；`?t=秒` 设定起始秒。
