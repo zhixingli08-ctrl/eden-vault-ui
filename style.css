@@ -437,3 +437,8 @@ b{font-weight:600}
 .rv-bar i.after{background:rgba(255,61,46,.18)}
 .rv-scale{display:flex;justify-content:space-between;width:420px;max-width:86vw;margin:4px auto 0;font:11px var(--mono);color:var(--mut)}
 @keyframes shimmer{to{background-position:-220% 0}}
+
+/* 跳转 Flap 金库面板预览 */
+.flap-link{position:fixed;right:14px;top:104px;z-index:39;font-size:11px;color:#D0FF00;padding:4px 10px;border-radius:999px;border:1px solid rgba(208,255,0,.4);background:rgba(8,10,4,.75);backdrop-filter:blur(8px);letter-spacing:.04em;text-decoration:none}
+.flap-link:hover{background:rgba(208,255,0,.12)}
+@media (max-width:640px){.flap-link{top:auto;bottom:96px;right:10px;font-size:10px}}

@@ -1,55 +1,43 @@
 {
- "_source": "由 forge script script/DumpSchema.s.sol 在本地内存 EVM 中从 EdenBurnVault.vaultUISchema() / EdenBurnVaultFactory.vaultDataSchema() 导出，未连链",
+ "_source": "由 forge script script/DumpSchema.s.sol 在本地内存 EVM 中从 EdenBurnVault.vaultUISchema() / EdenBurnVaultFactory.vaultDataSchema() 导出，未连链（2026-11-11 双语 schema 版）",
  "vaultUISchema": {
   "vaultType": "EdenBurnMinuteVault",
-  "description": "每分钟把代币交给金库烧掉，按燃烧比例分这一分钟事先定好的 BNB 奖池；创世期按燃烧发地块，地块按过路燃烧分地块池；地板储备只做轮次回购：每轮固定 1500 万枚、价格开轮锁定、收满或 24 小时换轮，收进的币全部销毁。限量回购，不是兑付承诺。0 抽成。",
+  "description": "Burn tokens each minute to split that minute's preset BNB pool by burn share. Genesis burns mint plots; plots earn the plot pool from passing burns. The floor reserve only runs round buybacks: 15M tokens per round, price locked at open, round ends when filled or after 24h, all tokens bought are burned. Limited buyback, not a redemption promise. 0 fees. / 每分钟把代币交给金库烧掉，按燃烧比例分这一分钟事先定好的 BNB 奖池；创世期按燃烧发地块，地块按过路燃烧分地块池；地板储备只做轮次回购：每轮固定 1500 万枚、价格开轮锁定、收满或 24 小时换轮，收进的币全部销毁。限量回购，不是兑付承诺。0 抽成。",
   "methods": [
    {
-    "name": "poolInfo",
-    "description": "三池余额",
+    "name": "minuteInfo",
+    "description": "This minute: countdown and pool / 当前分钟：倒计时与奖池",
     "inputs": [],
     "outputs": [
      {
-      "name": "minutePoolTotal",
+      "name": "minute",
       "fieldType": "uint256",
-      "description": "分钟奖池（含待入池，BNB）",
+      "description": "Minute # / 当前分钟号",
+      "decimals": 0
+     },
+     {
+      "name": "endsAt",
+      "fieldType": "time",
+      "description": "Nominal end of this minute / 本分钟名义结束时间",
+      "decimals": 0
+     },
+     {
+      "name": "estPool",
+      "fieldType": "uint256",
+      "description": "Est. pool this minute = minute pool × 2% (BNB) / 本分钟预计奖池（分钟奖池 × 2%，BNB）",
       "decimals": 18
      },
      {
-      "name": "plotPoolTotal",
+      "name": "burnedThisMinute",
       "fieldType": "uint256",
-      "description": "地块池（含待入池，BNB）",
+      "description": "Burned this minute (tokens) / 本分钟已烧（枚）",
       "decimals": 18
      },
      {
-      "name": "floorReserveNow",
+      "name": "plotsLeft",
       "fieldType": "uint256",
-      "description": "地板储备（下一轮用，BNB）",
-      "decimals": 18
-     },
-     {
-      "name": "roundPoolLeft",
-      "fieldType": "uint256",
-      "description": "本轮剩余池子（BNB）",
-      "decimals": 18
-     },
-     {
-      "name": "minuteUnclaimed",
-      "fieldType": "uint256",
-      "description": "分钟奖励已分配未领（BNB）",
-      "decimals": 18
-     },
-     {
-      "name": "plotUnclaimed",
-      "fieldType": "uint256",
-      "description": "地块分成已分配未领（BNB）",
-      "decimals": 18
-     },
-     {
-      "name": "sellerCredits",
-      "fieldType": "uint256",
-      "description": "卖地款等待领余额（BNB）",
-      "decimals": 18
+      "description": "Plots left to mint / 剩余可发地块",
+      "decimals": 0
      }
     ],
     "approvals": [],
@@ -58,39 +46,39 @@
     "isWriteMethod": false
    },
    {
-    "name": "minuteInfo",
-    "description": "当前分钟：倒计时与奖池",
+    "name": "myInfo",
+    "description": "My rewards for the connected wallet / 我的奖励（当前连接的钱包）",
     "inputs": [],
     "outputs": [
      {
-      "name": "minute",
+      "name": "pendingBnb",
       "fieldType": "uint256",
-      "description": "当前分钟号",
-      "decimals": 0
-     },
-     {
-      "name": "endsAt",
-      "fieldType": "time",
-      "description": "本分钟名义结束时间",
-      "decimals": 0
-     },
-     {
-      "name": "estPool",
-      "fieldType": "uint256",
-      "description": "本分钟预计奖池（分钟奖池 × 2%，BNB）",
+      "description": "Claimable BNB, settled part (BNB) / 可领 BNB（已结算部分）",
       "decimals": 18
      },
      {
-      "name": "burnedThisMinute",
+      "name": "pendingPlots",
       "fieldType": "uint256",
-      "description": "本分钟已烧（枚）",
-      "decimals": 18
+      "description": "Claimable plots / 可领地块",
+      "decimals": 0
      },
      {
-      "name": "plotsLeft",
+      "name": "plotCount",
       "fieldType": "uint256",
-      "description": "剩余可发地块",
+      "description": "Plots held / 持有地块",
       "decimals": 0
+     },
+     {
+      "name": "openRecords",
+      "fieldType": "uint256",
+      "description": "Unclaimed burn records / 未领完的燃烧记录数",
+      "decimals": 0
+     },
+     {
+      "name": "creditBnb",
+      "fieldType": "uint256",
+      "description": "Withdrawable balance, e.g. plot sales (BNB) / 待领余额（卖地款等，BNB）",
+      "decimals": 18
      }
     ],
     "approvals": [],
@@ -100,43 +88,43 @@
    },
    {
     "name": "roundInfo",
-    "description": "本轮回购（限量回购，不是兑付承诺）",
+    "description": "Buyback round (limited buyback, not a redemption promise) / 本轮回购（限量回购，不是兑付承诺）",
     "inputs": [],
     "outputs": [
      {
       "name": "roundId",
       "fieldType": "uint256",
-      "description": "轮号",
+      "description": "Round # / 轮号",
       "decimals": 0
      },
      {
       "name": "price",
       "fieldType": "uint256",
-      "description": "本轮价格（BNB/枚，开轮锁定）",
+      "description": "Round price, locked at open (BNB per token) / 本轮价格（BNB/枚，开轮锁定）",
       "decimals": 18
      },
      {
       "name": "quotaLeft",
       "fieldType": "uint256",
-      "description": "本轮剩余额度（枚）",
+      "description": "Quota left (tokens) / 本轮剩余额度（枚）",
       "decimals": 18
      },
      {
       "name": "poolLeft",
       "fieldType": "uint256",
-      "description": "本轮剩余池子（BNB）",
+      "description": "Pool left (BNB) / 本轮剩余池子（BNB）",
       "decimals": 18
      },
      {
       "name": "endsAt",
       "fieldType": "time",
-      "description": "本轮最晚结束时间",
+      "description": "Latest end time / 本轮最晚结束时间",
       "decimals": 0
      },
      {
       "name": "open",
       "fieldType": "bool",
-      "description": "本轮是否可卖",
+      "description": "Open for selling / 本轮是否可卖",
       "decimals": 0
      }
     ],
@@ -146,13 +134,66 @@
     "isWriteMethod": false
    },
    {
+    "name": "poolInfo",
+    "description": "Pool balances / 三池余额",
+    "inputs": [],
+    "outputs": [
+     {
+      "name": "minutePoolTotal",
+      "fieldType": "uint256",
+      "description": "Minute pool incl. pending (BNB) / 分钟奖池（含待入池，BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "plotPoolTotal",
+      "fieldType": "uint256",
+      "description": "Plot pool incl. pending (BNB) / 地块池（含待入池，BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "floorReserveNow",
+      "fieldType": "uint256",
+      "description": "Floor reserve for the next round (BNB) / 地板储备（下一轮用，BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "roundPoolLeft",
+      "fieldType": "uint256",
+      "description": "Current round pool left (BNB) / 本轮剩余池子（BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "minuteUnclaimed",
+      "fieldType": "uint256",
+      "description": "Minute rewards assigned, unclaimed (BNB) / 分钟奖励已分配未领（BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "plotUnclaimed",
+      "fieldType": "uint256",
+      "description": "Plot dividends assigned, unclaimed (BNB) / 地块分成已分配未领（BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "sellerCredits",
+      "fieldType": "uint256",
+      "description": "Plot sale proceeds awaiting withdrawal (BNB) / 卖地款等待领余额（BNB）",
+      "decimals": 18
+     }
+    ],
+    "approvals": [],
+    "isInputArray": false,
+    "isOutputArray": false,
+    "isWriteMethod": false
+   },
+   {
     "name": "userInfo",
-    "description": "我的奖励",
+    "description": "Rewards of any wallet / 查任意钱包的奖励",
     "inputs": [
      {
       "name": "u",
       "fieldType": "address",
-      "description": "钱包地址",
+      "description": "Wallet address / 钱包地址",
       "decimals": 0
      }
     ],
@@ -160,31 +201,31 @@
      {
       "name": "pendingBnb",
       "fieldType": "uint256",
-      "description": "可领 BNB（已结算部分）",
+      "description": "Claimable BNB, settled part (BNB) / 可领 BNB（已结算部分）",
       "decimals": 18
      },
      {
       "name": "pendingPlots",
       "fieldType": "uint256",
-      "description": "可领地块",
+      "description": "Claimable plots / 可领地块",
       "decimals": 0
      },
      {
       "name": "plotCount",
       "fieldType": "uint256",
-      "description": "持有地块",
+      "description": "Plots held / 持有地块",
       "decimals": 0
      },
      {
       "name": "openRecords",
       "fieldType": "uint256",
-      "description": "未领完的燃烧记录数",
+      "description": "Unclaimed burn records / 未领完的燃烧记录数",
       "decimals": 0
      },
      {
       "name": "creditBnb",
       "fieldType": "uint256",
-      "description": "待领余额（卖地款等，BNB）",
+      "description": "Withdrawable balance, e.g. plot sales (BNB) / 待领余额（卖地款等，BNB）",
       "decimals": 18
      }
     ],
@@ -195,12 +236,12 @@
    },
    {
     "name": "plotMarket",
-    "description": "地块行情：当前价 / 地板价",
+    "description": "Plot market: price and floor / 地块行情：当前价与地板价",
     "inputs": [
      {
       "name": "plotId",
       "fieldType": "uint256",
-      "description": "地块编号",
+      "description": "Plot ID / 地块编号",
       "decimals": 0
      }
     ],
@@ -208,31 +249,31 @@
      {
       "name": "owner",
       "fieldType": "address",
-      "description": "地主",
+      "description": "Owner / 地主",
       "decimals": 0
      },
      {
       "name": "price",
       "fieldType": "uint256",
-      "description": "当前价（BNB）",
+      "description": "Current price (BNB) / 当前价（BNB）",
       "decimals": 18
      },
      {
       "name": "floor",
       "fieldType": "uint256",
-      "description": "地板价（BNB）= 平滑每小时分成 × 24",
+      "description": "Floor = smoothed hourly dividend × 24 (BNB) / 地板价 = 平滑每小时分成 × 24（BNB）",
       "decimals": 18
      },
      {
       "name": "lastTradeAnchor",
       "fieldType": "uint256",
-      "description": "上次成交价 × 1.1（BNB）",
+      "description": "Last trade price × 1.1 (BNB) / 上次成交价 × 1.1（BNB）",
       "decimals": 18
      },
      {
       "name": "lastTradeTime",
       "fieldType": "time",
-      "description": "上次成交时间",
+      "description": "Last trade time / 上次成交时间",
       "decimals": 0
      }
     ],
@@ -243,18 +284,18 @@
    },
    {
     "name": "burn",
-    "description": "燃烧：把代币交给金库烧掉，参与本分钟奖池",
+    "description": "Burn: hand tokens to the vault to burn and join this minute's pool / 燃烧：把代币交给金库烧掉，参与本分钟奖池",
     "inputs": [
      {
       "name": "amount",
       "fieldType": "uint256",
-      "description": "燃烧数量（枚，单笔至少 1 万）",
+      "description": "Tokens to burn, min 10,000 / 燃烧数量（枚，单笔至少 1 万）",
       "decimals": 18
      },
      {
       "name": "plotId",
       "fieldType": "uint256",
-      "description": "过路地块编号（0 = 不指定）",
+      "description": "Passing plot ID, enter 0 for none / 过路地块编号（填 0 = 不指定）",
       "decimals": 0
      }
     ],
@@ -271,12 +312,12 @@
    },
    {
     "name": "claimNext",
-    "description": "领取分钟奖励（BNB 和地块）",
+    "description": "Claim minute rewards (BNB and plots) / 领取分钟奖励（BNB 和地块）",
     "inputs": [
      {
       "name": "maxRecords",
       "fieldType": "uint256",
-      "description": "最多处理几条燃烧记录（≤50）",
+      "description": "Max burn records to process, up to 50 / 最多处理几条燃烧记录（≤50，填 50 即可）",
       "decimals": 0
      }
     ],
@@ -287,19 +328,48 @@
     "isWriteMethod": true
    },
    {
+    "name": "buyPlot",
+    "description": "Buy a plot at its current price, no owner consent needed: 98% to the seller, 2% to the minute pool, price +10% after each sale / 买地：按当前价直接买走，不需持有人同意；98% 给卖家，2% 进分钟奖池，成交后涨 10%",
+    "inputs": [
+     {
+      "name": "value",
+      "fieldType": "msg.value",
+      "description": "BNB to pay, at least the current price; excess refunded / 随交易支付的 BNB（≥ 当前价，多付退回）",
+      "decimals": 18
+     },
+     {
+      "name": "id",
+      "fieldType": "uint256",
+      "description": "Plot ID / 地块编号",
+      "decimals": 0
+     },
+     {
+      "name": "maxPrice",
+      "fieldType": "uint256",
+      "description": "Max price you accept (BNB), front-run guard / 最高愿付价（BNB，防抢跑）",
+      "decimals": 18
+     }
+    ],
+    "outputs": [],
+    "approvals": [],
+    "isInputArray": false,
+    "isOutputArray": false,
+    "isWriteMethod": true
+   },
+   {
     "name": "sellToRound",
-    "description": "轮次卖入：按本轮锁定价卖给金库，币 100% 销毁",
+    "description": "Sell to the round at its locked price; tokens are 100% burned / 轮次卖入：按本轮锁定价卖给金库，币 100% 销毁",
     "inputs": [
      {
       "name": "amount",
       "fieldType": "uint256",
-      "description": "卖入数量（枚，超出本轮剩余额度的部分不收）",
+      "description": "Tokens to sell; anything above the round's quota left is not taken / 卖入数量（枚，超出本轮剩余额度的部分不收）",
       "decimals": 18
      },
      {
       "name": "minBnbOut",
       "fieldType": "uint256",
-      "description": "至少收到多少 BNB",
+      "description": "Minimum BNB to receive / 至少收到多少 BNB",
       "decimals": 18
      }
     ],
@@ -315,48 +385,19 @@
     "isWriteMethod": true
    },
    {
-    "name": "buyPlot",
-    "description": "买地：按当前价直接买走，不需持有人同意；98% 给卖家，2% 进分钟奖池，成交后涨 10%",
-    "inputs": [
-     {
-      "name": "id",
-      "fieldType": "uint256",
-      "description": "地块编号",
-      "decimals": 0
-     },
-     {
-      "name": "maxPrice",
-      "fieldType": "uint256",
-      "description": "最高愿付价（BNB，防抢跑）",
-      "decimals": 18
-     },
-     {
-      "name": "value",
-      "fieldType": "msg.value",
-      "description": "随交易支付的 BNB（≥ 当前价，多付退回）",
-      "decimals": 18
-     }
-    ],
-    "outputs": [],
-    "approvals": [],
-    "isInputArray": false,
-    "isOutputArray": false,
-    "isWriteMethod": true
-   },
-   {
     "name": "claimPlot",
-    "description": "领取地块分成（付给当前地主）",
+    "description": "Claim plot dividends, paid to the current owner / 领取地块分成（付给当前地主）",
     "inputs": [
      {
       "name": "plotId",
       "fieldType": "uint256",
-      "description": "地块编号",
+      "description": "Plot ID / 地块编号",
       "decimals": 0
      },
      {
       "name": "maxHours",
       "fieldType": "uint256",
-      "description": "最多处理几个小时（≤720）",
+      "description": "Max hours to process, up to 720 / 最多处理几个小时（≤720）",
       "decimals": 0
      }
     ],
@@ -368,7 +409,7 @@
    },
    {
     "name": "withdrawCredit",
-    "description": "领取待领余额（卖地款等）",
+    "description": "Withdraw balance, e.g. plot sale proceeds / 领取待领余额（卖地款等）",
     "inputs": [],
     "outputs": [],
     "approvals": [],
@@ -378,18 +419,18 @@
    },
    {
     "name": "transferPlot",
-    "description": "转让地块",
+    "description": "Transfer a plot / 转让地块",
     "inputs": [
      {
       "name": "id",
       "fieldType": "uint256",
-      "description": "地块编号",
+      "description": "Plot ID / 地块编号",
       "decimals": 0
      },
      {
       "name": "to",
       "fieldType": "address",
-      "description": "接收地址",
+      "description": "Recipient address / 接收地址",
       "decimals": 0
      }
     ],
@@ -401,12 +442,12 @@
    },
    {
     "name": "settle",
-    "description": "推进结算（任何人可调）",
+    "description": "Advance settlement, anyone can call / 推进结算（任何人可调）",
     "inputs": [
      {
       "name": "maxSteps",
       "fieldType": "uint256",
-      "description": "最多结算几个分钟（≤64）",
+      "description": "Max minutes to settle, up to 64 / 最多结算几个分钟（≤64）",
       "decimals": 0
      }
     ],
@@ -418,7 +459,7 @@
    },
    {
     "name": "sync",
-    "description": "入账（任何人可调，只记账）",
+    "description": "Recognize revenue, anyone can call, bookkeeping only / 入账（任何人可调，只记账）",
     "inputs": [],
     "outputs": [],
     "approvals": [],
