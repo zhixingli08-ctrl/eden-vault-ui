@@ -40,7 +40,7 @@
       <div class="big rv">
         <div class="lbl">本分钟奖池</div>
         <div class="num"><span data-k="prize" data-d="4">0.0000</span><small>BNB</small></div>
-        <div class="sub">≈ $<span data-k="prizeUsd" data-d="0">0</span> · 分钟奖池 <span data-k="minutePool" data-d="2">0</span> BNB × 2%</div>
+        <div class="sub">≈ $<span data-k="prizeUsd" data-d="0">0</span> · 本分钟烧满 <span data-k="fullBurn" data-f="tok">0</span> 枚可放满奖励</div>
       </div>
       <div class="stats rv">
         <div><span class="l">本分钟已燃烧</span><b data-k="burned" data-f="tok">0</b><i class="bar"><u id="burnBar"></u><s title="10 万枚线"></s></i></div>
@@ -62,7 +62,7 @@
   <section class="sec pools" id="pools" data-i="1">
     <div class="s-head rv"><em>02 / 税去哪了</em><h2>一笔税，三股能量</h2><p>买卖各 3% 税 100% 进金库 · 0 运营 · 0 项目方地址</p></div>
     <div class="pcards">
-      <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n">分钟奖池</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d">每分钟放 2% 给燃烧者</div></div>
+      <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n">分钟奖池</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d">每分钟最多放 2%（≤2 BNB）给燃烧者</div></div>
       <div class="pc rv" style="--c:var(--cyan)"><div class="pc-p">30%</div><div class="pc-n">地块池</div><div class="pc-v"><span data-k="plotPool" data-d="3">0</span> BNB</div><div class="pc-d">每小时放 2% 给地主</div></div>
       <div class="pc rv" style="--c:var(--ember)"><div class="pc-p">25%</div><div class="pc-n">地板储备</div><div class="pc-v"><span data-k="reserveAll" data-d="3">0</span> BNB</div><div class="pc-d">整笔用于限量回购并销毁</div></div>
     </div>
@@ -99,7 +99,7 @@
     <div class="s-head rv center"><em>05 / 一屏看懂</em><h2>规则全部写在合约里</h2></div>
     <div class="rgrid">
       <div class="rc rv"><b>60s</b><span>每分钟一炉，前 45 秒确定计入；最后 15 秒随机截止，没赶上的自动并入下一分钟</span></div>
-      <div class="rc rv"><b>2%</b><span>每分钟放分钟奖池的 2%，按本分钟燃烧量比例分</span></div>
+      <div class="rc rv"><b>2%</b><span>每分钟放 min(分钟奖池×2%, 本分钟燃烧×回购价×2, 2 BNB)，烧得越多放得越多，按燃烧量比例分</span></div>
       <div class="rc rv"><b>10 万</b><span>单笔最少 1 万枚；整分钟不到 10 万枚不发奖，燃烧量带到下一分钟</span></div>
       <div class="rc rv"><b>3300</b><span>创世 30 分钟发地块，每 10 万枚燃烧 1 块；地块池每小时放 2%，按过路燃烧分（每块每小时最多计 100 万）</span></div>
       <div class="rc rv"><b>+10%</b><span>任何人可按现价买任何地块；成交价 98% 给卖家、2% 进分钟奖池；没人买每天回落 5%，不低于地板</span></div>
