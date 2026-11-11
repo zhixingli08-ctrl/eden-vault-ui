@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EDEN · Flap 金库面板预览（模拟数据）</title>
+<meta name="description" content="按 flap.sh 通用金库页（Tax Info → Vault Information）的真实排版，用 EDEN 金库合约导出的 vaultUISchema 渲染的预览。全部为本地模拟数据，不连钱包、不发交易。">
+<meta name="theme-color" content="#070808">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070808'/%3E%3Cpath d='M16 5c2 5 7 7 7 13a7 7 0 0 1-14 0c0-3 2-5 3-6 0 3 1 4 2 4-1-4 0-8 2-11z' fill='%23D0FF00'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="flap.css">
+</head>
+<body>
+
+<!-- 预览条（不属于 flap.sh 页面本身） -->
+<div class="pv-bar" role="note">
+  <div class="pv-in">
+    <span class="pv-tag">预览 · 模拟数据</span>
+    <span class="pv-txt">仿 flap.sh「Tax Info → 金库信息」通用金库页排版，由 EDEN 合约 <code>vaultUISchema()</code> 渲染；不是 flap.sh 官方页面，不连钱包、不发交易。</span>
+    <label class="pv-sw" title="只切换本页模拟数据：打开后「myInfo」显示模拟钱包的数据，写操作按钮走模拟流程"><input type="checkbox" id="pvWallet"><span>模拟已连接钱包</span></label>
+    <a class="pv-link" href="../index.html">← 独立 dapp 版</a>
+  </div>
+</div>
+
+<!-- ===== flap.sh 顶栏（静态仿制） ===== -->
+<header class="fh">
+  <div class="fh-in">
+    <button class="fh-burger" aria-label="菜单（预览中无效）" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <span class="fh-logo" aria-label="FLAP（仿制字标）"><svg class="fh-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l7 9-7 9h4.5L12 15.2 16.5 21H21l-7-9 7-9h-4.5L12 8.8 7.5 3z"/></svg><b>FLAP</b></span>
+    <nav class="fh-nav"><span>HOME</span><span>TOKEN TEMPLATES</span><span>FLAP APPS</span><span>LOCKER</span><span>DOCS</span><span>COMMUNITY <i class="cv"></i></span><span>MORE <i class="cv"></i></span></nav>
+    <span class="fh-create">CREATE TOKEN</span>
+    <div class="fh-r">
+      <span class="fh-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.3-4.3"/></svg></span>
+      <span class="fh-chain"><i class="bnb"></i><b>BSC</b><i class="cv"></i></span>
+      <button class="fh-lang" id="langBtn" title="切换界面语言（中文 / EN），金库文案按 flap.sh 规则取「English / 中文」的一侧"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg><b id="langTxt">中文</b><i class="cv"></i></button>
+      <button class="fh-wallet" id="connectBtn" title="预览：不连接钱包"><span id="connectTxt">Connect Wallet</span></button>
+      <span class="fh-wic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="13"/><path d="M15 12h3M7 6V4h10v2"/></svg></span>
+    </div>
+  </div>
+</header>
+
+<main class="pg">
+  <div class="crumb"><span data-i="tokens">Tokens</span><i>›</i><span>EDEN</span><i>›</i><b data-i="taxInfo">Tax Info</b></div>
+
+  <!-- 代币头卡片 -->
+  <section class="tk-card">
+    <div class="tk-strip"><span class="bars"><i class="r"></i><i class="y"></i><i class="g"></i></span><span class="hatch"></span></div>
+    <div class="tk-body">
+      <div class="tk-ava"><span class="cr tl"></span><span class="cr tr"></span><span class="cr bl"></span><span class="cr br"></span>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="fl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF5A1F"/><stop offset=".55" stop-color="#F0B90B"/><stop offset="1" stop-color="#FFF4C2"/></linearGradient></defs><rect width="64" height="64" fill="#140c06"/><path d="M32 8c5 11 17 16 17 30a17 17 0 0 1-34 0c0-7 4.6-12 7.2-14.4 0 6.8 2.6 9.6 5 9.6-2.4-9.2 0-18.4 4.8-25.2z" fill="url(#fl)"/><path d="M32 36c2 4 6 6 6 10.8a6 6 0 0 1-12 0c0-3.2 2.4-5.2 4-6 0 2 .8 3.2 2 3.2-.8-3.2-.8-5.6 0-8z" fill="#140c06" opacity=".55"/></svg>
+      </div>
+      <div class="tk-meta">
+        <div class="tk-name"><b>EDEN</b><span>(EDEN)</span></div>
+        <span class="risk-b" data-risk><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span data-i="unverified">UNVERIFIED</span></span>
+      </div>
+      <div class="tk-ca"><span class="br">[</span><span class="ca-l">CA</span><span class="ca-a" title="预览地址（未部署）">0xEDE0...7777</span><svg class="cp" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12"/><path d="M16 8V4H4v12h4"/></svg><span class="br">]</span><span class="x">𝕏</span></div>
+    </div>
+  </section>
+
+  <h2 class="vi-h" data-i="vaultInformation">VAULT INFORMATION</h2>
+
+  <!-- 开发者行 + 金库系统提示 -->
+  <div class="dev-row"><span><span class="up" data-i="factoryCreator">VAULT DEVELOPER</span> <span data-i="factoryCreatorMissing">Not available</span></span><span class="vd"><span data-i="viewVaultDetail">View Vault Detail</span> →</span></div>
+  <div class="notice"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p data-i="vaultNoticeDescription">All tax collected from this token has been sent to a vault. The vault manages fee distribution according to its configuration.</p></div>
+
+  <!-- 由 schema 渲染的金库区 -->
+  <div id="vaultRoot" class="vroot"></div>
+
+  <!-- 预览注释（不属于 flap.sh 页面） -->
+  <details class="pv-notes">
+    <summary>预览注释：这页哪些是 flap.sh 固定的、哪些来自 EDEN 合约</summary>
+    <div id="pvNotes"></div>
+  </details>
+</main>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="schema.js"></script>
+<script src="flap.js"></script>
+</body>
+</html>
