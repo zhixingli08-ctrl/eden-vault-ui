@@ -77,10 +77,14 @@ function step(){
 step();setInterval(step,1000);
 let WALLET=false;
 const roundPrice=()=>S.round.pool*E18/S.round.quota;
+// 预览模拟市价（托底价 × ~1.3）；合约 v4：分钟奖励上限用 min(托底价, 市价)
+const mktPrice=()=>roundPrice()*BigInt(1300+Math.round(40*Math.sin(now()/90)))/1000n;
+const capPrice=()=>{const f=roundPrice(),m=mktPrice();return m<f?m:f;};
 const READ={
-  minuteInfo:()=>{const m=curMinute(),p=roundPrice();let cap=S.minutePool*2n/100n;if(cap>2n*E18)cap=2n*E18;const byBurn=S.burnedThisMinute*p*2n/E18;return [BigInt(m),BigInt(START+(m+1)*60),byBurn<cap?byBurn:cap,S.burnedThisMinute,S.plotsLeft,p>0n?(cap*E18+p*2n-1n)/(p*2n):0n];},
+  minuteInfo:()=>{const m=curMinute(),p=capPrice();let cap=S.minutePool*2n/100n;if(cap>2n*E18)cap=2n*E18;const byBurn=S.burnedThisMinute*p*2n/E18;return [BigInt(m),BigInt(START+(m+1)*60),byBurn<cap?byBurn:cap,S.burnedThisMinute,S.plotsLeft,p>0n?(cap*E18+p*2n-1n)/(p*2n):0n];},
   myInfo:()=>WALLET?[S.me.pendingBnb,S.me.pendingPlots,S.me.plotCount,S.me.openRecords,S.me.credit]:[0n,0n,0n,0n,0n], // 未连钱包时 msg.sender = 0
   roundInfo:()=>{const p=roundPrice(),q=S.round.quota-S.round.filled;return [S.round.id,p,q,q*p/E18,BigInt(S.round.endsAt),q>0n&&now()<S.round.endsAt];},
+  marketInfo:()=>{const k=mktPrice(),f=roundPrice();return [k,k,k,BigInt(Math.floor(now()/60)),k<f?k:f,f];},
   poolInfo:()=>{const q=S.round.quota-S.round.filled;return [S.minutePool,S.plotPool,S.floorReserve,q*roundPrice()/E18,S.minuteUnclaimed,S.plotUnclaimed,S.sellerCredits];}
 };
 
