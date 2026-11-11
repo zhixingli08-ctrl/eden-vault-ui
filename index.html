@@ -40,7 +40,7 @@
       <div class="big rv">
         <div class="lbl">本分钟奖池</div>
         <div class="num"><span data-k="prize" data-d="4">0.0000</span><small>BNB</small></div>
-        <div class="sub">≈ $<span data-k="prizeUsd" data-d="0">0</span> · 本分钟烧满 <span data-k="fullBurn" data-f="tok">0</span> 枚可放满奖励</div>
+        <div class="sub">≈ $<span data-k="prizeUsd" data-d="0">0</span> · 本分钟烧满 <span data-k="fullBurn" data-f="tok">0</span> 枚可放满奖励 · 市价 <span data-k="mktPx" data-f="px">0</span> BNB/枚</div>
       </div>
       <div class="stats rv">
         <div><span class="l">本分钟已燃烧</span><b data-k="burned" data-f="tok">0</b><i class="bar"><u id="burnBar"></u><s title="10 万枚线"></s></i></div>
@@ -81,7 +81,7 @@
   <!-- 04 托底兑换 -->
   <section class="sec round" id="round" data-i="3">
     <div class="panel side rv">
-      <div class="s-head"><em>04 / 托底兑换</em><h2>金库托底，<br>额度内随时换回 BNB</h2><p>金库托底：任何时候都能按托底价把 EDEN 兑换成 BNB（本轮额度内），换回的币 100% 销毁。开轮那一刻，托底储备全部余额 ÷ 1500 万 = 本轮托底价，锁定不变；与市价高低无关。额度用完或满 24 小时换轮，剩下的钱滚进下一轮。</p></div>
+      <div class="s-head"><em>04 / 托底兑换</em><h2>金库托底，<br>额度内按托底价兑换</h2><p>每轮额度内可按托底价兑换；本轮换完后需等储备重新达到 1 BNB 才开下一轮，期间不可兑换；新一轮托底价可能低于上一轮；托底不是保底或兑付承诺。开轮那一刻，托底储备全部余额 ÷ 1500 万 = 本轮托底价，本轮内锁定；换回的 EDEN 100% 销毁。额度用完或满 24 小时换轮，剩下的钱滚进下一轮。</p></div>
       <div class="rd">
         <div class="rd-top"><span>第 <b data-k="roundId" data-d="0">6</b> 轮 · 托底价</span><span class="rd-left" data-k="roundLeft" data-f="raw">--</span></div>
         <div class="rd-price"><span data-k="roundPrice" data-f="px">0</span><small>BNB / 枚</small></div>
@@ -89,7 +89,7 @@
         <div class="rd-bar"><u id="roundBar"></u></div>
         <div class="rd-row"><span>已收 <b data-k="roundFilled" data-f="tok">0</b> / 15M</span><span>累计托底兑换销毁 <b data-k="roundBurned" data-f="tok">0</b></span></div>
         <button class="btn-l wide" id="roundSell" type="button">按托底价兑换</button>
-        <p class="hint">任何时候可兑（本轮 1500 万枚额度内，先到先得）；额度用完到下一轮开放之间暂停。</p>
+        <p class="hint">⚠ 托底价可能高于市价，套利者可能把本轮额度全部换完（已知风险）。</p>
       </div>
     </div>
   </section>
@@ -99,11 +99,11 @@
     <div class="s-head rv center"><em>05 / 一屏看懂</em><h2>规则全部写在合约里</h2></div>
     <div class="rgrid">
       <div class="rc rv"><b>60s</b><span>每分钟一炉，前 45 秒确定计入；最后 15 秒随机截止，没赶上的自动并入下一分钟</span></div>
-      <div class="rc rv"><b>2%</b><span>每分钟放 min(分钟奖池×2%, 本分钟燃烧×托底价×2, 2 BNB)，烧得越多放得越多，按燃烧量比例分</span></div>
+      <div class="rc rv"><b>2%</b><span>每分钟放 min(分钟奖池×2%, 本分钟燃烧×min(托底价, 市价)×2, 2 BNB)，烧得越多放得越多，按燃烧量比例分；读不到市价时本分钟不按燃烧放出</span></div>
       <div class="rc rv"><b>10 万</b><span>单笔最少 1 万枚；整分钟不到 10 万枚不发奖，燃烧量带到下一分钟</span></div>
       <div class="rc rv"><b>3300</b><span>创世 30 分钟发地块，每 10 万枚燃烧 1 块；地块池每小时放 2%，按过路燃烧分（每块每小时最多计 100 万）</span></div>
       <div class="rc rv"><b>+10%</b><span>任何人可按现价买任何地块；成交价 98% 给卖家、2% 进分钟奖池；没人买每天回落 5%，不低于地板</span></div>
-      <div class="rc rv"><b>100%</b><span>托底兑换换回的币全部销毁；每轮 1500 万枚，托底价开轮锁定。燃烧的币转入 0xdead，不减少 totalSupply（Flap 统计口径待确认）</span></div>
+      <div class="rc rv"><b>100%</b><span>托底兑换换回的币全部销毁；每轮 1500 万枚，托底价开轮锁定，新一轮可能更低。Flap 统计转入 0xdead 的销毁量（转入 0xdead 不减少 totalSupply）</span></div>
     </div>
     <div class="links rv"><a href="./flap-custom/">Flap 定制 UI 预览 →</a><a href="./flap/">Flap 通用金库面板 →</a></div>
     <p class="foot">BNB Chain · Flap Tax Token V3 · 税 3% / 3% · 预览页，所有数字为模拟</p>
