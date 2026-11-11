@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EDEN 分钟燃烧金库 · 金库页预览（模拟数据）</title>
+<meta name="description" content="EDEN-BSC 分钟燃烧金库的金库页静态预览：按 Flap vaultUISchema 规则渲染，全部为本地模拟数据，不连钱包。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="preview-bar" role="note">
+  <span class="pill warn">预览</span>
+  <span>金库页静态预览 · 全部为本地模拟数据 · 不连钱包、不发交易 · 不是 Flap 官方页面</span>
+  <span class="speed" id="speed"><button data-s="1" class="on">×1</button><button data-s="10">×10</button><button data-s="120">×120</button></span>
+</div>
+
+<main class="wrap">
+  <!-- 宿主区（Flap 页面里由宿主提供，这里只做占位示意） -->
+  <section class="host">
+    <div class="host-l">
+      <div class="mark" aria-hidden="true">E</div>
+      <div>
+        <div class="host-title">EDEN <span class="muted">/ BNB</span></div>
+        <div class="host-sub">Vault Information · <span class="mono" id="vaultType">EdenBurnMinuteVault</span></div>
+      </div>
+    </div>
+    <div class="host-r">
+      <span class="pill warn" id="risk">风险等级：未审核（预览，未接入宿主风险状态）</span>
+      <span class="pill" id="phase">阶段：外盘（DEX）</span>
+      <span class="pill">税 3% / 3% · 100% 进金库</span>
+    </div>
+  </section>
+
+  <!-- 主卡：分钟燃烧 -->
+  <section class="card main">
+    <header class="card-h">
+      <div>
+        <h2>分钟燃烧</h2>
+        <p class="sub">每分钟把币交给金库烧掉，按燃烧比例分这一分钟开局就定好的 BNB 奖池。截止点在第 45–60 秒之间随机。</p>
+      </div>
+      <div class="badges">
+        <span class="pill lime" id="minuteBadge">第 0 分钟</span>
+        <span class="pill">0 抽成</span>
+      </div>
+    </header>
+
+    <div class="metrics">
+      <div class="metric primary"><div class="ml">本分钟奖池</div><div class="mv"><span data-roll="minutePrize">0</span><i>BNB</i></div><div class="mh">开局定死 = 分钟奖池 × 2%</div></div>
+      <div class="metric"><div class="ml">分钟奖池 45%</div><div class="mv"><span data-roll="minutePool">0</span><i>BNB</i></div><div class="mh">含待入池</div></div>
+      <div class="metric"><div class="ml">地块池 30%</div><div class="mv"><span data-roll="plotPool">0</span><i>BNB</i></div><div class="mh">每小时放 2%</div></div>
+      <div class="metric success"><div class="ml">地板储备 25%</div><div class="mv"><span data-roll="floorReserve">0</span><i>BNB</i></div><div class="mh">下一轮回购用</div></div>
+    </div>
+
+    <div class="clock">
+      <div class="clock-top">
+        <div class="count"><span id="secLeft">60</span><small>秒</small></div>
+        <div class="clock-info">
+          <div id="clockState" class="state">进行中 · 确定区（第 0–45 秒）</div>
+          <div class="muted small">本分钟已烧 <b id="burnedNow">0</b> 枚 · 参与 <b id="burnersNow">0</b> 人 · 最低燃烧线 10 万枚</div>
+        </div>
+        <div class="reveal" id="reveal" aria-live="polite">
+          <div class="reveal-l">随机截止</div>
+          <div class="reel" id="reel"><span>--</span></div>
+          <div class="reveal-s" id="revealSub">等待本分钟结束</div>
+        </div>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="tl-certain"></div>
+        <div class="tl-window"><span>随机截止窗口 45–60 秒</span></div>
+        <div class="tl-cut" id="tlCut"></div>
+        <div class="tl-head" id="tlHead"></div>
+        <canvas id="embers"></canvas>
+      </div>
+      <div class="tl-scale"><span>0</span><span>15</span><span>30</span><span>45</span><span>60 秒</span></div>
+    </div>
+
+    <div class="action">
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-tab="burn">燃烧</button>
+        <button class="tab" data-tab="claim">领取</button>
+      </div>
+      <div class="tabpane on" data-pane="burn">
+        <label class="field"><span>燃烧数量（枚，单笔 ≥ 1 万）</span>
+          <div class="inrow"><input id="burnAmt" inputmode="numeric" value="200000"><button class="ghost" data-fill="burnAmt">MAX</button></div></label>
+        <label class="field"><span>过路地块（0 = 不指定）</span><input id="burnPlot" inputmode="numeric" value="0"></label>
+        <div class="quote" id="burnQuote">—</div>
+        <div class="approve-note">先授权 <b>taxToken</b>（数量 = amount），再调用 <span class="mono">burn(amount, plotId)</span></div>
+        <button class="btn primary" id="burnBtn">燃烧</button>
+      </div>
+      <div class="tabpane" data-pane="claim">
+        <div class="kv"><span>可领 BNB（已结算）</span><b data-roll="myClaim">0</b></div>
+        <div class="kv"><span>可领地块</span><b id="myPlotsPending">0</b></div>
+        <div class="kv"><span>待领余额（卖地款）</span><b data-roll="myCredit">0</b></div>
+        <div class="btnrow"><button class="btn primary" id="claimBtn">领取分钟奖励</button><button class="btn" id="withdrawBtn">领取卖地款</button></div>
+      </div>
+      <div class="wallet muted small">模拟钱包 <span class="mono">0xDemo…8a1F</span> · EDEN <b id="myTok">0</b> · BNB <b id="myBnb">0</b></div>
+    </div>
+
+    <div class="feed-wrap">
+      <div class="feed-h"><span>燃烧流</span><span class="muted small">最后 15 秒每秒一格；截止后的燃烧滚进下一分钟</span></div>
+      <ul class="feed" id="feed"></ul>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <!-- 轮次回购 -->
+    <section class="card">
+      <header class="card-h">
+        <div><h2>轮次回购</h2><p class="sub">每轮固定 1500 万枚，价格 = 开轮时全部地板储备 ÷ 1500 万，开轮锁定；收满或 24 小时换轮；收进来的币 100% 销毁。</p></div>
+        <div class="badges"><span class="pill lime" id="roundBadge">第 1 轮</span></div>
+      </header>
+      <div class="round-top">
+        <div><div class="ml">本轮价格（锁定）</div><div class="big mono" id="roundPrice">—</div><div class="mh">BNB / 枚</div></div>
+        <div><div class="ml">本轮池子</div><div class="big"><span data-roll="roundPool">0</span><i>BNB</i></div><div class="mh">剩余 <span data-roll="roundLeft">0</span> BNB</div></div>
+        <div><div class="ml">剩余时间</div><div class="big mono" id="roundTime">—</div><div class="mh">最长 24 小时</div></div>
+      </div>
+      <div class="bar"><div class="bar-fill" id="roundFill"></div><div class="bar-glow" id="roundGlow"></div></div>
+      <div class="bar-legend"><span>已收 <b id="roundFilled">0</b> 枚</span><span>剩余额度 <b id="roundQuota">0</b> 枚</span></div>
+      <div class="sell">
+        <label class="field"><span>卖入数量（枚，超出剩余额度的部分不收）</span><input id="sellAmt" inputmode="numeric" value="1000000"></label>
+        <label class="field"><span>至少收到（BNB，minBnbOut）</span><input id="sellMin" inputmode="decimal" value=""></label>
+        <div class="quote" id="sellQuote">—</div>
+        <button class="btn primary" id="sellBtn">卖给本轮</button>
+      </div>
+      <div class="alert">限量回购，不是兑付承诺：每轮最多付出开轮时锁定的池子；吃满后储备归零，下一轮要等新税。没有硬地板，托底随税收变化。</div>
+      <div class="hist"><div class="feed-h"><span>历史轮次</span><span class="muted small">未花完的部分滚回地板储备</span></div><table id="roundHist"><thead><tr><td>轮</td><td>锁定价格</td><td>收进并销毁</td><td>付出 / 池子</td><td>结束</td></tr></thead><tbody></tbody></table></div>
+      <div class="btnrow mini"><button class="ghost" id="ff24">快进 24 小时（模拟）</button></div>
+    </section>
+
+    <!-- 地块市场 -->
+    <section class="card">
+      <header class="card-h">
+        <div><h2>地块市场</h2><p class="sub">任何人随时可按当前价买走任意地块。地板价 = 平滑每小时分成 × 24；成交后涨 10%，没人买每天回落 5%，不低于地板。成交款 98% 给卖家，2% 进分钟奖池。</p></div>
+        <div class="badges"><span class="pill" id="plotCount">0 / 3300</span></div>
+      </header>
+      <div class="plot-stats">
+        <div><div class="ml">地板价</div><div class="mid mono" id="floorPx">—</div><div class="mh">EMA(每块每小时分成) × 24</div></div>
+        <div><div class="ml">每块每小时（EMA）</div><div class="mid mono" id="emaPx">—</div><div class="mh">新 = 旧×70% + 本小时×30%</div></div>
+        <div><div class="ml">我的地块</div><div class="mid" id="myPlots">0</div><div class="mh">成交量 <span id="vol">0</span> BNB</div></div>
+      </div>
+      <div class="plots" id="plots" aria-label="地块网格"></div>
+      <div class="plot-legend"><span><i class="lg me"></i>我的</span><span><i class="lg hot"></i>近期成交</span><span><i class="lg base"></i>地板价</span></div>
+      <div class="plot-detail" id="plotDetail">
+        <div class="pd-h"><b id="pdId">地块 #1</b><span class="pill" id="pdOwner">—</span></div>
+        <div class="pd-grid">
+          <div><div class="ml">当前价</div><div class="mid mono" id="pdPrice">—</div></div>
+          <div><div class="ml">地板价</div><div class="mid mono" id="pdFloor">—</div></div>
+          <div><div class="ml">上次成交</div><div class="mid mono" id="pdLast">—</div></div>
+        </div>
+        <canvas id="curve" height="150"></canvas>
+        <div class="curve-legend"><span><i class="lg line"></i>当前价</span><span><i class="lg dash"></i>地板价</span><span class="muted">横轴：过去 72 小时（模拟）</span></div>
+        <label class="field"><span>最高愿付价（BNB，maxPrice 防抢跑）</span><input id="maxPrice" inputmode="decimal"></label>
+        <button class="btn primary" id="buyBtn">按当前价买入</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Flap 通用渲染 -->
+  <section class="card schema">
+    <header class="card-h">
+      <div><h2>按 Flap 通用规则渲染 <span class="mono">vaultUISchema()</span></h2>
+      <p class="sub">规则来自 Flap <span class="mono">IVaultSchemasV1</span>：vaultType 做徽章、description 做副标题、<span class="mono">description()</span> 作为动态横幅；方法按返回顺序渲染，只读方法无参数直接显示结果，写方法渲染表单，有 approvals 的先授权 taxToken。数据来自合约导出的 <span class="mono">schema.json</span>。</p></div>
+      <div class="badges"><span class="pill lime" id="schemaType">—</span></div>
+    </header>
+    <p class="schema-desc" id="schemaDesc"></p>
+    <div class="banner" id="descBanner"></div>
+    <div class="methods" id="methods"></div>
+  </section>
+
+  <footer class="foot">
+    EDEN-BSC 分钟燃烧金库 · 预览站 · 数字均为模拟 · 合约：<span class="mono">EdenBurnVault</span> / <span class="mono">EdenBurnVaultFactory</span>（未部署） · 本页不是 Flap 官方页面
+  </footer>
+</main>
+<div class="toast" id="toast"></div>
+<script src="schema.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
