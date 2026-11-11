@@ -15,14 +15,14 @@
 <div class="vignette" aria-hidden="true"></div>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
-<div class="pv" role="note"><b>预览 · 模拟数据</b><span>不连钱包、不发交易，所有数字为浏览器本地模拟</span></div>
+<div class="pv" role="note"><b>预览 · 模拟数据</b><span>不连钱包、不发交易，所有数字为浏览器本地模拟；USDT 估值按预览模拟价 1 BNB = $612</span></div>
 <header class="hd">
   <a class="brand" href="#hero" aria-label="EDEN">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5" stroke-dasharray="1.6 2.2"/><circle cx="12" cy="12" r="2" class="f"/></svg>
     <b>EDEN</b><i>MINUTE BURN VAULT</i>
   </a>
   <nav class="nv" id="nav">
-    <a href="#hero" data-i="0"><em>01</em>熔炉</a><a href="#pools" data-i="1"><em>02</em>三池</a><a href="#plots" data-i="2"><em>03</em>地块</a><a href="#round" data-i="3"><em>04</em>回购</a>
+    <a href="#hero" data-i="0"><em>01</em>熔炉</a><a href="#pools" data-i="1"><em>02</em>三池</a><a href="#plots" data-i="2"><em>03</em>地块</a><a href="#round" data-i="3"><em>04</em>托底</a>
   </nav>
   <div class="act">
     <div class="spd" id="spd" title="模拟时间倍速"><button data-s="1" class="on">×1</button><button data-s="10">×10</button><button data-s="60">×60</button></div>
@@ -64,7 +64,7 @@
     <div class="pcards">
       <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n">分钟奖池</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d">每分钟最多放 2%（≤2 BNB）给燃烧者</div></div>
       <div class="pc rv" style="--c:var(--cyan)"><div class="pc-p">30%</div><div class="pc-n">地块池</div><div class="pc-v"><span data-k="plotPool" data-d="3">0</span> BNB</div><div class="pc-d">每小时放 2% 给地主</div></div>
-      <div class="pc rv" style="--c:var(--ember)"><div class="pc-p">25%</div><div class="pc-n">地板储备</div><div class="pc-v"><span data-k="reserveAll" data-d="3">0</span> BNB</div><div class="pc-d">整笔用于限量回购并销毁</div></div>
+      <div class="pc rv" style="--c:var(--ember)"><div class="pc-p">25%</div><div class="pc-n">托底储备</div><div class="pc-v"><span data-k="reserveAll" data-d="3">0</span> BNB</div><div class="pc-d">≈ <span data-k="reserveAllUsd" data-d="0">0</span> USDT · 全部用于托底兑换，换回的币销毁</div></div>
     </div>
   </section>
 
@@ -78,18 +78,18 @@
     </div>
   </section>
 
-  <!-- 04 回购 -->
+  <!-- 04 托底兑换 -->
   <section class="sec round" id="round" data-i="3">
     <div class="panel side rv">
-      <div class="s-head"><em>04 / 回购熔池</em><h2>每轮 1500 万枚，<br>收进来就烧掉</h2><p>开轮那一刻，地板储备全部余额 ÷ 1500 万 = 本轮回购价，锁定不变。收满或满 24 小时换轮，剩下的钱滚进下一轮。</p></div>
+      <div class="s-head"><em>04 / 托底兑换</em><h2>金库托底，<br>额度内随时换回 BNB</h2><p>金库托底：任何时候都能按托底价把 EDEN 兑换成 BNB（本轮额度内），换回的币 100% 销毁。开轮那一刻，托底储备全部余额 ÷ 1500 万 = 本轮托底价，锁定不变；与市价高低无关。额度用完或满 24 小时换轮，剩下的钱滚进下一轮。</p></div>
       <div class="rd">
-        <div class="rd-top"><span>第 <b data-k="roundId" data-d="0">6</b> 轮 · 回购价</span><span class="rd-left" data-k="roundLeft" data-f="raw">--</span></div>
+        <div class="rd-top"><span>第 <b data-k="roundId" data-d="0">6</b> 轮 · 托底价</span><span class="rd-left" data-k="roundLeft" data-f="raw">--</span></div>
         <div class="rd-price"><span data-k="roundPrice" data-f="px">0</span><small>BNB / 枚</small></div>
-        <div class="rd-sub">每 <b data-k="perBnb" data-f="tok">0</b> 枚换 1 BNB · 本轮资金 <b data-k="roundPool" data-d="3">0</b> BNB</div>
+        <div class="rd-sub">≈ <b data-k="roundPriceUsdM" data-d="2">0</b> USDT / 100 万枚 · 每 <b data-k="perBnb" data-f="tok">0</b> 枚换 1 BNB · 本轮资金 <b data-k="roundPool" data-d="3">0</b> BNB（≈ <b data-k="roundPoolUsd" data-d="0">0</b> USDT）</div>
         <div class="rd-bar"><u id="roundBar"></u></div>
-        <div class="rd-row"><span>已收 <b data-k="roundFilled" data-f="tok">0</b> / 15M</span><span>累计回购销毁 <b data-k="roundBurned" data-f="tok">0</b></span></div>
-        <button class="btn-l wide" id="roundSell" type="button">卖给本轮</button>
-        <p class="hint">限量回购，最高可到市价约 75%；不是硬托底。</p>
+        <div class="rd-row"><span>已收 <b data-k="roundFilled" data-f="tok">0</b> / 15M</span><span>累计托底兑换销毁 <b data-k="roundBurned" data-f="tok">0</b></span></div>
+        <button class="btn-l wide" id="roundSell" type="button">按托底价兑换</button>
+        <p class="hint">任何时候可兑（本轮 1500 万枚额度内，先到先得）；额度用完到下一轮开放之间暂停。</p>
       </div>
     </div>
   </section>
@@ -99,11 +99,11 @@
     <div class="s-head rv center"><em>05 / 一屏看懂</em><h2>规则全部写在合约里</h2></div>
     <div class="rgrid">
       <div class="rc rv"><b>60s</b><span>每分钟一炉，前 45 秒确定计入；最后 15 秒随机截止，没赶上的自动并入下一分钟</span></div>
-      <div class="rc rv"><b>2%</b><span>每分钟放 min(分钟奖池×2%, 本分钟燃烧×回购价×2, 2 BNB)，烧得越多放得越多，按燃烧量比例分</span></div>
+      <div class="rc rv"><b>2%</b><span>每分钟放 min(分钟奖池×2%, 本分钟燃烧×托底价×2, 2 BNB)，烧得越多放得越多，按燃烧量比例分</span></div>
       <div class="rc rv"><b>10 万</b><span>单笔最少 1 万枚；整分钟不到 10 万枚不发奖，燃烧量带到下一分钟</span></div>
       <div class="rc rv"><b>3300</b><span>创世 30 分钟发地块，每 10 万枚燃烧 1 块；地块池每小时放 2%，按过路燃烧分（每块每小时最多计 100 万）</span></div>
       <div class="rc rv"><b>+10%</b><span>任何人可按现价买任何地块；成交价 98% 给卖家、2% 进分钟奖池；没人买每天回落 5%，不低于地板</span></div>
-      <div class="rc rv"><b>100%</b><span>回购收进来的币全部销毁；每轮 1500 万枚，价格开轮锁定</span></div>
+      <div class="rc rv"><b>100%</b><span>托底兑换换回的币全部销毁；每轮 1500 万枚，托底价开轮锁定。燃烧的币转入 0xdead，不减少 totalSupply（Flap 统计口径待确认）</span></div>
     </div>
     <div class="links rv"><a href="./flap-custom/">Flap 定制 UI 预览 →</a><a href="./flap/">Flap 通用金库面板 →</a></div>
     <p class="foot">BNB Chain · Flap Tax Token V3 · 税 3% / 3% · 预览页，所有数字为模拟</p>
@@ -115,7 +115,7 @@
 <!-- 底部常驻：一个主操作 -->
 <div class="dock" id="dock">
   <div class="sheet" id="sheet" role="dialog" aria-label="操作面板">
-    <div class="sh-tabs" id="shTabs"><button data-t="claim">领取<i id="claimDot"></i></button><button data-t="plot">地块</button><button data-t="round">回购</button><button class="sh-x" id="shX" aria-label="收起">×</button></div>
+    <div class="sh-tabs" id="shTabs"><button data-t="claim">领取<i id="claimDot"></i></button><button data-t="plot">地块</button><button data-t="round">托底兑换</button><button class="sh-x" id="shX" aria-label="收起">×</button></div>
     <div class="sh-body" id="shBody"></div>
   </div>
   <div class="dk">
@@ -123,7 +123,7 @@
     <div class="dk-chips"><button data-a="100000">10万</button><button data-a="500000">50万</button><button data-a="1000000">100万</button><button data-a="max">MAX</button></div>
     <label class="dk-plot" title="烧币时指定地块：这块地本小时的过路量 +"><span>指定地块</span><input id="ptr" inputmode="numeric" value="7" aria-label="指定地块编号"></label>
     <button class="burn" id="burnBtn" type="button"><span>燃烧</span><i></i></button>
-    <div class="dk-tabs"><button data-t="claim">领取<i id="claimDot2"></i></button><button data-t="plot">地块</button><button data-t="round">回购</button></div>
+    <div class="dk-tabs"><button data-t="claim">领取<i id="claimDot2"></i></button><button data-t="plot">地块</button><button data-t="round">托底兑换</button></div>
   </div>
 </div>
 
