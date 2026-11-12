@@ -1,13 +1,13 @@
 // 由 schema.json 生成，便于 file:// 直接打开
 window.EDEN_SCHEMA={
- "_source": "由 forge script script/DumpSchema.s.sol 在本地内存 EVM 中从 EdenBurnVault.vaultUISchema() / EdenBurnVaultFactory.vaultDataSchema() 导出，未连链（2026-11-12 Flap 复审跟进版（对照 v3；F19 / F20））",
+ "_source": "由 forge script script/DumpSchema.s.sol 在本地内存 EVM 中从 EdenBurnVault.vaultUISchema() / EdenBurnVaultFactory.vaultDataSchema() 导出，未连链（2026-11-12 合并终版：对照 v3 f88e5e8f；托底按权重、无需激活；10 分钟轮次奖池）",
  "vaultUISchema": {
   "vaultType": "EdenBurnMinuteVault",
-  "description": "Burn tokens each minute to split that minute's BNB release by burn share. Release = min(minute pool × 2%, burned × min(floor price, market price) × 1, 2 BNB). Market price: the Flap curve price before graduation, the PancakeSwap spot price after, taking the lowest of the last two observations and the spot; if it cannot be read, nothing is released by burns that minute. The floor price used here is the live price of the current tier (tier BNB left ÷ tier quota left). The rest stays in the pool. Timing: seconds 0-44 of each minute always count for that minute; seconds 45-59 are a random cutoff window: the cutoff falls between second 45 and 60 from a later block hash, burns after it roll to the next minute, and the later you burn the more likely that is (second 45 counts with 15/16 odds, second 59 with 1/16). A minute under 100,000 tokens pays nothing and rolls into the next qualifying minute; rolled burns expire if no qualifying minute starts within 1 day after the minute they last rolled from. Plots: 2,000 in total. Genesis lasts 60 minutes with a quota accumulating 20 per minute (up to 1,200); 1 plot per 200,000 tokens burned, split by burn share (partial plots carry over); plots not issued in genesis keep issuing at the same rate until 2,000. Plot dividends: your burns count toward your own plots automatically, nobody can point burns at someone else's plot; each hour an address counts min(its burns while holding plots, (plots held − plots transferred in or bought this hour) × 1M), under 100,000 counts nothing; hourly plot release = plot pool × 2% × min(1, total counted ÷ (max(issued plots, 200) × 1M)), split by each address's counted share. Holding plots without burning earns no plot dividends. Plots transferred in or bought this hour start counting toward the cap from the next hour (newly minted plots count immediately). Burns from an address without plots only join the minute pool. Plot floor = max(smoothed hourly release per plot × 24, plot pool × 2% ÷ max(issued plots, 200) × 24, 0.001 BNB). Floor redemption is for plot owners only. The floor is tiered, 15M tokens of quota per tier; every floor-reserve tax inflow goes 80% to the current tier and 20% to the next tier. Current tier floor price = tier BNB left ÷ tier quota left, rising live with tax; redeeming x tokens pays tier BNB left × x ÷ tier quota left, the last unit pays exactly the rest, never more than the tier pool. When the current tier's 15M is fully redeemed, the next tier opens in the same tx with the accumulated next-tier pool, and a fresh next-tier pool starts at 0; there is no time limit, no opening threshold and no early switch; the next-tier pool is only released at a tier switch. A plot is the ticket: only plot holders may redeem, first come first served, naming their own plot IDs (up to 50 per tx); addresses without a plot cannot. Each plot may redeem at most the tier's per-plot cap per tier (max(200,000, 2 × 15M ÷ plots issued at tier open)); usage is tracked per plot and moves with the plot (a transfer or sale does not reset it), and is reset every tier; you may send more txs; there is no permanent accumulated quota. If over half of the plot capacity sits idle, a tier may not fill until plots change hands. Tier 1 opens after the 60-minute genesis once at least 1 plot is issued. Holders may redeem within the tier's quota at the live floor price; a new tier starts at next-tier pool ÷ 15M and may be much lower than the last; the floor is not a guarantee or a redemption promise. Redeemed EDEN is 100% burned. The floor price may be above the market price; plot owners may then redeem the whole tier (a known, accepted risk). Plots can be bought, sold and transferred; the ticket moves with the plot. Unclaimed rewards expire after 30 days. Burned tokens go to 0xdead and do not reduce totalSupply; Flap counts transfers to 0xdead in its burn stats. 0 fees. / 每分钟把代币交给金库烧掉，按燃烧比例分这一分钟放出的 BNB；放出 = min(分钟奖池 × 2%, 燃烧量 × min(托底价, 市价) × 1, 2 BNB)（市价：内盘取 Flap 曲线价，毕业后取 PancakeSwap 现价，用最近两次观测和现价中最低的；读不到市价时本分钟不按燃烧放出；托底价取当前档实时托底价 = 当前档剩余 BNB ÷ 当前档剩余额度），其余留在池里。时间规则：每分钟第 0–44 秒烧的一定算本分钟；第 45–59 秒是随机截止窗口，截止点由之后的区块哈希定在第 45–60 秒之间，截止点之后烧的顺延到下一分钟，越晚烧越可能顺延（第 45 秒有 15/16 算本分钟，第 59 秒只有 1/16）。一分钟合计不到 10 万枚不发奖，燃烧量并入下一个够线的分钟；最后一次顺延的那一分钟结束后 1 天内没有够线的分钟开始，就作废。地块：总量 2000 块。创世期 60 分钟，额度每分钟累计 20 块（最多 1200 块）；每烧 20 万枚发 1 块，按燃烧比例分（不足 1 块的零头留到下次）；创世期没发完的按同样门槛继续发，直到 2000 块。地块分成：燃烧自动计入燃烧者自己的地块，不能算到别人的地块上；每个地址每小时计入 = min(持有地块时的燃烧, (持有地块数 − 本小时转入/买入的地块数) × 100 万)，不到 10 万不计；地块池每小时放出 = 地块池 × 2% × min(1, 全部计入量 ÷ (max(已发地块, 200) × 100 万))，按各地址计入量分。只持有地块不燃烧，没有地块分成。本小时转入/买入的地块从下一小时起计入上限（新铸造的地块当场生效）。没有地块的地址燃烧只参与分钟奖池。地板价 = max(平滑后每块每小时分成 × 24, 地块池 × 2% ÷ max(已发地块, 200) × 24, 0.001 BNB)。金库托底只有地主能兑：托底分档，每档 1500 万枚额度；每笔托底税 80% 进当前档、20% 进下一档。当前档托底价 = 当前档剩余 BNB ÷ 当前档剩余额度，随托底税实时上涨；兑换 x 枚付「当前档剩余 BNB × x ÷ 当前档剩余额度」，最后一枚额度正好付完剩余，永远不超过当前档池子。当前档 1500 万兑满后同一笔里开下一档：起始池子 = 攒下的下一档池子，新的下一档从 0 开始攒；没有时间限制、没有开档门槛、不会提前换档；下一档池子只在换档时放出。地块就是门票：只有持有地块的地址能兑，不持有地块的地址不能兑；兑换时带上自己的地块编号（一次最多 50 块），先到先得；每块地每档最多兑 本档每块上限 = max(20 万, 2 × 1500 万 ÷ 开档时已发地块数)，用量按地块记、跟着地块走（转让或被买走不重置），换档重算，可以多次下单；没有永久累计的额度。一半以上的地块容量闲着不兑时，这一档可能兑不满，要等地块转手。第 1 档在创世 60 分钟结束后开出（至少已发 1 块地）。每档额度内可按实时托底价兑换；新一档起始价 = 下一档池子 ÷ 1500 万，可能明显低于上一档；托底不是保底或兑付承诺。换回的 EDEN 100% 销毁。托底价可能高于市价，这时地主可能把当前档额度全部换完（已知并接受的风险）。地块可以买卖、转让，门票跟着地块走。奖励 30 天不领过期。烧掉的币转入 0xdead，不减少 totalSupply；Flap 统计转入 0xdead 的销毁量。0 抽成。",
+  "description": "Burn tokens in each 10-minute prize round to split that round's BNB release by burn share. Release = min(round prize pool × 15%, burned × min(floor price, market price) × 1), then 50% is paid pro-rata by burn share and 50% is a jackpot to the single largest burner of that round (if burned amounts are equal, the earliest burner wins the jackpot). The jackpot may exceed 1× the winner's own burn value but is capped at 5% of the pool; any excess stays in the pool. The jackpot is paid only if at least 2 distinct counted burners participated in the round; otherwise it stays in the pool. The 1× cap on the total release is unchanged, so a solo or two-address sybil still cannot extract more than burn value and cannot profit after the 3% buy tax. Market price: the Flap curve price before graduation, the PancakeSwap spot price after, taking the lowest of the last two observations and the spot; if it cannot be read, nothing is released by burns that round. The floor price used here is the live price of the current tier (tier BNB left ÷ tier quota left). The rest stays in the pool. Timing: seconds 0-539 of each 10-minute prize round always count for that round; seconds 540-599 are a random cutoff window: the cutoff falls between second 540 and 600 from a later block hash, burns after it roll to the next round, and the later you burn the more likely that is (second 540 counts with 60/61 odds, second 599 with 1/61). Each burn is at least 1,000 tokens and always joins that minute's pool. A minute under 100,000 tokens in total pays nothing and rolls into the next qualifying minute; rolled burns expire if no qualifying minute starts within 1 day after the minute they last rolled from. Plots: 2,000 in total. Each burn greedily splits into plots, highest tier first: 100,000 tokens = Common (weight 1.0), 200,000 = Rare (weight 2.2), 300,000 = Epic (weight 3.5); for example 1,000,000 = 3 Epic + 1 Common. Below 100,000 mints no plot (two smaller burns do not add up). Tiers have no individual cap; only the 2,000 total cap applies, and genesis allows at most 20 plots per minute (30 minutes, up to 600); leftover quota keeps issuing after genesis until 2,000, first come first served. Plots can only be obtained by burning tokens; they are permanently bound to the burning address and cannot be transferred or sold; burns automatically credit the burner's own plots, nobody can point burns at someone else's plot. Plot dividends: each 30-minute round releases 80% of the pool (evenly over the minutes), 20% rolls to the next round; split by active plot weight (not plot count). Every 10 minutes you must burn 1,000 tokens per 1.0 weight to activate, counted per address: one burn covering the address's totalWeight × 1,000 activates all of that address's plots for the rest of the window; inactive holders earn nothing and their share goes to active holders. Mid-round inflows: 80% joins the current remaining budget immediately, 20% is reserved for the next round. If active weight is 0 in a minute, that minute's amount stays in the budget for later minutes; leftover at round end goes to the 20% rollover. The minting burn itself counts toward activation, so newly minted plots are active immediately in the current window if that burn already meets the address's new total threshold. Newly minted plots start earning from the next completed minute. Burns from an address without plots only join the 10-minute prize round. Floor redemption is for plot owners only. The floor is tiered, 15M tokens of quota per tier; every floor-reserve tax inflow goes 80% to the current tier and 20% to the next tier. Current tier floor price = tier BNB left ÷ tier quota left, rising live with tax; redeeming x tokens pays tier BNB left × x ÷ tier quota left, the last unit pays exactly the rest, never more than the tier pool. When the current tier's 15M is fully redeemed, the next tier opens in the same tx with the accumulated next-tier pool, and a fresh next-tier pool starts at 0; there is no time limit, no opening threshold and no early switch; the next-tier pool is only released at a tier switch. A plot is the ticket: only plot holders may redeem, first come first served, naming their own plot IDs (up to 50 per tx); addresses without a plot cannot. Floor redemption does not require activation; caps are allocated by plot weight. Cap per 1.0 weight = max(100,000, ceil(2 × 15M ÷ total issued weight)), live as total weight grows; an address's cap = its weight × that, floored (weight is stored ×10). Usage is tracked per address and stays with the minting address (plots cannot change hands), and is reset every tier; you may send more txs; there is no permanent accumulated quota. If holders with too little weight stay idle, a tier may not fill. Redeemed tokens do not join the prize round, mint plots, or count toward activation. Tier 1 opens after the 30-minute genesis once at least 1 plot is issued. Holders may redeem within the tier's quota at the live floor price; a new tier starts at next-tier pool ÷ 15M and may be much lower than the last; the floor is not a guarantee or a redemption promise. Redeemed EDEN is 100% burned. The floor price may be above the market price; plot owners may then redeem the whole tier (a known, accepted risk). Unclaimed rewards expire after 30 days. Burned tokens go to 0xdead and do not reduce totalSupply; Flap counts transfers to 0xdead in its burn stats. 0 fees. / 轮次奖池（10 分钟一轮）：把代币交给金库烧掉，按燃烧比例分这一轮放出的 BNB；放出 = min(轮次奖池 × 15%, 燃烧量 × min(托底价, 市价) × 1)，其中 50% 按燃烧份额均分、50% 头奖给本轮累计燃烧最多的一人（燃烧量相同时，先烧者得头奖；头奖可超过得主本人燃烧价值的 1 倍，但不超过奖池 5%，超出留池；本轮有效燃烧地址少于 2 人时头奖留池）。独占一轮或用两个地址自导仍受总放出 1× 限制，加 3% 买入税没有稳定套利。（市价：内盘取 Flap 曲线价，毕业后取 PancakeSwap 现价，用最近两次观测和现价中最低的；读不到市价时本轮不按燃烧放出；托底价取当前档实时托底价 = 当前档剩余 BNB ÷ 当前档剩余额度），其余留在池里。时间规则：每轮第 0–539 秒烧的一定算本轮；第 540–599 秒是随机截止窗口，截止点由之后的区块哈希定在第 540–600 秒之间，截止点之后烧的顺延到下一轮，越晚烧越可能顺延（第 540 秒有 60/61 算本轮，第 599 秒只有 1/61）。单笔燃烧至少 1,000 枚，同时计入轮次奖池（10 分钟一轮）。一轮合计不到 10 万枚不发奖（激活与地块照常发放），燃烧量并入下一个够线的轮次；最后一次顺延的那一轮结束后 1 天内没有够线的轮次开始，就作废。地块：总量 2000 块。每笔燃烧按高档优先贪心拆分：≥30 万枚史诗（权重 3.5），≥20 万枚稀有（权重 2.2），≥10 万枚普通（权重 1.0），例如 100 万枚 = 史诗 ×3 + 普通 ×1；不足 10 万枚不发地（两笔小额不能相加）。各档不限量，只受总量 2000 块上限；创世 30 分钟每分钟最多 20 块（最多 600 块），创世后继续发到 2000 块，先到先得。地块只能烧币获得，永久绑定地址，不可转让、不可买卖。燃烧自动计入燃烧者自己的地块，不能算到别人的地块上。地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活地块权重分红。每 10 分钟需按每 1 权重烧 1000 激活地块（按地址：一笔烧满该地址总权重×1000 即激活其全部地块），未激活不分红，份额归已激活的地主。轮中新入账的地块税 80% 立刻加入本轮剩余预算，20% 留到下一轮。已激活权重为 0 的分钟金额留在本轮剩余预算，由后续分钟继续均匀释放；轮结束时仍未放出的部分并入 20% 滚入下一轮。发地的那笔燃烧同时计入激活，若已达到该地址新的总门槛，新地块在本窗口立即激活。新铸造的地块从之后完成的分钟开始计。没有地块的地址燃烧只参与分钟奖池。金库托底只有地主能兑：托底分档，每档 1500 万枚额度；每笔托底税 80% 进当前档、20% 进下一档。当前档托底价 = 当前档剩余 BNB ÷ 当前档剩余额度，随托底税实时上涨；兑换 x 枚付「当前档剩余 BNB × x ÷ 当前档剩余额度」，最后一枚额度正好付完剩余，永远不超过当前档池子。当前档 1500 万兑满后同一笔里开下一档：起始池子 = 攒下的下一档池子，新的下一档从 0 开始攒；没有时间限制、没有开档门槛、不会提前换档；下一档池子只在换档时放出。地块就是门票：只有持有地块的地址能兑，不持有地块的地址不能兑；兑换时带上自己的地块编号（一次最多 50 块），先到先得；托底无需激活，按地块权重分配额度。每 1 权重本档上限 = max(10 万, ⌈2 × 1500 万 ÷ 全网已发总权重⌉)，随总权重实时变化；我的托底额度 = 权重 × 每权重额度（权重按 ×10 存储，向下取整）。用量按地址记，地块不能转手，永远跟着铸造地址，换档重算，可以多次下单；没有永久累计的额度。持有权重过少或闲着不兑时，这一档可能兑不满。兑出的代币不计入轮次奖池、不发地、不计入激活。第 1 档在创世 30 分钟结束后开出（至少已发 1 块地）。每档额度内可按实时托底价兑换；新一档起始价 = 下一档池子 ÷ 1500 万，可能明显低于上一档；托底不是保底或兑付承诺。换回的 EDEN 100% 销毁。托底价可能高于市价，这时地主可能把当前档额度全部换完（已知并接受的风险）。地块只能烧币获得，永久绑定地址，不可转让、不可买卖。奖励 30 天不领过期。烧掉的币转入 0xdead，不减少 totalSupply；Flap 统计转入 0xdead 的销毁量。0 抽成。",
   "methods": [
    {
     "name": "minuteInfo",
-    "description": "This minute: countdown and pool. Seconds 0-44 always count; seconds 45-59 have a random cutoff and later burns may roll to the next minute / 当前分钟：倒计时与奖池。第 0–44 秒烧的一定算本分钟；第 45–59 秒有随机截止点，越晚烧越可能顺延到下一分钟",
+    "description": "Round prize pool (one round every 10 minutes): countdown, pool, jackpot, and current top burner. Release is 50% pro-rata by burn share and 50% jackpot to the single largest burner of the round (if burned amounts are equal, the earliest burner wins the jackpot; jackpot paid only if at least 2 distinct counted burners). Seconds 0-539 always count; seconds 540-599 have a random cutoff / 轮次奖池（10 分钟一轮）：倒计时、奖池、头奖与当前领先者。放出 50% 按燃烧份额均分，50% 头奖给本轮累计燃烧最多的一人（燃烧量相同时，先烧者得头奖；有效燃烧地址少于 2 人时头奖留池）。第 0–539 秒烧的一定算本轮；第 540–599 秒有随机截止点",
     "inputs": [],
     "outputs": [
      {
@@ -19,31 +19,49 @@ window.EDEN_SCHEMA={
      {
       "name": "endsAt",
       "fieldType": "time",
-      "description": "Nominal end of this minute / 本分钟名义结束时间",
+      "description": "Countdown: this 10-minute prize round ends at / 倒计时：本轮次奖池（10 分钟一轮）结束时间",
       "decimals": 0
      },
      {
       "name": "estPool",
       "fieldType": "uint256",
-      "description": "Est. release this minute = min(pool × 2%, burned × min(floor, market price) × 1, 2 BNB) (BNB) / 本分钟预计放出 = min(池 × 2%, 已烧 × min(托底价, 市价) × 1, 2 BNB)（BNB）",
+      "description": "Est. total release = min(pool × 15%, burned × min(floor, market price) × 1); 50% pro-rata, 50% jackpot (BNB) / 本轮预计放出 = min(池 × 15%, 已烧 × min(托底价, 市价) × 1)；50% 按份额均分、50% 头奖（BNB）",
       "decimals": 18
      },
      {
       "name": "burnedThisMinute",
       "fieldType": "uint256",
-      "description": "Burned this minute (tokens) / 本分钟已烧（枚）",
+      "description": "Burned this 10-minute prize round (tokens) / 本轮已烧（枚）",
       "decimals": 18
      },
      {
       "name": "plotsLeft",
       "fieldType": "uint256",
-      "description": "Plots left to mint, 2,000 total; genesis quota accumulates 20 per minute for 60 minutes; 1 plot per 200,000 burned / 剩余可发地块（总 2000 块，创世 60 分钟额度每分钟累计 20 块，每烧 20 万枚 1 块）",
+      "description": "Plots left to mint, 2,000 total; each burn greedily splits into plots highest tier first (Common 100k / Rare 200k / Epic 300k); genesis 30 minutes × 20 per minute / 剩余可发地块（总 2000 块；每笔按高档优先贪心拆分：普通 10 万 / 稀有 20 万 / 史诗 30 万；创世 30 分钟每分钟最多 20 块）",
       "decimals": 0
      },
      {
       "name": "fullPoolBurn",
       "fieldType": "uint256",
-      "description": "Burn needed this minute to unlock the full release (tokens) / 本分钟放满所需燃烧量（枚）",
+      "description": "Burn needed this round to unlock the full release (tokens) / 本轮放满所需燃烧量（枚）",
+      "decimals": 18
+     },
+     {
+      "name": "estJackpot",
+      "fieldType": "uint256",
+      "description": "Current jackpot (half of the estimated release, at most 5% of the pool; paid only if at least 2 distinct counted burners) (BNB) / 当前头奖（预计放出的一半，不超过奖池 5%；本轮有效燃烧地址少于 2 人时头奖留池）（BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "leadUser",
+      "fieldType": "address",
+      "description": "Current top burner of this round (if burned amounts are equal, the earliest burner wins the jackpot) / 本轮当前累计燃烧最多的地址（燃烧量相同时，先烧者得头奖）",
+      "decimals": 0
+     },
+     {
+      "name": "leadBurned",
+      "fieldType": "uint256",
+      "description": "Top burner's burned tokens this round / 领先者本轮已烧（枚）",
       "decimals": 18
      }
     ],
@@ -54,7 +72,7 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "minutePhase",
-    "description": "Burn timing: seconds 0-44 certain, 45-59 random cutoff / 燃烧时机：第 0–44 秒确定计入，第 45–59 秒随机截止",
+    "description": "Burn timing: seconds 0-539 certain, 540-599 random cutoff / 燃烧时机：第 0–539 秒确定计入，第 540–599 秒随机截止",
     "inputs": [],
     "outputs": [
      {
@@ -66,13 +84,13 @@ window.EDEN_SCHEMA={
      {
       "name": "second",
       "fieldType": "uint256",
-      "description": "Second within the minute, 0-59 / 本分钟第几秒（0–59）",
+      "description": "Second within the 10-minute round, 0-599 / 本轮第几秒（0–599）",
       "decimals": 0
      },
      {
       "name": "certain",
       "fieldType": "bool",
-      "description": "In seconds 0-44: a burn now surely counts for this minute / 处于第 0–44 秒：现在烧一定算本分钟",
+      "description": "In seconds 0-539: a burn now surely counts for this round / 处于第 0–539 秒：现在烧一定算本轮",
       "decimals": 0
      },
      {
@@ -84,7 +102,7 @@ window.EDEN_SCHEMA={
      {
       "name": "randomSecondsLeft",
       "fieldType": "uint256",
-      "description": "Seconds left in the random window 45-59; the later you burn, the more likely it rolls to the next minute (second 45: 15/16 counts, second 59: 1/16) / 随机窗口（第 45–59 秒）还剩几秒；越晚烧越可能顺延到下一分钟（第 45 秒 15/16 算本分钟，第 59 秒只有 1/16）",
+      "description": "Seconds left in the random window 540-599; the later you burn, the more likely it rolls to the next round (second 540: 60/61 counts, second 599: 1/61) / 随机窗口（第 540–599 秒）还剩几秒；越晚烧越可能顺延到下一轮（第 540 秒 60/61 算本轮，第 599 秒只有 1/61）",
       "decimals": 0
      }
     ],
@@ -121,12 +139,6 @@ window.EDEN_SCHEMA={
       "fieldType": "uint256",
       "description": "Unclaimed burn records / 未领完的燃烧记录数",
       "decimals": 0
-     },
-     {
-      "name": "creditBnb",
-      "fieldType": "uint256",
-      "description": "Withdrawable balance, e.g. plot sales (BNB) / 待领余额（卖地款等，BNB）",
-      "decimals": 18
      }
     ],
     "approvals": [],
@@ -136,50 +148,44 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "myPlotDividends",
-    "description": "My plot dividends: burns count toward my own plots only; more plots, higher cap. Holding plots without burning earns no plot dividends. Plots transferred in or bought this hour start counting toward the cap from the next hour / 我的地块分成：燃烧只计入自己的地块，地块越多上限越高。只持有地块不燃烧，没有地块分成。本小时转入/买入的地块从下一小时起计入上限",
+    "description": "My plot dividends: plots can only be obtained by burning and are permanently bound, not transferable or for sale. Each 30-minute round releases 80% of the pool (evenly over the minutes), 20% rolls to the next round; split by active plot weight. Every 10 minutes you must burn 1,000 tokens per 1.0 weight to activate; inactive holders earn nothing and their share goes to active holders / 我的地块分成：地块只能烧币获得，永久绑定地址，不可转让、不可买卖。地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活地块权重分红。每 10 分钟需按每 1 权重烧 1000 激活地块，未激活不分红，份额归已激活的地主",
     "inputs": [],
     "outputs": [
      {
       "name": "plots",
       "fieldType": "uint256",
-      "description": "My plots; my burns count toward them automatically / 我的地块数（我的燃烧自动计入）",
+      "description": "My plots, permanently bound to this address / 我的地块数（永久绑定本地址）",
       "decimals": 0
-     },
-     {
-      "name": "hourCap",
-      "fieldType": "uint256",
-      "description": "My hourly cap = (plots − received this hour) × 1M (tokens) / 我每小时计入上限 = (地块数 − 本小时转入或买入) × 100 万（枚）",
-      "decimals": 18
-     },
-     {
-      "name": "burnedThisHour",
-      "fieldType": "uint256",
-      "description": "My burns this hour while holding plots (tokens) / 本小时我持有地块时的燃烧（枚）",
-      "decimals": 18
-     },
-     {
-      "name": "countedThisHour",
-      "fieldType": "uint256",
-      "description": "Counted this hour = min(burned, cap); under 100,000 counts nothing (tokens) / 本小时计入 = min(燃烧, 上限)，不到 10 万不计（枚）",
-      "decimals": 18
      },
      {
       "name": "claimable",
       "fieldType": "uint256",
-      "description": "Settled plot dividends to claim (BNB) / 已结算可领的地块分成（BNB）",
+      "description": "Plot dividends to claim, accrued by total plot weight (BNB) / 可领的地块分成（按持有地块总权重累计，BNB）",
       "decimals": 18
      },
      {
-      "name": "openHours",
+      "name": "issued",
       "fieldType": "uint256",
-      "description": "Hours with dividends not yet claimed / 还没领的分成小时数",
+      "description": "Plots issued in total / 已发地块总数",
       "decimals": 0
      },
      {
-      "name": "receivedThisHour",
+      "name": "nextRoundPool",
       "fieldType": "uint256",
-      "description": "Plots received this hour by transfer or purchase; they count toward the cap from the next hour (newly minted plots count immediately) / 本小时转入或买入的地块数；这些地块从下一小时起计入上限（新铸造的地块当场生效）",
-      "decimals": 0
+      "description": "Inflow waiting for the next 30-minute round (BNB) / 等待下一轮（30 分钟）开拍的入账（BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "currentRemaining",
+      "fieldType": "uint256",
+      "description": "This round's budget still to be released (BNB) / 本轮预算还未放出的部分（BNB）",
+      "decimals": 18
+     },
+     {
+      "name": "perMinute",
+      "fieldType": "uint256",
+      "description": "This round's budget / 30 (BNB); the last minute also takes the rounding remainder / 本轮预算 ÷ 30（BNB）；最后一分钟带上整除余数",
+      "decimals": 18
      }
     ],
     "approvals": [],
@@ -189,7 +195,7 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "roundInfo",
-    "description": "Current floor tier, plot holders only, first come: within the tier's quota at the live price, each plot up to the tier's per-plot cap per tier; 80% of floor tax feeds this tier, 20% the next; not a guarantee / 当前托底档（只有地主能兑，先到先得）：当前档额度内按实时托底价兑，每块地每档最多 本档每块上限；托底税 80% 进当前档、20% 进下一档；托底不是保底或兑付承诺",
+    "description": "Current floor tier, plot holders only, first come, no activation required: within the tier's quota at the live price, cap per 1.0 weight = max(100,000, ceil(2 × 15M ÷ total issued weight)), address cap = weight × that (floored); 80% of floor tax feeds this tier, 20% the next; not a guarantee / 当前托底档（只有地主能兑，先到先得，无需激活）：当前档额度内按实时托底价兑；每 1 权重上限 = max(10 万, ⌈2 × 1500 万 ÷ 全网已发总权重⌉)，地址额度 = 权重 × 该上限（向下取整）；托底税 80% 进当前档、20% 进下一档；托底不是保底或兑付承诺",
     "inputs": [],
     "outputs": [
      {
@@ -236,7 +242,7 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "redeemInfo",
-    "description": "My floor redemption: plots are the ticket; each plot has a cap per tier that moves with the plot / 我的托底兑换：地块就是门票；每块地每档有上限，跟着地块走",
+    "description": "My floor redemption: my cap = weight × cap per 1.0 weight. Floor redemption does not require activation; caps are allocated by plot weight / 我的托底兑换：我的托底额度 = 权重 × 每权重额度。托底无需激活，按地块权重分配额度",
     "inputs": [],
     "outputs": [
      {
@@ -248,13 +254,13 @@ window.EDEN_SCHEMA={
      {
       "name": "myTierLeft",
       "fieldType": "uint256",
-      "description": "Left this tier on all my plots = sum of (per-plot tier cap − redeemed this tier by that plot) (tokens) / 我的地块本档还能兑的合计 = Σ(本档每块上限 − 这块地本档已兑)（枚）",
+      "description": "My remaining cap this tier = weight × cap per 1.0 weight − redeemed (tokens) / 我的托底额度剩余 = 权重 × 每权重额度 − 本档已兑（枚）",
       "decimals": 18
      },
      {
-      "name": "capPerPlotThisTier",
+      "name": "capPerWeightThisTier",
       "fieldType": "uint256",
-      "description": "Cap per plot this tier = max(200,000, 2 × 15M ÷ plots issued at tier open) (tokens) / 本档每块上限 = max(20 万, 2 × 1500 万 ÷ 开档时已发地块数)（枚）",
+      "description": "Cap per 1.0 weight this tier = max(100,000, ceil(2 × 15M ÷ total issued weight)) (tokens) / 每 1 权重本档上限 = max(10 万, ⌈2 × 1500 万 ÷ 全网已发总权重⌉)（枚）",
       "decimals": 18
      },
      {
@@ -283,7 +289,7 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "marketInfo",
-    "description": "Market price for the minute reward cap; the floor price may be above it / 分钟奖励上限用的市价；托底价可能高于市价",
+    "description": "Market price for the round prize cap; the floor price may be above it / 轮次奖池上限用的市价；托底价可能高于市价",
     "inputs": [],
     "outputs": [
      {
@@ -336,7 +342,7 @@ window.EDEN_SCHEMA={
      {
       "name": "minutePoolTotal",
       "fieldType": "uint256",
-      "description": "Minute pool incl. pending (BNB) / 分钟奖池（含待入池，BNB）",
+      "description": "Round prize pool (one round every 10 minutes) incl. pending (BNB) / 轮次奖池（10 分钟一轮，含待入池，BNB）",
       "decimals": 18
      },
      {
@@ -360,19 +366,13 @@ window.EDEN_SCHEMA={
      {
       "name": "minuteUnclaimed",
       "fieldType": "uint256",
-      "description": "Minute rewards assigned, unclaimed (BNB) / 分钟奖励已分配未领（BNB）",
+      "description": "Round prize rewards assigned, unclaimed (BNB) / 轮次奖已分配未领（BNB）",
       "decimals": 18
      },
      {
       "name": "plotUnclaimed",
       "fieldType": "uint256",
       "description": "Plot dividends assigned, unclaimed (BNB) / 地块分成已分配未领（BNB）",
-      "decimals": 18
-     },
-     {
-      "name": "sellerCredits",
-      "fieldType": "uint256",
-      "description": "Plot sale proceeds awaiting withdrawal (BNB) / 卖地款等待领余额（BNB）",
       "decimals": 18
      }
     ],
@@ -416,11 +416,237 @@ window.EDEN_SCHEMA={
       "fieldType": "uint256",
       "description": "Unclaimed burn records / 未领完的燃烧记录数",
       "decimals": 0
+     }
+    ],
+    "approvals": [],
+    "isInputArray": false,
+    "isOutputArray": false,
+    "isWriteMethod": false
+   },
+   {
+    "name": "previewBurn",
+    "description": "Live preview: this burn greedily splits into plots, highest tier first (e.g. 1M = 3 Epic + 1 Common). Below 100,000 mints none / 实时预览：本笔按高档优先贪心拆分（例如 100 万 = 史诗 ×3 + 普通 ×1）。不足 10 万不发地",
+    "inputs": [
+     {
+      "name": "amount",
+      "fieldType": "uint256",
+      "description": "Burn amount to preview (tokens) / 预览这一笔燃烧数量（枚）",
+      "decimals": 18
+     }
+    ],
+    "outputs": [
+     {
+      "name": "tier",
+      "fieldType": "uint8",
+      "description": "Highest tier minted this burn, 0 if none / 本笔最高档（0 不发地）",
+      "decimals": 0
      },
      {
-      "name": "creditBnb",
+      "name": "nCommon",
       "fieldType": "uint256",
-      "description": "Withdrawable balance, e.g. plot sales (BNB) / 待领余额（卖地款等，BNB）",
+      "description": "Common plots this burn / 本笔普通地块数",
+      "decimals": 0
+     },
+     {
+      "name": "nRare",
+      "fieldType": "uint256",
+      "description": "Rare plots this burn / 本笔稀有地块数",
+      "decimals": 0
+     },
+     {
+      "name": "nEpic",
+      "fieldType": "uint256",
+      "description": "Epic plots this burn / 本笔史诗地块数",
+      "decimals": 0
+     },
+     {
+      "name": "plots",
+      "fieldType": "uint256",
+      "description": "Total plots this burn / 本笔地块总数",
+      "decimals": 0
+     },
+     {
+      "name": "weightX10",
+      "fieldType": "uint256",
+      "description": "Total weight ×10 / 本笔总权重（已 ×10）",
+      "decimals": 0
+     }
+    ],
+    "approvals": [],
+    "isInputArray": false,
+    "isOutputArray": false,
+    "isWriteMethod": false
+   },
+   {
+    "name": "userPlotTiers",
+    "description": "My plots by tier, with my weight and share of total weight / 我的地块分档，以及总权重和我占全网权重的份额",
+    "inputs": [
+     {
+      "name": "u",
+      "fieldType": "address",
+      "description": "Wallet address / 钱包地址",
+      "decimals": 0
+     }
+    ],
+    "outputs": [
+     {
+      "name": "common",
+      "fieldType": "uint256",
+      "description": "Common plots (weight 1.0 each) / 普通地块数（每块权重 1.0）",
+      "decimals": 0
+     },
+     {
+      "name": "rare",
+      "fieldType": "uint256",
+      "description": "Rare plots (weight 2.2 each) / 稀有地块数（每块权重 2.2）",
+      "decimals": 0
+     },
+     {
+      "name": "epic",
+      "fieldType": "uint256",
+      "description": "Epic plots (weight 3.5 each) / 史诗地块数（每块权重 3.5）",
+      "decimals": 0
+     },
+     {
+      "name": "weight",
+      "fieldType": "uint256",
+      "description": "My total weight ×10 / 我的总权重（已 ×10）",
+      "decimals": 0
+     },
+     {
+      "name": "totalWeight",
+      "fieldType": "uint256",
+      "description": "Global total weight ×10 / 全网总权重（已 ×10）",
+      "decimals": 0
+     }
+    ],
+    "approvals": [],
+    "isInputArray": false,
+    "isOutputArray": false,
+    "isWriteMethod": false
+   },
+   {
+    "name": "plotTierParams",
+    "description": "Plot tiers: Common 100k / weight 1, Rare 200k / weight 2.2, Epic 300k / weight 3.5; no per-tier cap, 2,000 total / 地块分档：普通 10 万/权重 1，稀有 20 万/权重 2.2，史诗 30 万/权重 3.5；各档不限量，总量 2000",
+    "inputs": [],
+    "outputs": [
+     {
+      "name": "costCommon",
+      "fieldType": "uint256",
+      "description": "Common cost (tokens) / 普通门槛（枚）",
+      "decimals": 18
+     },
+     {
+      "name": "costRare",
+      "fieldType": "uint256",
+      "description": "Rare cost (tokens) / 稀有门槛（枚）",
+      "decimals": 18
+     },
+     {
+      "name": "costEpic",
+      "fieldType": "uint256",
+      "description": "Epic cost (tokens) / 史诗门槛（枚）",
+      "decimals": 18
+     },
+     {
+      "name": "weightCommon",
+      "fieldType": "uint256",
+      "description": "Common weight ×10 = 10 / 普通权重 ×10 = 10",
+      "decimals": 0
+     },
+     {
+      "name": "weightRare",
+      "fieldType": "uint256",
+      "description": "Rare weight ×10 = 22 / 稀有权重 ×10 = 22",
+      "decimals": 0
+     },
+     {
+      "name": "weightEpic",
+      "fieldType": "uint256",
+      "description": "Epic weight ×10 = 35 / 史诗权重 ×10 = 35",
+      "decimals": 0
+     },
+     {
+      "name": "maxPlots",
+      "fieldType": "uint256",
+      "description": "Total cap 2,000 (no per-tier cap) / 总量上限 2000（各档不限量）",
+      "decimals": 0
+     },
+     {
+      "name": "genesisMinutes",
+      "fieldType": "uint256",
+      "description": "Genesis length (minutes) / 创世分钟数",
+      "decimals": 0
+     },
+     {
+      "name": "plotsPerMinute",
+      "fieldType": "uint256",
+      "description": "Max plots per genesis minute / 创世每分钟最多发几块",
+      "decimals": 0
+     }
+    ],
+    "approvals": [],
+    "isInputArray": false,
+    "isOutputArray": false,
+    "isWriteMethod": false
+   },
+   {
+    "name": "myActivation",
+    "description": "This window: burned X / need Y, active or not, time left; burn Y to activate. Every 10 minutes you must burn 1,000 tokens per 1.0 weight to activate; inactive holders earn nothing and their share goes to active holders / 本窗口已烧 X / 需 Y，是否已激活，剩余时间；一键烧 Y 激活。每 10 分钟需按每 1 权重烧 1000 激活地块，未激活不分红，份额归已激活的地主",
+    "inputs": [],
+    "outputs": [
+     {
+      "name": "windowId",
+      "fieldType": "uint256",
+      "description": "Current 10-minute window id / 当前 10 分钟窗口编号",
+      "decimals": 0
+     },
+     {
+      "name": "burned",
+      "fieldType": "uint256",
+      "description": "Tokens burned toward activation this window / 本窗口已烧（激活）",
+      "decimals": 18
+     },
+     {
+      "name": "needed",
+      "fieldType": "uint256",
+      "description": "Tokens needed this window = weight × 1,000 / 本窗口门槛（权重×1000 枚）",
+      "decimals": 18
+     },
+     {
+      "name": "active",
+      "fieldType": "bool",
+      "description": "Activated for the rest of this window / 本窗口已激活",
+      "decimals": 0
+     },
+     {
+      "name": "windowEndsAt",
+      "fieldType": "time",
+      "description": "This window ends at / 本窗口结束时间",
+      "decimals": 0
+     },
+     {
+      "name": "timeLeft",
+      "fieldType": "uint256",
+      "description": "Seconds left in this window / 本窗口剩余秒数",
+      "decimals": 0
+     },
+     {
+      "name": "myActiveWeight",
+      "fieldType": "uint256",
+      "description": "My active weight ×10 / 我已激活的权重 ×10",
+      "decimals": 0
+     },
+     {
+      "name": "totalActiveWeight",
+      "fieldType": "uint256",
+      "description": "Total active weight ×10 / 全网已激活权重 ×10",
+      "decimals": 0
+     },
+     {
+      "name": "toActivate",
+      "fieldType": "uint256",
+      "description": "Prefill: burn this many to activate (at least 1,000) / 一键烧满激活预填（至少 1 千）",
       "decimals": 18
      }
     ],
@@ -430,46 +656,124 @@ window.EDEN_SCHEMA={
     "isWriteMethod": false
    },
    {
-    "name": "plotMarket",
-    "description": "Plot market: price and floor / 地块行情：当前价与地板价",
+    "name": "activationInfo",
+    "description": "Activation status of any wallet this 10-minute window / 查任意钱包本 10 分钟窗口的激活状态",
     "inputs": [
      {
-      "name": "plotId",
-      "fieldType": "uint256",
-      "description": "Plot ID / 地块编号",
+      "name": "u",
+      "fieldType": "address",
+      "description": "Wallet address / 钱包地址",
       "decimals": 0
      }
     ],
     "outputs": [
      {
-      "name": "owner",
-      "fieldType": "address",
-      "description": "Owner / 地主",
+      "name": "windowId",
+      "fieldType": "uint256",
+      "description": "Current 10-minute window id / 当前 10 分钟窗口编号",
       "decimals": 0
      },
      {
-      "name": "price",
+      "name": "burned",
       "fieldType": "uint256",
-      "description": "Current price (BNB) / 当前价（BNB）",
+      "description": "Tokens burned toward activation this window / 本窗口已烧（激活）",
       "decimals": 18
      },
      {
-      "name": "floor",
+      "name": "needed",
       "fieldType": "uint256",
-      "description": "Floor = max(smoothed hourly release per plot × 24, plot pool × 2% ÷ max(issued, 200) × 24, 0.001), an average over all issued plots (BNB) / 地板价 = max(平滑后每块每小时分成 × 24, 地块池 × 2% ÷ max(已发地块, 200) × 24, 0.001)，全部已发地块的平均（BNB）",
+      "description": "Tokens needed this window = weight × 1,000 / 本窗口门槛（权重×1000 枚）",
       "decimals": 18
      },
      {
-      "name": "lastTradeAnchor",
-      "fieldType": "uint256",
-      "description": "Last trade price × 1.1 (BNB) / 上次成交价 × 1.1（BNB）",
-      "decimals": 18
+      "name": "active",
+      "fieldType": "bool",
+      "description": "Activated for the rest of this window / 本窗口已激活",
+      "decimals": 0
      },
      {
-      "name": "lastTradeTime",
+      "name": "windowEndsAt",
       "fieldType": "time",
-      "description": "Last trade time / 上次成交时间",
+      "description": "This window ends at / 本窗口结束时间",
       "decimals": 0
+     },
+     {
+      "name": "timeLeft",
+      "fieldType": "uint256",
+      "description": "Seconds left in this window / 本窗口剩余秒数",
+      "decimals": 0
+     },
+     {
+      "name": "myActiveWeight",
+      "fieldType": "uint256",
+      "description": "Active weight ×10 / 已激活的权重 ×10",
+      "decimals": 0
+     },
+     {
+      "name": "totalActiveWeight",
+      "fieldType": "uint256",
+      "description": "Total active weight ×10 / 全网已激活权重 ×10",
+      "decimals": 0
+     },
+     {
+      "name": "toActivate",
+      "fieldType": "uint256",
+      "description": "Prefill: burn this many to activate (at least 1,000) / 一键烧满激活预填（至少 1 千）",
+      "decimals": 18
+     }
+    ],
+    "approvals": [],
+    "isInputArray": false,
+    "isOutputArray": false,
+    "isWriteMethod": false
+   },
+   {
+    "name": "redeemQuota",
+    "description": "My floor cap: my cap = weight × cap per 1.0 weight. Floor redemption does not require activation; caps are allocated by plot weight / 我的托底额度 = 权重 × 每权重额度。托底无需激活，按地块权重分配额度",
+    "inputs": [
+     {
+      "name": "u",
+      "fieldType": "address",
+      "description": "Wallet address / 钱包地址",
+      "decimals": 0
+     }
+    ],
+    "outputs": [
+     {
+      "name": "weightX10",
+      "fieldType": "uint256",
+      "description": "My plot weight ×10 / 我的地块权重（已 ×10）",
+      "decimals": 0
+     },
+     {
+      "name": "totalWeightX10",
+      "fieldType": "uint256",
+      "description": "Global issued weight ×10 (not active weight) / 全网已发总权重（已 ×10，非激活权重）",
+      "decimals": 0
+     },
+     {
+      "name": "capPerWeight",
+      "fieldType": "uint256",
+      "description": "Cap per 1.0 weight this tier / 每 1 权重本档上限（枚）",
+      "decimals": 18
+     },
+     {
+      "name": "myCap",
+      "fieldType": "uint256",
+      "description": "My cap this tier = weight × cap per 1.0 weight, floored (tokens) / 我的托底额度 = 权重 × 每权重额度（向下取整，枚）",
+      "decimals": 18
+     },
+     {
+      "name": "usedThisTier",
+      "fieldType": "uint256",
+      "description": "Redeemed this tier (tokens) / 本档已兑（枚）",
+      "decimals": 18
+     },
+     {
+      "name": "leftThisTier",
+      "fieldType": "uint256",
+      "description": "Remaining this tier (tokens) / 本档剩余额度（枚）",
+      "decimals": 18
      }
     ],
     "approvals": [],
@@ -479,12 +783,12 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "burn",
-    "description": "Burn: hand tokens to the vault to burn and join this minute's pool. Seconds 0-44 always count for this minute; seconds 45-59 have a random cutoff, and a late burn may roll to the next minute, more likely the later it is (second 45: 15/16 counts, second 59: 1/16) / 燃烧：把代币交给金库烧掉，参与本分钟奖池。第 0–44 秒烧的一定算本分钟；第 45–59 秒有随机截止点，晚烧的可能顺延到下一分钟，越晚越可能顺延（第 45 秒 15/16 算本分钟，第 59 秒只有 1/16）",
+    "description": "Burn: min 1,000 tokens, joins the 10-minute prize round and 10-minute plot activation per address (one burn covering totalWeight × 1,000 activates all of that address's plots; inactive holders earn nothing, their share goes to active holders). A round still needs 100,000 tokens in total to pay out; if below, rewards roll over, but burners still get activation and plots. Release is 50% pro-rata by burn share and 50% jackpot to the single largest burner of the round (if burned amounts are equal, the earliest burner wins the jackpot; jackpot may exceed 1× the winner's own burn value but is capped at 5% of the pool; paid only if at least 2 distinct counted burners). This burn greedily splits into plots, highest tier first (e.g. 1M = 3 Epic + 1 Common); two smaller burns do not add up. Seconds 0-539 always count; seconds 540-599 have a random cutoff / 燃烧：单笔至少 1 千枚，同时计入轮次奖池（10 分钟一轮）与地块激活。激活按地址：一笔烧满该地址总权重×1000 即激活其全部地块。每 10 分钟需按每 1 权重烧 1000 激活，未激活不分红，份额归已激活的地主。一轮合计仍须满 10 万枚才发轮次奖，不够则奖励滚入下一轮，激活与地块照常发放。放出 50% 按份额均分，50% 头奖给本轮累计燃烧最多的一人（燃烧量相同时，先烧者得头奖；头奖可超过得主本人燃烧价值的 1 倍，但不超过奖池 5%；有效燃烧地址少于 2 人时头奖留池）。本笔按高档优先贪心拆分（例如 100 万 = 史诗 ×3 + 普通 ×1），两笔小额不能相加。第 0–539 秒烧的一定算本轮；第 540–599 秒有随机截止点",
     "inputs": [
      {
       "name": "amount",
       "fieldType": "uint256",
-      "description": "Tokens to burn, min 10,000; automatically counted toward your own plots / 燃烧数量（枚，单笔至少 1 万；自动计入你自己的地块）",
+      "description": "Tokens to burn, min 1,000. Joins the 10-minute prize round (50% pro-rata / 50% jackpot to the top burner, if burned amounts are equal, the earliest burner wins the jackpot) and 10-minute plot activation per address (one burn covering totalWeight × 1,000 activates all of that address's plots). This burn greedily splits into plots, highest tier first (Common 100k / Rare 200k / Epic 300k) / 燃烧数量（枚，单笔至少 1 千）。计入轮次奖池（10 分钟一轮；50% 按份额均分，50% 头奖给本轮累计燃烧最多的一人，燃烧量相同时，先烧者得头奖），并按地址激活地块（一笔烧满该地址总权重×1000 即激活其全部地块）。本笔按高档优先贪心拆分（普通 10 万 / 稀有 20 万 / 史诗 30 万）",
       "decimals": 18
      }
     ],
@@ -501,7 +805,7 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "claimNext",
-    "description": "Claim minute rewards (BNB and plots); expires after 30 days; partial plots carry over / 领取分钟奖励（BNB 和地块）；30 天不领过期；不足 1 块的零头留到下次",
+    "description": "Claim minute BNB rewards (plots are minted automatically when the minute settles); expires after 30 days / 领取分钟 BNB 奖励（地块在该分钟结算时自动铸给燃烧地址）；30 天不领过期",
     "inputs": [
      {
       "name": "maxRecords",
@@ -517,37 +821,8 @@ window.EDEN_SCHEMA={
     "isWriteMethod": true
    },
    {
-    "name": "buyPlot",
-    "description": "Buy a plot at its current price, no owner consent needed: 98% to the seller, 2% to the minute pool, price +10% after each sale; dividends already counted stay with the seller, the buyer's later burns count toward the plot / 买地：按当前价直接买走，不需持有人同意；98% 给卖家，2% 进分钟奖池，成交后涨 10%；已计入的分成归卖家，之后买家的燃烧按新持有数计入",
-    "inputs": [
-     {
-      "name": "value",
-      "fieldType": "msg.value",
-      "description": "BNB to pay, at least the current price; excess refunded / 随交易支付的 BNB（≥ 当前价，多付退回）",
-      "decimals": 18
-     },
-     {
-      "name": "id",
-      "fieldType": "uint256",
-      "description": "Plot ID / 地块编号",
-      "decimals": 0
-     },
-     {
-      "name": "maxPrice",
-      "fieldType": "uint256",
-      "description": "Max price you accept (BNB), front-run guard / 最高愿付价（BNB，防抢跑）",
-      "decimals": 18
-     }
-    ],
-    "outputs": [],
-    "approvals": [],
-    "isInputArray": false,
-    "isOutputArray": false,
-    "isWriteMethod": true
-   },
-   {
     "name": "sellToRound",
-    "description": "Floor redemption, plot holders only, first come first served: redeem EDEN for BNB with your plot at the current tier's live floor price (tier BNB left ÷ tier quota left); each plot redeems at most the tier's per-plot cap per tier (max(200,000, 2 × 15M ÷ plots issued at tier open)), tracked per plot and moving with it; more txs allowed; sellToRoundPlots takes up to 50 plots at once; when the tier's 15M is filled the next tier opens at once; tokens are 100% burned; not a guarantee / 托底兑换（只有地主能兑，先到先得）：用自己的地块按当前档实时托底价（当前档剩余 BNB ÷ 当前档剩余额度）把 EDEN 兑换成 BNB；每块地每档最多兑 max(20 万, 2 × 1500 万 ÷ 开档时已发地块数)，用量按地块记、跟着地块走；可以多次下单；sellToRoundPlots 一次最多带 50 块地；当前档 1500 万兑满立刻开下一档；换回的币 100% 销毁；托底不是保底或兑付承诺",
+    "description": "Floor redemption, plot holders only, first come, no activation required: redeem EDEN for BNB with your plot at the current tier's live floor price (tier BNB left ÷ tier quota left). Cap per 1.0 weight = max(100,000, ceil(2 × 15M ÷ total issued weight)); address cap = weight × that (floored); usage is tracked per address and stays with the minting address (plots cannot change hands); more txs allowed; sellToRoundPlots takes up to 50 plots at once as proof of holding; when the tier's 15M is filled the next tier opens at once; tokens are 100% burned and do not join the prize round, mint plots, or count toward activation; not a guarantee / 托底兑换（只有地主能兑，先到先得，无需激活）：用自己的地块按当前档实时托底价（当前档剩余 BNB ÷ 当前档剩余额度）把 EDEN 兑换成 BNB。每 1 权重本档上限 = max(10 万, ⌈2 × 1500 万 ÷ 全网已发总权重⌉)，地址额度 = 权重 × 该上限（向下取整）；托底无需激活，按地块权重分配额度；用量按地址记，地块不能转手，永远跟着铸造地址；可以多次下单；sellToRoundPlots 一次最多带 50 块地作持有证明；当前档 1500 万兑满立刻开下一档；换回的币 100% 销毁，不计入轮次奖池、不发地、不计入激活；托底不是保底或兑付承诺",
     "inputs": [
      {
       "name": "plotId",
@@ -581,45 +856,12 @@ window.EDEN_SCHEMA={
    },
    {
     "name": "claimPlotDividends",
-    "description": "Claim my plot dividends: each hour I count min(my burns, my plots × 1M), under 100,000 counts nothing; expires after 30 days / 领取我的地块分成：每小时计入 min(我的燃烧, 地块数 × 100 万)，不到 10 万不计；30 天不领过期",
+    "description": "Claim my plot dividends: each 30-minute round releases 80% of the pool (evenly over the minutes), 20% rolls to the next round; split by active plot weight. Every 10 minutes you must burn 1,000 tokens per 1.0 weight to activate; inactive holders earn nothing and their share goes to active holders; unclaimed plot dividends do not expire / 领取我的地块分成：地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活地块权重分红。每 10 分钟需按每 1 权重烧 1000 激活地块，未激活不分红，份额归已激活的地主；地块分成不过期",
     "inputs": [
      {
       "name": "maxHours",
       "fieldType": "uint256",
-      "description": "Max hours to process, up to 100 / 最多处理几个小时（≤100）",
-      "decimals": 0
-     }
-    ],
-    "outputs": [],
-    "approvals": [],
-    "isInputArray": false,
-    "isOutputArray": false,
-    "isWriteMethod": true
-   },
-   {
-    "name": "withdrawCredit",
-    "description": "Withdraw balance, e.g. plot sale proceeds / 领取待领余额（卖地款等）",
-    "inputs": [],
-    "outputs": [],
-    "approvals": [],
-    "isInputArray": false,
-    "isOutputArray": false,
-    "isWriteMethod": true
-   },
-   {
-    "name": "transferPlot",
-    "description": "Transfer a plot; its redemption ticket and this tier's usage move with it / 转让地块（托底门票和本档已兑用量跟着走）",
-    "inputs": [
-     {
-      "name": "id",
-      "fieldType": "uint256",
-      "description": "Plot ID / 地块编号",
-      "decimals": 0
-     },
-     {
-      "name": "to",
-      "fieldType": "address",
-      "description": "Recipient address / 接收地址",
+      "description": "Ignored: all accrued dividends are claimed in one call / 已忽略：一次领完全部已累计分成",
       "decimals": 0
      }
     ],
@@ -659,9 +901,9 @@ window.EDEN_SCHEMA={
   ]
  },
  "vaultDataSchema": {
-  "description": "EDEN 分钟燃烧金库：无需填写参数，vaultData 留空。分账 45/30/25（分钟奖池/地块池/托底储备），0 运营 0 项目方抽成；分钟放出 ≤ 燃烧量 × min(托底价, 市价) × 1（每分钟最多 2 BNB；市价内盘取 Flap 曲线价、毕业后取 PancakeSwap 现价，读不到不放）；每分钟第 0–44 秒烧的一定算本分钟，第 45–59 秒有随机截止点，截止点之后的顺延到下一分钟，越晚越可能顺延。地块总量 2000 块，每烧 20 万枚发 1 块，地块池按计入燃烧的饱和度放出，燃烧自动计入自己的地块（地块越多上限越高）。只持有地块不燃烧，没有地块分成。本小时转入/买入的地块从下一小时起计入上限。托底兑换只有地主能兑（地块是门票，先到先得，带上自己的地块编号；每块地每档最多 max(20 万, 2 × 1500 万 ÷ 开档时已发地块数)，跟着地块走，可多次下单；第 1 档在创世 60 分钟结束后、至少已发 1 块地时开出）：托底分档，每档 1500 万枚；每笔托底税 80% 进当前档、20% 进下一档；当前档托底价 = 当前档剩余 BNB ÷ 当前档剩余额度，实时上涨；兑满同一笔开下一档（起始池子 = 攒下的下一档池子），没有时间限制、没有开档门槛；每档额度内可按实时托底价兑换；新一档起始价可能明显低于上一档；托底不是保底或兑付承诺。换回的币 100% 销毁。托底价可能高于市价，这时地主可能把当前档额度全部换完（已知并接受的风险）。发币要求：TOKEN_TAXED_V3、BNB 计价、买卖税 3%/3%、vaultBps=10000。收税期限建议填 100 年（工厂无法链上校验）。",
+  "description": "EDEN 燃烧金库：无需填写参数，vaultData 留空。分账 45/30/25（轮次奖池/地块池/托底储备），0 运营 0 项目方抽成；轮次放出 ≤ 燃烧量 × min(托底价, 市价) × 1，池 × 15%，50/50 头奖（详见金库说明）；地块总量 2000，贪婪定档，灵魂绑定；地块池 30 分钟 80/20；每 10 分钟激活。托底只有地主能兑。新一档起始价可能明显低于上一档；托底不是保底或兑付承诺。发币要求：TOKEN_TAXED_V3、BNB 计价、买卖税 3%/3%、vaultBps=10000。收税期限建议填 100 年（工厂无法链上校验）。",
   "fields": [],
   "isArray": false
  },
- "descriptionAtLaunch": "EDEN 分钟燃烧金库（Flap 税币金库）。税 3%/3% 全部进金库，分账：分钟奖池 45% / 地块池 30% / 托底储备 25%。工厂和项目方 0 抽成，没有任何收款地址，没有运营分成。分钟奖池 0.000000 BNB；地块池 0.000000 BNB；托底储备（第 1 档开出前积累）0.000000 BNB；下一档池子 0.000000 BNB。玩法尚未开始，第 0 分钟开始时间（Unix 秒）：601。每分钟放出 = min(分钟奖池 × 2%, 本分钟燃烧量 × min(托底价, 市价) × 1, 2 BNB)（市价：内盘取 Flap 曲线价，毕业后取 PancakeSwap 现价，用最近两次观测和现价中最低的；读不到市价时本分钟不按燃烧放出；托底价取当前档实时托底价 = 当前档剩余 BNB ÷ 当前档剩余额度），烧得少只放一小部分、其余留在池里。每分钟第 0–44 秒烧的一定算本分钟；第 45–59 秒是随机截止窗口：截止点在第 45–60 秒之间由揭晓区块哈希决定（取不到哈希就重抽），截止点之后烧的顺延到下一分钟，越晚烧越可能顺延（第 45 秒 15/16 算本分钟，第 59 秒只有 1/16）。托底兑换：创世 60 分钟结束后、至少已发 1 块地时开出第 1 档（之前积累的托底储备 80% 进第 1 档、20% 进第 2 档）；开出后一直开放，没有时间限制、没有开档门槛。金库托底只有地主能兑：托底分档，每档 1500 万枚额度；每笔托底税 80% 进当前档、20% 进下一档。当前档托底价 = 当前档剩余 BNB ÷ 当前档剩余额度，随托底税实时上涨；兑换 x 枚付「当前档剩余 BNB × x ÷ 当前档剩余额度」，最后一枚额度正好付完剩余，永远不超过当前档池子。当前档 1500 万兑满后同一笔里开下一档：起始池子 = 攒下的下一档池子，新的下一档从 0 开始攒；没有时间限制、没有开档门槛、不会提前换档；下一档池子只在换档时放出。地块就是门票：只有持有地块的地址能兑，不持有地块的地址不能兑；兑换时带上自己的地块编号（一次最多 50 块），先到先得；每块地每档最多兑 本档每块上限 = max(20 万, 2 × 1500 万 ÷ 开档时已发地块数)，用量按地块记、跟着地块走（转让或被买走不重置），换档重算，可以多次下单；没有永久累计的额度。一半以上的地块容量闲着不兑时，这一档可能兑不满，要等地块转手。第 1 档在创世 60 分钟结束后开出（至少已发 1 块地）。每档额度内可按实时托底价兑换；新一档起始价 = 下一档池子 ÷ 1500 万，可能明显低于上一档；托底不是保底或兑付承诺。换回的 EDEN 100% 销毁。托底价可能高于市价，这时地主可能把当前档额度全部换完（已知并接受的风险）。一分钟合计不到 10 万枚不发奖，燃烧量并入下一个够线的分钟；最后一次顺延的那一分钟结束后 1 天内没有够线的分钟开始，就作废（按分钟本身的时间算，和什么时候结算无关）。地块总量 2000 块：创世 60 分钟额度每分钟累计 20 块（最多 1200 块），每烧 20 万枚发 1 块，没发完的按同样门槛继续发；不足 1 块的零头留在本人账上。地块池每小时放出 = 地块池 × 2% × min(1, 全部计入量 ÷ (max(已发地块数, 200) × 100 万))，按各地址计入量分；每个地址每小时计入 = min(持有地块时的燃烧, (持有地块数 − 本小时转入/买入的地块数) × 100 万)，不到 10 万枚不计；只持有地块不燃烧，没有地块分成；本小时转入/买入的地块从下一小时起计入上限（新铸造的地块当场生效）；燃烧自动计入燃烧者自己的地块，不能算到别人的地块上，没有地块的地址燃烧只参加分钟奖励。分钟奖励和地块分成 30 天不领过期。地块可随时按当前价被买走（托底门票跟着地块走；已计入的分成归卖家）：地板价 = max(平滑后每块每小时分成 × 24, 地块池 × 2% ÷ max(已发地块数, 200) × 24, 0.001 BNB)（按全部已发地块平均，不是单块收益），成交后涨 10%，没人买每天回落 5%（不低于地板），成交款 98% 给卖家、2% 进分钟奖池；成交后买家的燃烧按新的持有数计入。地块 0 / 2000；累计销毁 0 枚（转入 0xdead，不减少 totalSupply；Flap 统计转入 0xdead 的销毁量）。分钟截止点由 Flap Trigger 服务自动揭晓（手续费从分钟奖池付给 Flap 的服务，不给项目方）。本金库是 beacon 代理，升级权只在 Flap Guardian。"
+ "descriptionAtLaunch": "EDEN 燃烧金库（Flap 税币金库）。税 3%/3% 全部进金库，分账：轮次奖池（10 分钟一轮）45% / 地块池 30% / 托底储备 25%。工厂和项目方 0 抽成，没有任何收款地址，没有运营分成。轮次奖池（10 分钟一轮） 0.000000 BNB；地块池 0.000000 BNB；托底储备（第 1 档开出前积累）0.000000 BNB；下一档池子 0.000000 BNB。玩法尚未开始，第 0 分钟开始时间（Unix 秒）：601。每轮放出 = min(轮次奖池 × 15%, 本轮燃烧量 × min(托底价, 市价) × 1)，其中 50% 按燃烧份额均分、50% 头奖给本轮累计燃烧最多的一人（燃烧量相同时，先烧者得头奖；头奖不超过奖池 5%；有效燃烧地址少于 2 人时头奖留池）（市价：内盘取 Flap 曲线价，毕业后取 PancakeSwap 现价，用最近两次观测和现价中最低的；读不到市价时本轮不按燃烧放出；托底价取当前档实时托底价 = 当前档剩余 BNB ÷ 当前档剩余额度），烧得少只放一小部分、其余留在池里。每轮第 0–539 秒烧的一定算本轮；第 540–599 秒是随机截止窗口：截止点在第 540–600 秒之间由揭晓区块哈希决定（取不到哈希就重抽），截止点之后烧的顺延到下一轮，越晚烧越可能顺延（第 540 秒 60/61 算本轮，第 599 秒只有 1/61）。托底兑换：创世 30 分钟结束后、至少已发 1 块地时开出第 1 档（之前积累的托底储备 80% 进第 1 档、20% 进第 2 档）；开出后一直开放，没有时间限制、没有开档门槛。金库托底只有地主能兑：托底分档，每档 1500 万枚额度；每笔托底税 80% 进当前档、20% 进下一档。当前档托底价 = 当前档剩余 BNB ÷ 当前档剩余额度，随托底税实时上涨；兑换 x 枚付「当前档剩余 BNB × x ÷ 当前档剩余额度」，最后一枚额度正好付完剩余，永远不超过当前档池子。当前档 1500 万兑满后同一笔里开下一档：起始池子 = 攒下的下一档池子，新的下一档从 0 开始攒；没有时间限制、没有开档门槛、不会提前换档；下一档池子只在换档时放出。地块就是门票：只有持有地块的地址能兑，不持有地块的地址不能兑；兑换时带上自己的地块编号（一次最多 50 块），先到先得；托底无需激活，按地块权重分配额度。每 1 权重本档上限 = max(10 万, ⌈2 × 1500 万 ÷ 全网已发总权重⌉)，随总权重实时变化；我的托底额度 = 权重 × 每权重额度（权重按 ×10 存储，向下取整）。用量按地址记，地块不能转手，永远跟着铸造地址，换档重算，可以多次下单；没有永久累计的额度。持有权重过少或闲着不兑时，这一档可能兑不满。兑出的代币不计入轮次奖池、不发地、不计入激活。第 1 档在创世 30 分钟结束后开出（至少已发 1 块地）。每档额度内可按实时托底价兑换；新一档起始价 = 下一档池子 ÷ 1500 万，可能明显低于上一档；托底不是保底或兑付承诺。换回的 EDEN 100% 销毁。托底价可能高于市价，这时地主可能把当前档额度全部换完（已知并接受的风险）。单笔燃烧至少 1,000 枚，同时计入轮次奖池（10 分钟一轮）。一轮合计不到 10 万枚不发奖（激活与地块照常发放），燃烧量并入下一个够线的轮次；最后一次顺延的那一轮结束后 1 天内没有够线的轮次开始，就作废（按轮次本身的时间算，和什么时候结算无关）。地块总量 2000 块：每笔燃烧按高档优先贪心拆分（普通 10 万/权重 1，稀有 20 万/权重 2.2，史诗 30 万/权重 3.5；例如 100 万 = 史诗 ×3 + 普通 ×1；不足 10 万不发地，两笔小额不能相加）；各档不限量；创世 30 分钟每分钟最多 20 块（最多 600 块），创世后继续发到 2000 块，先到先得。地块只能烧币获得，永久绑定地址，不可转让、不可买卖。燃烧自动计入燃烧者自己的地块，不能算到别人的地块上。地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活地块权重分红。每 10 分钟需按每 1 权重烧 1000 激活地块（按地址：一笔烧满该地址总权重×1000 即激活其全部地块），未激活不分红，份额归已激活的地主；轮中新入账的地块税 80% 立刻加入本轮剩余预算，20% 留到下一轮；已激活权重为 0 的分钟金额留在本轮剩余预算，轮结束时仍未放出的部分并入 20% 滚入下一轮。发地的那笔燃烧同时计入激活，若已达到该地址新的总门槛，新地块在本窗口立即激活。新铸造的地块从之后完成的分钟开始计。没有地块的地址燃烧只参加轮次奖池。轮次奖励 30 天不领过期；地块分成不过期。已发地块 0 / 2000；累计销毁 0 枚（转入 0xdead，不减少 totalSupply；Flap 统计转入 0xdead 的销毁量）。轮次截止点由 Flap Trigger 服务自动揭晓（手续费从轮次奖池付给 Flap 的服务，不给项目方）。本金库是 beacon 代理，升级权只在 Flap Guardian。"
 };
