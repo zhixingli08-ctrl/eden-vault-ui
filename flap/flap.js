@@ -261,14 +261,14 @@ const revert=(fn,why)=>`The contract function "${fn}" reverted with the followin
 function simulate(m,a,v){
   const r=S.round;
   switch(m.name){
-    case 'burn': if(a[0]<10000n*E18)return revert('burn','BelowMinBurn()'); if(a[1]>3300n)return revert('burn','BadPlot()'); return null;
+    case 'burn': if(a[0]<10000n*E18)return revert('burn','BelowMinBurn()'); return null;
     case 'claimNext': if(a[0]===0n||a[0]>50n)return revert('claimNext','RangeTooLarge()'); if(S.me.openRecords===0n)return revert('claimNext','ZeroPayout()'); return null;
-    case 'buyPlot':{ if(a[0]===0n||a[0]>3300n)return revert('buyPlot','BadPlot()'); if(S.me.plots.includes(a[0]))return revert('buyPlot','CannotBuyOwnPlot()');
+    case 'buyPlot':{ if(a[0]===0n||a[0]>2000n)return revert('buyPlot','BadPlot()'); if(S.me.plots.includes(a[0]))return revert('buyPlot','CannotBuyOwnPlot()');
       const p=S.plotPrice(a[0]); if(p>a[1])return revert('buyPlot',`PriceAboveMax(${p}, ${a[1]})`); if(v<p)return revert('buyPlot','InsufficientValue()'); return null;}
     case 'sellToRound':{ const q=r.quota-r.filled; if(q===0n||now()>=r.endsAt)return revert('sellToRound','RoundNotOpen()'); const take=a[0]>q?q:a[0]; const pay=take*roundPrice()/E18;
       if(pay<a[1])return revert('sellToRound',`SlippageBnbOut(${pay}, ${a[1]})`); return null;}
-    case 'claimPlot': if(a[0]===0n||a[0]>3300n)return revert('claimPlot','BadPlot()'); return null;
-    case 'accruePlot': if(a[0]===0n||a[0]>3300n)return revert('accruePlot','BadPlot()'); if(a[1]===0n||a[1]>100n)return revert('accruePlot','RangeTooLarge()'); return null;
+    case 'claimPlot': if(a[0]===0n||a[0]>2000n)return revert('claimPlot','BadPlot()'); return null;
+    case 'accruePlot': if(a[0]===0n||a[0]>2000n)return revert('accruePlot','BadPlot()'); if(a[1]===0n||a[1]>100n)return revert('accruePlot','RangeTooLarge()'); return null;
     case 'withdrawCredit': if(S.me.credit===0n)return revert('withdrawCredit','NothingToWithdraw()'); return null;
     case 'transferPlot': if(!S.me.plots.includes(a[0]))return revert('transferPlot','NotPlotOwner()'); if(/^0x0{40}$/i.test(a[1]))return revert('transferPlot','ZeroAddress()'); return null;
     case 'settle': if(a[0]===0n||a[0]>64n)return revert('settle','RangeTooLarge()'); return null;
