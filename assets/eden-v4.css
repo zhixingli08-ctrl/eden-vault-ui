@@ -76,7 +76,7 @@ main{position:relative;z-index:2;pointer-events:none}
 .stats b{font-family:var(--mono);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
 .bar{display:block;position:relative;height:3px;background:rgba(255,255,255,.08);margin-top:8px;border-radius:2px;overflow:hidden}
 .bar u{position:absolute;inset:0;background:linear-gradient(90deg,var(--lime),#fff);transform-origin:0 50%;transform:scaleX(0);transition:transform .4s}
-.bar s{position:absolute;top:-2px;bottom:-2px;left:50%;width:1px;background:#fff;opacity:.6}
+.bar s{position:absolute;top:-2px;bottom:-2px;left:100%;width:1px;background:#fff;opacity:.7}
 .cta{display:flex;gap:12px;margin-top:26px}
 .btn-l{position:relative;padding:15px 30px;border-radius:999px;background:var(--lime);color:#0a0e00;font-weight:800;font-size:15px;letter-spacing:.04em;box-shadow:0 0 0 1px rgba(208,255,0,.4),0 10px 40px -8px rgba(208,255,0,.55);transition:transform .2s,box-shadow .2s;overflow:hidden}
 .btn-l::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.7) 48%,transparent 62%);transform:translate3d(-120%,0,0);animation:sheen 3.2s 1.2s infinite}
@@ -286,3 +286,13 @@ main{position:relative;z-index:2;pointer-events:none}
   .dk-plot{display:flex;font-size:10px;padding:2px 6px}
   .dk-phase{display:block;max-width:none;padding:0 4px 4px}
 }
+
+.dk-preview,.dk-act{margin:6px 0 0;font-size:11px;color:var(--mute)}
+.tp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tp b{color:#fff;font-weight:600}
+.tp span{padding:2px 7px;border:1px solid rgba(255,255,255,.12);border-radius:2px}
+.tp i{color:var(--ember);font-style:normal}
+.dk-act button,.act-ok{background:transparent;border:1px solid rgba(208,255,0,.35);color:var(--lime);font:inherit;font-size:11px;padding:4px 8px;cursor:pointer}
+.act-ok{border-color:rgba(208,255,0,.2);cursor:default}
+.tiers{margin:8px 0 0}
+.c-n{font-variant-numeric:tabular-nums}
