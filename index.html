@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>EDEN · 分钟燃烧金库（预览 · 模拟数据）</title>
-<meta name="description" content="EDEN 分钟燃烧金库 dapp 预览。全部为本地模拟数据，不连钱包、不发交易。">
+<title>EDEN · 轮次燃烧金库（预览 · 模拟数据）</title>
+<meta name="description" content="EDEN 轮次燃烧金库 dapp 预览。全部为本地模拟数据，不连钱包、不发交易。">
 <meta name="theme-color" content="#020303">
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23020303'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23D0FF00' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D0FF00'/%3E%3C/svg%3E">
@@ -19,7 +19,7 @@
 <header class="hd">
   <a class="brand" href="#hero" aria-label="EDEN">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5" stroke-dasharray="1.6 2.2"/><circle cx="12" cy="12" r="2" class="f"/></svg>
-    <b>EDEN</b><i>MINUTE BURN VAULT</i>
+    <b>EDEN</b><i>轮次奖池（10 分钟一轮）</i>
   </a>
   <nav class="nv" id="nav">
     <a href="#hero" data-i="0"><em>01</em>熔炉</a><a href="#pools" data-i="1"><em>02</em>三池</a><a href="#plots" data-i="2"><em>03</em>地块</a><a href="#round" data-i="3"><em>04</em>托底</a>
@@ -34,26 +34,27 @@
   <!-- 01 熔炉 -->
   <section class="sec hero" id="hero" data-i="0">
     <div class="h-left">
-      <div class="kick rv"><span class="dot"></span>BNB CHAIN · FLAP VAULT · 第 <b data-k="minute" data-d="0">1874</b> 分钟</div>
+      <div class="kick rv"><span class="dot"></span>BNB CHAIN · FLAP VAULT · 轮次奖池（10 分钟一轮）· 第 <b data-k="roundNo" data-d="0">312</b> 轮</div>
       <h1 class="title rv" aria-label="EDEN"><span>EDEN</span></h1>
-      <p class="tag rv">每 60 秒开一炉。烧得越多，分得越多。<br><em>0–44 秒确定计入，45–59 秒随机截止</em>，晚烧可能顺延到下一分钟。</p>
+      <p class="tag rv">轮次奖池（10 分钟一轮）。放出 = min(奖池 × 15%，本轮燃烧 × min(托底价, 市价) × 1)。<br><em>第 0–539 秒确定计入，第 540–599 秒随机截止</em>；本轮总燃烧低于 200 万不开奖，奖金滚入下一轮（激活与地块照常）。</p>
       <div class="big rv">
-        <div class="lbl">本分钟奖池</div>
+        <div class="lbl">本轮预计放出</div>
         <div class="num"><span data-k="prize" data-d="4">0.0000</span><small>BNB</small></div>
-        <div class="sub">本分钟烧满 <span data-k="fullBurn" data-f="tok">0</span> 枚可放满奖励</div>
+        <div class="sub" id="jackpotLine">头奖 <b data-k="jackpot" data-d="4">0</b> BNB · 领先 <span id="leadTxt">—</span></div>
+        <div class="sub">本轮已燃烧 <span data-k="burned" data-f="tok">0</span> / 2,000,000 · 本轮总燃烧低于 200 万不开奖，奖金滚入下一轮</div>
         <div class="px-row" id="heroPrices"></div>
       </div>
       <div class="stats rv">
-        <div><span class="l">本分钟已燃烧</span><b data-k="burned" data-f="tok">0</b><i class="bar"><u id="burnBar"></u><s title="10 万枚线"></s></i></div>
+        <div><span class="l">本轮已燃烧</span><b id="burnProg">0 / 2,000,000</b><i class="bar"><u id="burnBar"></u><s title="200 万枚线"></s></i></div>
         <div><span class="l">参与地址</span><b data-k="addrs" data-d="0">0</b></div>
         <div><span class="l">你的燃烧</span><b data-k="myBurn" data-f="tok">0</b></div>
       </div>
       <div class="cta rv"><button class="btn-l" id="heroBurn" type="button">立即燃烧</button><a class="btn-g" href="#pools">钱去哪了 ↓</a></div>
     </div>
     <div class="clock" id="clock" aria-live="off">
-      <div class="c-ph" id="cPh">确定区</div>
-      <div class="c-n" id="cN">20</div>
-      <div class="c-s" id="cS">秒后进入随机窗口</div>
+      <div class="c-ph" id="cPh">本轮剩余</div>
+      <div class="c-n" id="cN">08:00</div>
+      <div class="c-s" id="cS">第 0–539 秒确定计入</div>
     </div>
     <div class="feed" id="feed" aria-label="实时燃烧"></div>
     <div class="result" id="result" aria-live="polite"></div>
@@ -63,8 +64,8 @@
   <section class="sec pools" id="pools" data-i="1">
     <div class="s-head rv"><em>02 / 税去哪了</em><h2>一笔税，三股能量</h2><p>买卖各 3% 税 100% 进金库 · 0 运营 · 0 项目方地址</p></div>
     <div class="pcards">
-      <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n">分钟奖池</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d">每分钟最多放 2%（≤2 BNB）给燃烧者</div></div>
-      <div class="pc rv" style="--c:var(--cyan)"><div class="pc-p">30%</div><div class="pc-n">地块池</div><div class="pc-v"><span data-k="plotPool" data-d="3">0</span> BNB</div><div class="pc-d">每小时放 2% 给地主</div></div>
+      <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n">轮次奖池</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d">10 分钟一轮，放出 min(池×15%, 本轮燃烧×min(托底,市价)×1)；50% 均分、50% 头奖（≤池 5%，满 2 人）</div></div>
+      <div class="pc rv" style="--c:var(--cyan)"><div class="pc-p">30%</div><div class="pc-n">地块池</div><div class="pc-v"><span data-k="plotPool" data-d="3">0</span> BNB</div><div class="pc-d">每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活权重分红</div></div>
       <div class="pc rv" style="--c:var(--ember)"><div class="pc-p">25%</div><div class="pc-n">托底储备</div><div class="pc-v"><span data-k="reserveAll" data-d="3">0</span> BNB</div><div class="pc-d">≈ <span data-k="reserveAllUsd" data-d="0">0</span> USDT · 全部用于托底兑换，换回的币销毁</div></div>
     </div>
   </section>
@@ -72,8 +73,9 @@
   <!-- 03 地块 -->
   <section class="sec plots" id="plots" data-i="2">
     <div class="panel side rv">
-      <div class="s-head"><em>03 / 地块星球</em><h2>2000 块地，<br>烧币即发、持有即分</h2><p>地块来自燃烧（领取待发地块）。燃烧自动计入你自己的地块，持有越多、每小时分到的越多，像 NFT 分红。随时按现价买走任意一块，每成交一次涨 10%，98% 给卖家、2% 进分钟奖池；没人买每天回落 5%，不低于地板。</p></div>
-      <div class="legend"><span><i style="background:#0a3a44"></i>地板价</span><span><i style="background:var(--cyan)"></i>有溢价</span><span><i style="background:var(--ember)"></i>抢手</span><span><i style="background:var(--lime)"></i>我的</span></div>
+      <div class="s-head"><em>03 / 地块星球</em><h2>2000 块地，<br>烧币即发、灵魂绑定</h2><p>地块只能烧币获得，永久绑定燃烧地址，不可转让、不可买卖。每笔按高档优先贪心拆分：普通 10 万（权重 1.0）、稀有 20 万（2.2）、史诗 30 万（3.5）。创世 30 分钟每分钟最多 20 块（最多 600），之后继续发到 2000。地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮，按已激活权重分红。每 10 分钟只需按每 1 权重烧 1000 枚即可激活；冷清时段一名已激活地主即可独得该时段全部分红。</p></div>
+      <div class="legend"><span><i style="background:#2ec9b8"></i>普通 1.0</span><span><i style="background:#5b7cff"></i>稀有 2.2</span><span><i style="background:#ff8a3d"></i>史诗 3.5</span><span><i style="background:var(--lime)"></i>我的</span></div>
+      <div class="tiers" id="tierPreview"></div>
       <div class="plot" id="plotCard"></div>
       <p class="hint">拖动星球旋转 · 点击地块查看</p>
     </div>
@@ -82,11 +84,12 @@
   <!-- 04 托底兑换 -->
   <section class="sec round" id="round" data-i="3">
     <div class="panel side rv">
-      <div class="s-head"><em>04 / 托底兑换</em><h2>金库托底，<br>按档兑换</h2><p>每档 1500 万枚。托底税 80% 进当前档、20% 进下一档；当前档托底价 = 档内剩余 BNB ÷ 剩余额度，随税收上涨。兑满立刻开下一档，没有倒计时、没有开档门槛。只有地主能兑，地块是门票；每块地每档有上限。换回的 EDEN 100% 销毁。托底不是保底或兑付承诺。</p></div>
+      <div class="s-head"><em>04 / 托底兑换</em><h2>金库托底，<br>按权重兑换</h2><p>托底无需激活，按地块权重分配额度。我的托底额度 = 权重 × 每权重额度。每 1 权重上限 = max(10 万, ⌈2 × 1500 万 ÷ 全网已发总权重⌉)，随总权重实时计算，地址额度向下取整。托底税 80% 进当前档、20% 进下一档；兑满立刻开下一档。换回的币 100% 销毁，不计入轮次奖池、不铸地块、不计入激活。托底不是保底或兑付承诺。</p></div>
       <div class="rd">
         <div class="rd-top"><span>第 <b data-k="roundId" data-d="0">3</b> 档 · 当前托底价</span><span class="rd-left" id="tierStatus">—</span></div>
         <div class="rd-price" id="tierPrice"></div>
-        <div class="rd-sub">下一档奖池 <b data-k="nextPool" data-d="3">0</b> BNB · 本档剩余额度 <b data-k="roundQuotaLeft" data-f="tok">0</b> / 15M · 每块上限 <b data-k="capPerPlot" data-f="tok">0</b> · 你本档剩余 <b data-k="myTierLeft" data-f="tok">0</b></div>
+        <div class="rd-sub" id="quotaMath">我的托底额度 = 权重 × 每权重额度</div>
+        <div class="rd-sub">下一档奖池 <b data-k="nextPool" data-d="3">0</b> BNB · 本档剩余额度 <b data-k="roundQuotaLeft" data-f="tok">0</b> / 15M · 每权重额度 <b data-k="capPerPlot" data-f="tok">0</b> · 你本档剩余 <b data-k="myTierLeft" data-f="tok">0</b></div>
         <div class="rd-bar"><u id="roundBar"></u></div>
         <div class="rd-row"><span>已兑 <b data-k="roundFilled" data-f="tok">0</b> / 15M</span><span>累计托底兑换销毁 <b data-k="roundBurned" data-f="tok">0</b></span></div>
         <button class="btn-l wide" id="roundSell" type="button">按托底价兑换</button>
@@ -99,12 +102,12 @@
   <section class="sec rules" id="rules" data-i="4">
     <div class="s-head rv center"><em>05 / 一屏看懂</em><h2>规则全部写在合约里</h2></div>
     <div class="rgrid">
-      <div class="rc rv"><b>60s</b><span>每分钟一炉，0–44 秒确定计入；45–59 秒随机截止，晚烧可能顺延到下一分钟</span></div>
-      <div class="rc rv"><b>2%</b><span>每分钟放 min(分钟奖池×2%, 本分钟燃烧×min(托底价, 市价)×1, 2 BNB)，烧得越多放得越多，按燃烧量比例分；读不到市价时本分钟不按燃烧放出</span></div>
-      <div class="rc rv"><b>10 万</b><span>单笔最少 1 万枚；整分钟不到 10 万枚不发奖，燃烧量带到下一分钟</span></div>
-      <div class="rc rv"><b>2000</b><span>总 2000 块地：创世 60 分钟每分钟累计 20 块（最多 1200），每烧 20 万枚发 1 块，创世后继续发到满。燃烧自动计入你自己的地块，按持有数加权分红</span></div>
-      <div class="rc rv"><b>+10%</b><span>任何人可按现价买任何地块；成交价 98% 给卖家、2% 进分钟奖池；没人买每天回落 5%，不低于地板</span></div>
-      <div class="rc rv"><b>100%</b><span>托底兑换换回的币全部销毁；按档 1500 万枚，80%/20% 分到当前档和下一档，兑满立刻开下一档。Flap 统计转入 0xdead 的销毁量（转入 0xdead 不减少 totalSupply）</span></div>
+      <div class="rc rv"><b>10 分</b><span>轮次奖池（10 分钟一轮）。第 0–539 秒确定计入；第 540–599 秒随机截止，晚烧可能顺延到下一轮</span></div>
+      <div class="rc rv"><b>15%</b><span>放出 = min(轮次奖池×15%, 本轮燃烧×min(托底价, 市价)×1)。50% 按份额均分，50% 头奖给燃烧最多且先到者（不超过奖池 5%；有效地址少于 2 人时头奖留池）</span></div>
+      <div class="rc rv"><b>200 万</b><span>单笔最少 1,000 枚；本轮总燃烧低于 200 万不开奖，奖金滚入下一轮，激活与地块照常发放</span></div>
+      <div class="rc rv"><b>2000</b><span>地块只能烧币获得，灵魂绑定，不可转让买卖。贪心拆分：普通 10 万/1.0、稀有 20 万/2.2、史诗 30 万/3.5。创世 30 分钟每分钟最多 20 块（最多 600），之后发到 2000</span></div>
+      <div class="rc rv"><b>80%</b><span>地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活权重分红。每 10 分钟只需按每 1 权重烧 1000 枚即可激活。冷清时段一名已激活地主即可独得该时段全部分红</span></div>
+      <div class="rc rv"><b>100%</b><span>托底无需激活，按地块权重分配额度。兑出的币全部销毁，不计入轮次奖、不铸地、不计入激活。80%/20% 分到当前档和下一档，兑满立刻开下一档</span></div>
     </div>
     <div class="links rv"><a href="./flap-custom/">Flap 定制 UI 预览 →</a><a href="./flap/">Flap 通用金库面板 →</a></div>
     <p class="foot">BNB Chain · Flap Tax Token V3 · 税 3% / 3% · 预览页，所有数字为模拟</p>
@@ -120,10 +123,12 @@
     <div class="sh-body" id="shBody"></div>
   </div>
   <div class="dk">
-    <div class="dk-in"><input id="amt" inputmode="numeric" autocomplete="off" value="100,000" aria-label="燃烧数量"><span>EDEN</span></div>
-    <div class="dk-chips"><button data-a="100000">10万</button><button data-a="200000">20万</button><button data-a="1000000">100万</button><button data-a="max">MAX</button></div>
-    <div class="dk-plot" id="autoPlot">自动计入你的地块</div>
-    <div class="dk-phase" id="burnPhase">0–44 秒确定 / 45–59 秒随机截止，晚烧可能顺延到下一分钟</div>
+    <div class="dk-in"><input id="amt" inputmode="numeric" autocomplete="off" value="2,000,000" aria-label="燃烧数量"><span>EDEN</span></div>
+    <div class="dk-chips"><button data-a="1000">1千</button><button data-a="300000">30万</button><button data-a="2000000">200万</button><button data-a="max">MAX</button></div>
+    <div class="dk-plot" id="autoPlot">自动计入你的地块 · 灵魂绑定</div>
+    <div class="dk-preview" id="burnPreview"></div>
+    <div class="dk-act" id="actPrefill"></div>
+    <div class="dk-phase" id="burnPhase">第 0–539 秒确定计入 / 第 540–599 秒随机截止；本轮总燃烧低于 200 万不开奖，奖金滚入下一轮</div>
     <button class="burn" id="burnBtn" type="button"><span>燃烧</span><i></i></button>
     <div class="dk-tabs"><button data-t="claim">领取<i id="claimDot2"></i></button><button data-t="plot">地块</button><button data-t="round">托底兑换</button></div>
   </div>
