@@ -390,3 +390,26 @@ main{position:relative;z-index:2;pointer-events:none}
 .act-ok{border-color:rgba(208,255,0,.2);cursor:default}
 .tiers{margin:8px 0 0}
 .c-n{font-variant-numeric:tabular-nums}
+
+/* Official site: coming-soon / live chrome */
+body.chain .sim-only{display:none!important}
+body:not(.chain) .official-only{display:none!important}
+body.soon .official-only.off,
+body.chain .flap-cta.off{pointer-events:none;opacity:.72}
+body.live .flap-cta.off{display:none}
+.pv{flex-wrap:wrap;padding-left:12px;padding-right:12px}
+body.soon .pv,body.error .pv{background:linear-gradient(90deg,rgba(208,255,0,.0),rgba(208,255,0,.1),rgba(208,255,0,0));border-bottom-color:rgba(208,255,0,.22)}
+body.soon .pv b,body.error .pv b{color:var(--lime);border-color:rgba(208,255,0,.5)}
+body.live .pv{background:linear-gradient(90deg,rgba(208,255,0,.0),rgba(208,255,0,.16),rgba(208,255,0,0));border-bottom-color:rgba(208,255,0,.28)}
+body.live .pv b{color:var(--lime);border-color:rgba(208,255,0,.65)}
+a.flap-cta.btn-l{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.dk-flap{display:none;padding:10px 16px 14px;justify-content:center}
+body.chain .dk-flap{display:flex}
+body.chain #dock{pointer-events:auto}
+body.chain #dock .dk-flap .flap-cta{min-width:min(420px,100%);height:48px;border-radius:14px;font-size:15px;font-weight:700;letter-spacing:.04em}
+body.chain .dock.min .dk-flap{padding:8px 12px calc(8px + var(--safeB))}
+.px-na{color:var(--mute);font-weight:600;letter-spacing:.04em}
+
+body.soon .burn-rest{display:none}
+body.chain .stats{grid-template-columns:1fr}
+body.chain .stats div:nth-child(n+2){display:none}
