@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>EDEN · Round Burn Vault (Coming soon)</title>
-<meta name="description" content="EDEN round burn vault. Coming soon until launch; then the page syncs live on-chain data. No wallet, no transactions, no contract addresses on the page.">
+<title>EDEN · Round Burn Vault</title>
+<meta name="description" content="EDEN round burn vault. Live read-only BSC on-chain data. No wallet, no transactions, no contract addresses on the page.">
 <meta name="theme-color" content="#020303">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23020303'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23D0FF00' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D0FF00'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/eden-v4.css">
+<link rel="stylesheet" href="assets/eden-v4.css?v=a8632a32bd">
 </head>
-<body class="soon chain">
+<body class="sync chain">
 <div id="glwrap"><canvas id="gl" aria-hidden="true"></canvas></div>
 <div class="vignette" aria-hidden="true"></div>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
-<div class="pv" role="note"><b data-i18n="previewBadge">Coming soon</b><span data-i18n="previewNote">The official token has not launched yet. This page will discover the vault automatically and sync BSC data after launch. USDT estimates use the Chainlink BNB/USD feed. Contract addresses are never shown.</span></div>
+<div class="pv" role="note"><b data-i18n="previewBadgeErr">Syncing</b><span data-i18n="previewNoteSync">Reading BSC on-chain data; figures appear in a few seconds. USDT estimates use Chainlink BNB/USD. Contract addresses are not shown.</span></div>
 <header class="hd">
   <a class="brand" href="#hero" aria-label="EDEN">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5" stroke-dasharray="1.6 2.2"/><circle cx="12" cy="12" r="2" class="f"/></svg>
@@ -42,22 +42,22 @@
   <!-- 01 熔炉 -->
   <section class="sec hero" id="hero" data-i="0">
     <div class="h-left">
-      <div class="kick rv"><span class="dot"></span><span data-i18n="kick">BNB CHAIN · FLAP VAULT · 10-min prize · Round</span> <b data-k="roundNo" data-d="0">Coming soon</b> <span data-i18n="kickRound"></span></div>
+      <div class="kick rv"><span class="dot"></span><span data-i18n="kick">BNB CHAIN · FLAP VAULT · 10-min prize · Round</span> <b data-k="roundNo" data-d="0">…</b> <span data-i18n="kickRound"></span></div>
       <h1 class="title rv" aria-label="EDEN"><span>EDEN</span></h1>
       <p class="tag rv" data-i18n-html="tagHtml">Prize pool (one round every 10 minutes). Payout = min(pool × 15%, this round's burn × min(floor, market) × 1).<br><em>Seconds 0–539 always count; seconds 540–599 are a random cutoff</em>. A round under 2,000,000 tokens pays nothing and rolls the prize, while activation and plot minting still happen.</p>
       <div class="h-panel">
       <div class="big rv">
         <div class="lbl" data-i18n="prizeLbl">Expected payout this round</div>
-        <div class="num"><span data-k="prize" data-d="4">Coming soon</span><small>BNB</small></div>
-        <div class="sub" id="jackpotLine"><span data-i18n="jackpotLine">Jackpot</span> <b data-k="jackpot" data-d="4">Coming soon</b> BNB · <span data-i18n="jackpotLead">Leader</span> <span id="leadTxt">Coming soon</span></div>
+        <div class="num"><span data-k="prize" data-d="4">…</span><small>BNB</small></div>
+        <div class="sub" id="jackpotLine"><span data-i18n="jackpotLine">Jackpot</span> <b data-k="jackpot" data-d="4">…</b> BNB · <span data-i18n="jackpotLead">Leader</span> <span id="leadTxt">…</span></div>
         <div class="sub" id="payNote" hidden></div>
-        <div class="sub"><span data-i18n="burnLine">Burned this round</span> <span data-k="burned" data-f="tok">Coming soon</span><span class="burn-rest" data-i18n="burnLineRest">/ 2,000,000 · Under 2,000,000 tokens the prize rolls to the next round</span></div>
+        <div class="sub"><span data-i18n="burnLine">Burned this round</span> <span data-k="burned" data-f="tok">…</span><span class="burn-rest" data-i18n="burnLineRest">/ 2,000,000 · Under 2,000,000 tokens the prize rolls to the next round</span></div>
         <div class="px-row" id="heroPrices"></div>
       </div>
       <div class="stats rv">
-        <div><span class="l" data-i18n="statBurned">Burned this round</span><b id="burnProg">Coming soon</b><i class="bar"><u id="burnBar"></u><s data-i18n-title="burnBarTitle" title="2,000,000-token line"></s></i></div>
-        <div><span class="l" data-i18n="statAddrs">Addresses</span><b data-k="addrs" data-d="0">Coming soon</b></div>
-        <div><span class="l" data-i18n="statMine">Your burn</span><b data-k="myBurn" data-f="tok">Coming soon</b></div>
+        <div><span class="l" data-i18n="statBurned">Burned this round</span><b id="burnProg">…</b><i class="bar"><u id="burnBar"></u><s data-i18n-title="burnBarTitle" title="2,000,000-token line"></s></i></div>
+        <div><span class="l" data-i18n="statAddrs">Addresses</span><b data-k="addrs" data-d="0">…</b></div>
+        <div><span class="l" data-i18n="statMine">Your burn</span><b data-k="myBurn" data-f="tok">…</b></div>
       </div>
       <div class="cta rv"><button class="btn-l sim-only" id="heroBurn" type="button" data-i18n="ctaBurn">Burn now</button><a class="btn-l flap-cta official-only off" id="heroFlap" href="#hero" target="_blank" rel="noopener noreferrer" data-i18n="flapCtaSoon">Coming soon</a><a class="btn-g" href="#pools" data-i18n="ctaPools">Where the tax goes ↓</a></div>
       </div>
@@ -97,7 +97,7 @@
     <div class="panel side rv">
       <div class="s-head"><em data-i18n="roundKicker">04 / Floor redemption</em><h2 data-i18n-html="roundHHtml">Vault floor,<br>redeemed by weight</h2><p data-i18n="roundP">Floor redemption needs no activation. Your quota = weight × quota per weight. The cap per 1.0 weight = max(100,000, ⌈2 × 15,000,000 ÷ network issued weight⌉), recomputed live, rounded down per address. 80% of the floor tax goes to the current tier, 20% to the next; a filled tier opens the next one at once. Redeemed tokens are 100% burned and do not count toward the prize pool, plot minting, or activation. The floor is not a guarantee or a promise to pay.</p></div>
       <div class="rd">
-        <div class="rd-top"><span><span data-i18n="roundTop">Tier</span> <b data-k="roundId" data-d="0">Coming soon</b> <span data-i18n="roundTopSuf"> · current floor price</span></span><span class="rd-left" id="tierStatus">Coming soon</span></div>
+        <div class="rd-top"><span><span data-i18n="roundTop">Tier</span> <b data-k="roundId" data-d="0">…</b> <span data-i18n="roundTopSuf"> · current floor price</span></span><span class="rd-left" id="tierStatus">Coming soon</span></div>
         <div class="rd-price" id="tierPrice"></div>
         <div class="rd-sub" id="quotaMath" data-i18n="quotaMath">Your floor quota = weight × quota per weight</div>
         <div class="rd-sub"><span data-i18n="roundSub">Next-tier pool</span> <b data-k="nextPool" data-d="3">0</b> <span data-i18n="roundSub2">BNB · quota left this tier</span> <b data-k="roundQuotaLeft" data-f="tok">0</b><span data-i18n="roundSub3"> / 15M · per-weight quota</span> <b data-k="capPerPlot" data-f="tok">0</b><span data-i18n="roundSub4"> · your remaining this tier</span> <b data-k="myTierLeft" data-f="tok">0</b></div>
@@ -168,6 +168,6 @@
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <div class="dbg" id="dbg"></div>
 <noscript><p style="padding:80px 24px;color:#ccc" data-i18n="noscript">JavaScript is required to view EDEN.</p></noscript>
-<script src="assets/eden-v4.js"></script>
+<script src="assets/eden-v4.js?v=165cce374c"></script>
 </body>
 </html>

@@ -398,8 +398,8 @@ body.soon .official-only.off,
 body.chain .flap-cta.off{pointer-events:none;opacity:.72}
 body.live .flap-cta.off{display:none}
 .pv{flex-wrap:wrap;padding-left:12px;padding-right:12px}
-body.soon .pv,body.error .pv{background:linear-gradient(90deg,rgba(208,255,0,.0),rgba(208,255,0,.1),rgba(208,255,0,0));border-bottom-color:rgba(208,255,0,.22)}
-body.soon .pv b,body.error .pv b{color:var(--lime);border-color:rgba(208,255,0,.5)}
+body.soon .pv,body.error .pv,body.sync .pv{background:linear-gradient(90deg,rgba(208,255,0,.0),rgba(208,255,0,.1),rgba(208,255,0,0));border-bottom-color:rgba(208,255,0,.22)}
+body.soon .pv b,body.error .pv b,body.sync .pv b{color:var(--lime);border-color:rgba(208,255,0,.5)}
 body.live .pv{background:linear-gradient(90deg,rgba(208,255,0,.0),rgba(208,255,0,.16),rgba(208,255,0,0));border-bottom-color:rgba(208,255,0,.28)}
 body.live .pv b{color:var(--lime);border-color:rgba(208,255,0,.65)}
 a.flap-cta.btn-l{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
