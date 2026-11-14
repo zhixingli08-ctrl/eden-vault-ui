@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN" class="official">
+<html lang="en" class="official">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>EDEN · 轮次燃烧金库（即将上线）</title>
-<meta name="description" content="EDEN 轮次燃烧金库。正式代币尚未发行时显示即将上线；发行后自动同步链上实时数据。不连钱包、不发交易，本页不展示合约地址。">
+<title>EDEN · Round Burn Vault (Coming soon)</title>
+<meta name="description" content="EDEN round burn vault. Coming soon until launch; then the page syncs live on-chain data. No wallet, no transactions, no contract addresses on the page.">
 <meta name="theme-color" content="#020303">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23020303'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23D0FF00' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D0FF00'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/eden-v4.css">
@@ -14,27 +14,27 @@
 <div class="vignette" aria-hidden="true"></div>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
-<div class="pv" role="note"><b data-i18n="previewBadge">即将上线</b><span data-i18n="previewNote">正式代币尚未发行。本页会自动发现金库并同步链上数据；发行后数字来自 BSC，USDT 估值按 Chainlink BNB/USD。不展示合约地址。</span></div>
+<div class="pv" role="note"><b data-i18n="previewBadge">Coming soon</b><span data-i18n="previewNote">The official token has not launched yet. This page will discover the vault automatically and sync BSC data after launch. USDT estimates use the Chainlink BNB/USD feed. Contract addresses are never shown.</span></div>
 <header class="hd">
   <a class="brand" href="#hero" aria-label="EDEN">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5" stroke-dasharray="1.6 2.2"/><circle cx="12" cy="12" r="2" class="f"/></svg>
-    <b>EDEN</b><i data-i18n="brandTag">轮次奖池（10 分钟一轮）</i>
+    <b>EDEN</b><i data-i18n="brandTag">Prize pool (one round every 10 minutes)</i>
   </a>
-  <nav class="soc" aria-label="EDEN social"><a class="soc-a" href="https://x.com/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialX" aria-label="X（推特）"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.257 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a class="soc-a" href="https://t.me/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialTg" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2 18.9 20.15c-.21.94-1.12 1.31-2.02.82l-5.2-3.86-2.51 2.42c-.28.27-.8.1-.91-.28l-.7-4.55 10.1-9.05c.37-.33-.08-.52-.57-.24L6.05 13.05 2.4 11.9c-1.02-.32-1.03-1.16.21-1.72L20.55 3.45c.85-.33 1.59.2 1.25.75z"/></svg></a></nav>
+  <nav class="soc" aria-label="EDEN social"><a class="soc-a" href="https://x.com/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialX" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.257 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a class="soc-a" href="https://t.me/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialTg" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2 18.9 20.15c-.21.94-1.12 1.31-2.02.82l-5.2-3.86-2.51 2.42c-.28.27-.8.1-.91-.28l-.7-4.55 10.1-9.05c.37-.33-.08-.52-.57-.24L6.05 13.05 2.4 11.9c-1.02-.32-1.03-1.16.21-1.72L20.55 3.45c.85-.33 1.59.2 1.25.75z"/></svg></a></nav>
   <nav class="nv" id="nav">
-    <a href="#hero" data-i="0"><em>01</em><span data-i18n="nav1">熔炉</span></a><a href="#pools" data-i="1"><em>02</em><span data-i18n="nav2">三池</span></a><a href="#plots" data-i="2"><em>03</em><span data-i18n="nav3">地块</span></a><a href="#round" data-i="3"><em>04</em><span data-i18n="nav4">托底</span></a>
+    <a href="#hero" data-i="0"><em>01</em><span data-i18n="nav1">Forge</span></a><a href="#pools" data-i="1"><em>02</em><span data-i18n="nav2">Pools</span></a><a href="#plots" data-i="2"><em>03</em><span data-i18n="nav3">Plots</span></a><a href="#round" data-i="3"><em>04</em><span data-i18n="nav4">Floor</span></a>
   </nav>
   <div class="act">
-    <button type="button" class="more-btn" id="moreBtn" data-i18n-aria="moreMenu" aria-label="更多" aria-expanded="false" aria-controls="toolsPop">⋯</button>
+    <button type="button" class="more-btn" id="moreBtn" data-i18n-aria="moreMenu" aria-label="More" aria-expanded="false" aria-controls="toolsPop">⋯</button>
     <div class="tools" id="toolsPop">
-    <div class="spd sim-only" id="spd" data-i18n-title="spdTitle" title="模拟时间倍速"><button data-s="1" class="on">×1</button><button data-s="10">×10</button><button data-s="60">×60</button></div>
-    <div class="tools-soc"><nav class="soc" aria-label="EDEN social"><a class="soc-a" href="https://x.com/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialX" aria-label="X（推特）"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.257 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a class="soc-a" href="https://t.me/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialTg" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2 18.9 20.15c-.21.94-1.12 1.31-2.02.82l-5.2-3.86-2.51 2.42c-.28.27-.8.1-.91-.28l-.7-4.55 10.1-9.05c.37-.33-.08-.52-.57-.24L6.05 13.05 2.4 11.9c-1.02-.32-1.03-1.16.21-1.72L20.55 3.45c.85-.33 1.59.2 1.25.75z"/></svg></a></nav></div>
+    <div class="spd sim-only" id="spd" data-i18n-title="spdTitle" title="Simulation speed"><button data-s="1" class="on">×1</button><button data-s="10">×10</button><button data-s="60">×60</button></div>
+    <div class="tools-soc"><nav class="soc" aria-label="EDEN social"><a class="soc-a" href="https://x.com/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialX" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.257 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a class="soc-a" href="https://t.me/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialTg" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2 18.9 20.15c-.21.94-1.12 1.31-2.02.82l-5.2-3.86-2.51 2.42c-.28.27-.8.1-.91-.28l-.7-4.55 10.1-9.05c.37-.33-.08-.52-.57-.24L6.05 13.05 2.4 11.9c-1.02-.32-1.03-1.16.21-1.72L20.55 3.45c.85-.33 1.59.2 1.25.75z"/></svg></a></nav></div>
     </div>
-    <div class="lang" id="langSwitch" role="group" data-i18n-aria="langLabel" aria-label="语言">
-      <button type="button" data-lang="zh" class="on">中</button>
-      <button type="button" data-lang="en">EN</button>
+    <div class="lang" id="langSwitch" role="group" data-i18n-aria="langLabel" aria-label="Language">
+      <button type="button" data-lang="en" class="on">EN</button>
+      <button type="button" data-lang="zh">中文</button>
     </div>
-    <button id="walletBtn" class="wb sim-only" type="button" data-i18n-title="walletTitle" title="预览：模拟连接，不调用任何钱包"><i></i><span class="wb-full" data-i18n="wallet">连接钱包</span><span class="wb-short" data-i18n="walletShort">连接</span></button>
+    <button id="walletBtn" class="wb sim-only" type="button" data-i18n-title="walletTitle" title="This site is read-only; connect your wallet on Flap"><i></i><span class="wb-full" data-i18n="wallet">Connect wallet</span><span class="wb-short" data-i18n="walletShort">Connect</span></button>
   </div>
 </header>
 
@@ -42,86 +42,86 @@
   <!-- 01 熔炉 -->
   <section class="sec hero" id="hero" data-i="0">
     <div class="h-left">
-      <div class="kick rv"><span class="dot"></span><span data-i18n="kick">BNB CHAIN · FLAP VAULT · 轮次奖池（10 分钟一轮）· 第</span> <b data-k="roundNo" data-d="0">即将上线</b> <span data-i18n="kickRound">轮</span></div>
+      <div class="kick rv"><span class="dot"></span><span data-i18n="kick">BNB CHAIN · FLAP VAULT · 10-min prize · Round</span> <b data-k="roundNo" data-d="0">Coming soon</b> <span data-i18n="kickRound"></span></div>
       <h1 class="title rv" aria-label="EDEN"><span>EDEN</span></h1>
-      <p class="tag rv" data-i18n-html="tagHtml">轮次奖池（10 分钟一轮）。放出 = min(奖池 × 15%，本轮燃烧 × min(托底价, 市价) × 1)。<br><em>第 0–539 秒确定计入，第 540–599 秒随机截止</em>；本轮总燃烧低于 200 万不开奖，奖金滚入下一轮（激活与地块照常）。</p>
+      <p class="tag rv" data-i18n-html="tagHtml">Prize pool (one round every 10 minutes). Payout = min(pool × 15%, this round's burn × min(floor, market) × 1).<br><em>Seconds 0–539 always count; seconds 540–599 are a random cutoff</em>. A round under 2,000,000 tokens pays nothing and rolls the prize, while activation and plot minting still happen.</p>
       <div class="h-panel">
       <div class="big rv">
-        <div class="lbl" data-i18n="prizeLbl">本轮预计放出</div>
-        <div class="num"><span data-k="prize" data-d="4">即将上线</span><small>BNB</small></div>
-        <div class="sub" id="jackpotLine"><span data-i18n="jackpotLine">头奖</span> <b data-k="jackpot" data-d="4">即将上线</b> BNB · <span data-i18n="jackpotLead">领先</span> <span id="leadTxt">即将上线</span></div>
-        <div class="sub"><span data-i18n="burnLine">本轮已燃烧</span> <span data-k="burned" data-f="tok">即将上线</span><span class="burn-rest" data-i18n="burnLineRest"> / 2,000,000 · 本轮总燃烧低于 200 万不开奖，奖金滚入下一轮</span></div>
+        <div class="lbl" data-i18n="prizeLbl">Expected payout this round</div>
+        <div class="num"><span data-k="prize" data-d="4">Coming soon</span><small>BNB</small></div>
+        <div class="sub" id="jackpotLine"><span data-i18n="jackpotLine">Jackpot</span> <b data-k="jackpot" data-d="4">Coming soon</b> BNB · <span data-i18n="jackpotLead">Leader</span> <span id="leadTxt">Coming soon</span></div>
+        <div class="sub"><span data-i18n="burnLine">Burned this round</span> <span data-k="burned" data-f="tok">Coming soon</span><span class="burn-rest" data-i18n="burnLineRest">/ 2,000,000 · Under 2,000,000 tokens the prize rolls to the next round</span></div>
         <div class="px-row" id="heroPrices"></div>
       </div>
       <div class="stats rv">
-        <div><span class="l" data-i18n="statBurned">本轮已燃烧</span><b id="burnProg">即将上线</b><i class="bar"><u id="burnBar"></u><s data-i18n-title="burnBarTitle" title="200 万枚线"></s></i></div>
-        <div><span class="l" data-i18n="statAddrs">参与地址</span><b data-k="addrs" data-d="0">即将上线</b></div>
-        <div><span class="l" data-i18n="statMine">你的燃烧</span><b data-k="myBurn" data-f="tok">即将上线</b></div>
+        <div><span class="l" data-i18n="statBurned">Burned this round</span><b id="burnProg">Coming soon</b><i class="bar"><u id="burnBar"></u><s data-i18n-title="burnBarTitle" title="2,000,000-token line"></s></i></div>
+        <div><span class="l" data-i18n="statAddrs">Addresses</span><b data-k="addrs" data-d="0">Coming soon</b></div>
+        <div><span class="l" data-i18n="statMine">Your burn</span><b data-k="myBurn" data-f="tok">Coming soon</b></div>
       </div>
-      <div class="cta rv"><button class="btn-l sim-only" id="heroBurn" type="button" data-i18n="ctaBurn">立即燃烧</button><a class="btn-l flap-cta official-only off" id="heroFlap" href="#hero" target="_blank" rel="noopener noreferrer" data-i18n="flapCtaSoon">即将上线</a><a class="btn-g" href="#pools" data-i18n="ctaPools">钱去哪了 ↓</a></div>
+      <div class="cta rv"><button class="btn-l sim-only" id="heroBurn" type="button" data-i18n="ctaBurn">Burn now</button><a class="btn-l flap-cta official-only off" id="heroFlap" href="#hero" target="_blank" rel="noopener noreferrer" data-i18n="flapCtaSoon">Coming soon</a><a class="btn-g" href="#pools" data-i18n="ctaPools">Where the tax goes ↓</a></div>
       </div>
     </div>
     <div class="clock" id="clock" aria-live="off">
-      <div class="c-ph" id="cPh" data-i18n="clockLeft">本轮剩余</div>
+      <div class="c-ph" id="cPh" data-i18n="clockLeft">Time left</div>
       <div class="c-n" id="cN">--:--</div>
-      <div class="c-s" id="cS" data-i18n="clockCertain">第 0–539 秒确定计入</div>
+      <div class="c-s" id="cS" data-i18n="clockCertain">Seconds 0–539 always count</div>
     </div>
-    <div class="feed" id="feed" data-i18n-aria="feedAria" aria-label="实时燃烧"></div>
+    <div class="feed" id="feed" data-i18n-aria="feedAria" aria-label="Live burns"></div>
     <div class="result" id="result" aria-live="polite"></div>
   </section>
 
   <!-- 02 三池 -->
   <section class="sec pools" id="pools" data-i="1">
-    <div class="s-head rv"><em data-i18n="poolsKicker">02 / 税去哪了</em><h2 data-i18n="poolsH">一笔税，三股能量</h2><p data-i18n="poolsP">买卖各 3% 税 100% 进金库 · 0 运营 · 0 项目方地址</p></div>
+    <div class="s-head rv"><em data-i18n="poolsKicker">02 / Where the tax goes</em><h2 data-i18n="poolsH">One tax, three flows</h2><p data-i18n="poolsP">3% / 3% buy/sell tax, 100% into the vault · 0 ops · 0 project wallets</p></div>
     <div class="pcards">
-      <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n" data-i18n="pool1n">轮次奖池</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d" data-i18n="pool1d">10 分钟一轮，放出 min(池×15%, 本轮燃烧×min(托底,市价)×1)；50% 均分、50% 头奖（≤池 5%，满 2 人）</div></div>
-      <div class="pc rv" style="--c:var(--cyan)"><div class="pc-p">30%</div><div class="pc-n" data-i18n="pool2n">地块池</div><div class="pc-v"><span data-k="plotPool" data-d="3">0</span> BNB</div><div class="pc-d" data-i18n="pool2d">每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活权重分红</div></div>
-      <div class="pc rv" style="--c:var(--ember)"><div class="pc-p">25%</div><div class="pc-n" data-i18n="pool3n">托底储备</div><div class="pc-v"><span data-k="reserveAll" data-d="3">0</span> BNB</div><div class="pc-d"><span data-i18n="pool3dPre">≈ </span><span data-k="reserveAllUsd" data-d="0">0</span><span data-i18n="pool3dSuf"> USDT · 全部用于托底兑换，换回的币销毁</span></div></div>
+      <div class="pc rv" style="--c:var(--lime)"><div class="pc-p">45%</div><div class="pc-n" data-i18n="pool1n">Prize pool</div><div class="pc-v"><span data-k="minutePool" data-d="3">0</span> BNB</div><div class="pc-d" data-i18n="pool1d">One round every 10 minutes. Payout = min(pool×15%, this round's burn×min(floor, market)×1); 50% pro-rata, 50% jackpot (≤ 5% of the pool, needs 2 addresses)</div></div>
+      <div class="pc rv" style="--c:var(--cyan)"><div class="pc-p">30%</div><div class="pc-n" data-i18n="pool2n">Plot pool</div><div class="pc-v"><span data-k="plotPool" data-d="3">0</span> BNB</div><div class="pc-d" data-i18n="pool2d">One round every 30 minutes, 80% released evenly over the minutes, 20% rolls; split by activated weight</div></div>
+      <div class="pc rv" style="--c:var(--ember)"><div class="pc-p">25%</div><div class="pc-n" data-i18n="pool3n">Floor reserve</div><div class="pc-v"><span data-k="reserveAll" data-d="3">0</span> BNB</div><div class="pc-d"><span data-i18n="pool3dPre">≈ </span><span data-k="reserveAllUsd" data-d="0">0</span><span data-i18n="pool3dSuf"> USDT · used only for floor redemptions; redeemed tokens are burned</span></div></div>
     </div>
   </section>
 
   <!-- 03 地块 -->
   <section class="sec plots" id="plots" data-i="2">
     <div class="panel side rv">
-      <div class="s-head"><em data-i18n="plotsKicker">03 / 地块星球</em><h2 data-i18n-html="plotsHHtml">2000 块地，<br>烧币即发、灵魂绑定</h2><p data-i18n="plotsP">地块只能烧币获得，永久绑定燃烧地址，不可转让、不可买卖。每笔按高档优先贪心拆分：普通 10 万（权重 1.0）、稀有 20 万（2.2）、史诗 30 万（3.5）。创世 30 分钟每分钟最多 20 块（最多 600），之后继续发到 2000。地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮，按已激活权重分红。每 10 分钟只需按每 1 权重烧 1000 枚即可激活；冷清时段一名已激活地主即可独得该时段全部分红。地块分成不过期；轮次奖励 30 天不领过期。</p></div>
-      <div class="legend"><span><i style="background:#2ec9b8"></i><span data-i18n="legendCommon">普通 1.0</span></span><span><i style="background:#5b7cff"></i><span data-i18n="legendRare">稀有 2.2</span></span><span><i style="background:#ff8a3d"></i><span data-i18n="legendEpic">史诗 3.5</span></span><span><i style="background:var(--lime)"></i><span data-i18n="legendMine">我的</span></span></div>
+      <div class="s-head"><em data-i18n="plotsKicker">03 / Plot planet</em><h2 data-i18n-html="plotsHHtml">2,000 plots,<br>minted by burning, soulbound</h2><p data-i18n="plotsP">Plots can only be obtained by burning tokens. They are permanently bound to the burning address and cannot be transferred or sold. Each burn is split greedily, highest tier first: Common 100,000 (weight 1.0), Rare 200,000 (2.2), Epic 300,000 (3.5). Genesis lasts 30 minutes at up to 20 plots per minute (max 600), then issuance continues to 2,000. The plot pool runs 30-minute rounds, releasing 80% evenly over the minutes, 20% rolling over, split by activated weight. Every 10 minutes you only need to burn 1,000 tokens per 1.0 weight to activate; in a quiet window a single activated holder takes that period's whole dividend. Plot dividends never expire; unclaimed prize-round rewards expire after 30 days.</p></div>
+      <div class="legend"><span><i style="background:#2ec9b8"></i><span data-i18n="legendCommon">Common 1.0</span></span><span><i style="background:#5b7cff"></i><span data-i18n="legendRare">Rare 2.2</span></span><span><i style="background:#ff8a3d"></i><span data-i18n="legendEpic">Epic 3.5</span></span><span><i style="background:var(--lime)"></i><span data-i18n="legendMine">Mine</span></span></div>
       <div class="tiers" id="tierPreview"></div>
       <div class="plot" id="plotCard"></div>
-      <p class="hint" data-i18n="plotsHint">拖动星球旋转 · 点击地块查看</p>
+      <p class="hint" data-i18n="plotsHint">Drag to spin the planet · tap a plot for details</p>
     </div>
   </section>
 
   <!-- 04 托底兑换 -->
   <section class="sec round" id="round" data-i="3">
     <div class="panel side rv">
-      <div class="s-head"><em data-i18n="roundKicker">04 / 托底兑换</em><h2 data-i18n-html="roundHHtml">金库托底，<br>按权重兑换</h2><p data-i18n="roundP">托底无需激活，按地块权重分配额度。我的托底额度 = 权重 × 每权重额度。每 1 权重上限 = max(10 万, ⌈2 × 1500 万 ÷ 全网已发总权重⌉)，随总权重实时计算，地址额度向下取整。托底税 80% 进当前档、20% 进下一档；兑满立刻开下一档。换回的币 100% 销毁，不计入轮次奖池、不铸地块、不计入激活。托底不是保底或兑付承诺。</p></div>
+      <div class="s-head"><em data-i18n="roundKicker">04 / Floor redemption</em><h2 data-i18n-html="roundHHtml">Vault floor,<br>redeemed by weight</h2><p data-i18n="roundP">Floor redemption needs no activation. Your quota = weight × quota per weight. The cap per 1.0 weight = max(100,000, ⌈2 × 15,000,000 ÷ network issued weight⌉), recomputed live, rounded down per address. 80% of the floor tax goes to the current tier, 20% to the next; a filled tier opens the next one at once. Redeemed tokens are 100% burned and do not count toward the prize pool, plot minting, or activation. The floor is not a guarantee or a promise to pay.</p></div>
       <div class="rd">
-        <div class="rd-top"><span><span data-i18n="roundTop">第</span> <b data-k="roundId" data-d="0">即将上线</b> <span data-i18n="roundTopSuf">档 · 当前托底价</span></span><span class="rd-left" id="tierStatus">即将上线</span></div>
+        <div class="rd-top"><span><span data-i18n="roundTop">Tier</span> <b data-k="roundId" data-d="0">Coming soon</b> <span data-i18n="roundTopSuf"> · current floor price</span></span><span class="rd-left" id="tierStatus">Coming soon</span></div>
         <div class="rd-price" id="tierPrice"></div>
-        <div class="rd-sub" id="quotaMath" data-i18n="quotaMath">我的托底额度 = 权重 × 每权重额度</div>
-        <div class="rd-sub"><span data-i18n="roundSub">下一档奖池</span> <b data-k="nextPool" data-d="3">0</b> <span data-i18n="roundSub2">BNB · 本档剩余额度</span> <b data-k="roundQuotaLeft" data-f="tok">0</b><span data-i18n="roundSub3"> / 15M · 每权重额度</span> <b data-k="capPerPlot" data-f="tok">0</b><span data-i18n="roundSub4"> · 你本档剩余</span> <b data-k="myTierLeft" data-f="tok">0</b></div>
+        <div class="rd-sub" id="quotaMath" data-i18n="quotaMath">Your floor quota = weight × quota per weight</div>
+        <div class="rd-sub"><span data-i18n="roundSub">Next-tier pool</span> <b data-k="nextPool" data-d="3">0</b> <span data-i18n="roundSub2">BNB · quota left this tier</span> <b data-k="roundQuotaLeft" data-f="tok">0</b><span data-i18n="roundSub3"> / 15M · per-weight quota</span> <b data-k="capPerPlot" data-f="tok">0</b><span data-i18n="roundSub4"> · your remaining this tier</span> <b data-k="myTierLeft" data-f="tok">0</b></div>
         <div class="rd-bar"><u id="roundBar"></u></div>
-        <div class="rd-row"><span><span data-i18n="filled">已兑</span> <b data-k="roundFilled" data-f="tok">0</b><span data-i18n="filledOf"> / 15M</span></span><span><span data-i18n="burnedCum">累计托底兑换销毁</span> <b data-k="roundBurned" data-f="tok">0</b></span></div>
-        <button class="btn-l wide" id="roundSell" type="button" data-i18n="sellBtn">按托底价兑换</button>
-        <p class="hint" data-i18n="roundWarn">⚠ 托底价可能高于市价，这时地主可能把当前档额度全部换完（已知并接受的风险）。</p>
+        <div class="rd-row"><span><span data-i18n="filled">Filled</span> <b data-k="roundFilled" data-f="tok">0</b><span data-i18n="filledOf"> / 15M</span></span><span><span data-i18n="burnedCum">Cumulative floor redemption burns</span> <b data-k="roundBurned" data-f="tok">0</b></span></div>
+        <button class="btn-l wide" id="roundSell" type="button" data-i18n="sellBtn">Redeem at floor price</button>
+        <p class="hint" data-i18n="roundWarn">⚠ The floor price may be above the market. Holders may then fill the current tier's quota (a known and accepted risk).</p>
       </div>
     </div>
   </section>
 
   <!-- 05 规则 -->
   <section class="sec rules" id="rules" data-i="4">
-    <div class="s-head rv center"><em data-i18n="rulesKicker">05 / 一屏看懂</em><h2 data-i18n="rulesH">规则全部写在合约里</h2></div>
+    <div class="s-head rv center"><em data-i18n="rulesKicker">05 / One-screen rules</em><h2 data-i18n="rulesH">Every rule is in the contract</h2></div>
     <div class="rgrid">
-      <div class="rc rv"><b data-i18n="rule1n">10 分</b><span data-i18n="rule1s">轮次奖池（10 分钟一轮）。第 0–539 秒确定计入；第 540–599 秒随机截止，晚烧可能顺延到下一轮</span></div>
-      <div class="rc rv"><b>15%</b><span data-i18n="rule2s">放出 = min(轮次奖池×15%, 本轮燃烧×min(托底价, 市价)×1)。50% 按份额均分，50% 头奖给燃烧最多且先到者（不超过奖池 5%；有效地址少于 2 人时头奖留池）</span></div>
-      <div class="rc rv"><b data-i18n="rule3n">200 万</b><span data-i18n="rule3s">单笔最少 1,000 枚；本轮总燃烧低于 200 万不开奖，奖金滚入下一轮，激活与地块照常发放</span></div>
-      <div class="rc rv"><b>2000</b><span data-i18n="rule4s">地块只能烧币获得，灵魂绑定，不可转让买卖。贪心拆分：普通 10 万/1.0、稀有 20 万/2.2、史诗 30 万/3.5。创世 30 分钟每分钟最多 20 块（最多 600），之后发到 2000</span></div>
-      <div class="rc rv"><b>80%</b><span data-i18n="rule5s">地块池每 30 分钟一轮，放出 80%（每分钟均匀释放），20% 滚入下一轮；按已激活权重分红。每 10 分钟只需按每 1 权重烧 1000 枚即可激活。冷清时段一名已激活地主即可独得该时段全部分红。地块分成不过期；轮次奖励 30 天不领过期。</span></div>
-      <div class="rc rv"><b>100%</b><span data-i18n="rule6s">托底无需激活，按地块权重分配额度。兑出的币全部销毁，不计入轮次奖、不铸地、不计入激活。80%/20% 分到当前档和下一档，兑满立刻开下一档</span></div>
+      <div class="rc rv"><b data-i18n="rule1n">10 min</b><span data-i18n="rule1s">Prize pool (one round every 10 minutes). Seconds 0–539 always count; seconds 540–599 are a random cutoff, and a late burn may roll into the next round.</span></div>
+      <div class="rc rv"><b>15%</b><span data-i18n="rule2s">Payout = min(prize pool×15%, this round's burn×min(floor, market)×1). 50% pro-rata, 50% jackpot to the largest (then earliest) burner (capped at 5% of the pool; jackpot stays in the pool if fewer than 2 addresses).</span></div>
+      <div class="rc rv"><b data-i18n="rule3n">2M</b><span data-i18n="rule3s">Minimum 1,000 tokens per burn. A round under 2,000,000 tokens pays nothing and rolls the prize; activation and plot minting still happen.</span></div>
+      <div class="rc rv"><b>2000</b><span data-i18n="rule4s">Plots are minted only by burning, soulbound, and cannot be transferred or sold. Greedy split: Common 100k/1.0, Rare 200k/2.2, Epic 300k/3.5. Genesis: 30 minutes, up to 20 plots per minute (max 600), then on to 2,000.</span></div>
+      <div class="rc rv"><b>80%</b><span data-i18n="rule5s">Plot pool: 30-minute rounds, 80% released evenly over the minutes, 20% rolls; split by activated weight. Every 10 minutes, burn 1,000 tokens per 1.0 weight to activate. In a quiet window a single activated holder takes that period's whole dividend. Plot dividends never expire; unclaimed prize-round rewards expire after 30 days.</span></div>
+      <div class="rc rv"><b>100%</b><span data-i18n="rule6s">Floor redemption needs no activation and is allocated by plot weight. Redeemed tokens are fully burned and do not count toward the prize, plots, or activation. 80%/20% splits into the current and next tier; a filled tier opens the next one at once.</span></div>
     </div>
-    <div class="links rv"><a class="flap-cta official-only off" href="#hero" target="_blank" rel="noopener noreferrer" data-i18n="flapCtaSoon">即将上线</a><a href="#rules" data-i18n="linkGeneric">规则说明 ↑</a></div>
-    <div class="foot-soc rv"><a class="soc-a" href="https://x.com/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialX" aria-label="X（推特）"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.257 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a class="soc-a" href="https://t.me/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialTg" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2 18.9 20.15c-.21.94-1.12 1.31-2.02.82l-5.2-3.86-2.51 2.42c-.28.27-.8.1-.91-.28l-.7-4.55 10.1-9.05c.37-.33-.08-.52-.57-.24L6.05 13.05 2.4 11.9c-1.02-.32-1.03-1.16.21-1.72L20.55 3.45c.85-.33 1.59.2 1.25.75z"/></svg></a></div>
-    <p class="foot" data-i18n="foot">BNB Chain · Flap Tax Token V3 · 税 3% / 3% · 链上只读同步，不展示合约地址</p>
+    <div class="links rv"><a class="flap-cta official-only off" href="#hero" target="_blank" rel="noopener noreferrer" data-i18n="flapCtaSoon">Coming soon</a><a href="#rules" data-i18n="linkGeneric">Rules ↑</a></div>
+    <div class="foot-soc rv"><a class="soc-a" href="https://x.com/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialX" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.727-8.835L1.254 2.25H8.08l4.257 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a class="soc-a" href="https://t.me/EdenPlots" target="_blank" rel="noopener noreferrer" data-i18n-aria="socialTg" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2 18.9 20.15c-.21.94-1.12 1.31-2.02.82l-5.2-3.86-2.51 2.42c-.28.27-.8.1-.91-.28l-.7-4.55 10.1-9.05c.37-.33-.08-.52-.57-.24L6.05 13.05 2.4 11.9c-1.02-.32-1.03-1.16.21-1.72L20.55 3.45c.85-.33 1.59.2 1.25.75z"/></svg></a></div>
+    <p class="foot" data-i18n="foot">BNB Chain · Flap Tax Token V3 · 3% / 3% tax · live read-only sync, no contract addresses shown</p>
   </section>
 </main>
 
@@ -130,43 +130,43 @@
 <!-- 底部常驻：一个主操作 -->
 <div class="dock-back" id="dockBack" hidden></div>
 <div class="dock" id="dock">
-  <div class="sheet sim-only" id="sheet" role="dialog" data-i18n-aria="sheetAria" aria-label="操作面板">
-    <div class="sh-tabs" id="shTabs"><button data-t="claim"><span data-i18n="tabClaim">领取</span><i id="claimDot"></i></button><button data-t="plot" data-i18n="tabPlot">地块</button><button data-t="round" data-i18n="tabRound">托底兑换</button><button class="sh-x" id="shX" data-i18n-aria="close" aria-label="收起">×</button></div>
+  <div class="sheet sim-only" id="sheet" role="dialog" data-i18n-aria="sheetAria" aria-label="Action panel">
+    <div class="sh-tabs" id="shTabs"><button data-t="claim"><span data-i18n="tabClaim">Claim</span><i id="claimDot"></i></button><button data-t="plot" data-i18n="tabPlot">Plots</button><button data-t="round" data-i18n="tabRound">Floor</button><button class="sh-x" id="shX" data-i18n-aria="close" aria-label="Close">×</button></div>
     <div class="sh-body" id="shBody"></div>
   </div>
   <div class="dk-flap official-only" id="dockFlap">
-    <a class="btn-l flap-cta off" id="dockFlapBtn" href="#hero" target="_blank" rel="noopener noreferrer" data-i18n="flapCtaSoon">即将上线</a>
+    <a class="btn-l flap-cta off" id="dockFlapBtn" href="#hero" target="_blank" rel="noopener noreferrer" data-i18n="flapCtaSoon">Coming soon</a>
   </div>
   <div class="dk-min sim-only" id="dockMin">
     <button type="button" class="dk-min-main" id="dockExpand">
       <span class="dk-min-fire" aria-hidden="true">🔥</span>
-      <span class="dk-min-lab" data-i18n="ctaBurn">立即燃烧</span>
+      <span class="dk-min-lab" data-i18n="ctaBurn">Burn now</span>
       <em id="dockMinAmt">2,000,000</em>
       <span class="dk-min-unit">EDEN</span>
       <i id="dockMinStat"></i>
     </button>
-    <button type="button" class="dk-min-toggle" id="dockExpand2" data-i18n-aria="dockExpand" aria-label="展开燃烧栏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="dk-min-toggle" id="dockExpand2" data-i18n-aria="dockExpand" aria-label="Expand burn bar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
   <div class="dk sim-only" id="dkPanel">
     <div class="dk-bar" id="dockBar">
-      <button type="button" class="dk-handle" id="dockHandle" data-i18n-aria="dockCollapse" aria-label="收起燃烧栏"><i></i></button>
-      <button type="button" class="dk-collapse" id="dockCollapse" data-i18n-title="dockCollapse" data-i18n-aria="dockCollapse" title="收起燃烧栏" aria-label="收起燃烧栏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="dk-handle" id="dockHandle" data-i18n-aria="dockCollapse" aria-label="Minimize burn bar"><i></i></button>
+      <button type="button" class="dk-collapse" id="dockCollapse" data-i18n-title="dockCollapse" data-i18n-aria="dockCollapse" title="Minimize burn bar" aria-label="Minimize burn bar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
-    <div class="dk-in"><input id="amt" inputmode="numeric" autocomplete="off" value="2,000,000" data-i18n-aria="amtAria" aria-label="燃烧数量"><span>EDEN</span></div>
-    <div class="dk-chips"><button data-a="1000" data-i18n="chip1k">1千</button><button data-a="300000" data-i18n="chip30w">30万</button><button data-a="2000000" data-i18n="chip2m">200万</button><button data-a="max">MAX</button></div>
-    <div class="dk-plot" id="autoPlot" data-i18n="autoPlot">自动计入你的地块 · 灵魂绑定</div>
+    <div class="dk-in"><input id="amt" inputmode="numeric" autocomplete="off" value="2,000,000" data-i18n-aria="amtAria" aria-label="Burn amount"><span>EDEN</span></div>
+    <div class="dk-chips"><button data-a="1000" data-i18n="chip1k">1k</button><button data-a="300000" data-i18n="chip30w">300k</button><button data-a="2000000" data-i18n="chip2m">2M</button><button data-a="max">MAX</button></div>
+    <div class="dk-plot" id="autoPlot" data-i18n="autoPlot">Automatically credited to your plots · soulbound</div>
     <div class="dk-preview" id="burnPreview"></div>
     <div class="dk-act" id="actPrefill"></div>
-    <div class="dk-phase" id="burnPhase" data-i18n="burnPhase">第 0–539 秒确定计入 / 第 540–599 秒随机截止；本轮总燃烧低于 200 万不开奖，奖金滚入下一轮</div>
-    <button class="burn" id="burnBtn" type="button"><span data-i18n="burn">燃烧</span><i></i></button>
-    <div class="dk-tabs"><button data-t="claim"><span data-i18n="tabClaim">领取</span><i id="claimDot2"></i></button><button data-t="plot" data-i18n="tabPlot">地块</button><button data-t="round" data-i18n="tabRound">托底兑换</button></div>
+    <div class="dk-phase" id="burnPhase" data-i18n="burnPhase">Seconds 0–539 always count / 540–599 random cutoff; under 2,000,000 tokens the prize rolls to the next round</div>
+    <button class="burn" id="burnBtn" type="button"><span data-i18n="burn">Burn</span><i></i></button>
+    <div class="dk-tabs"><button data-t="claim"><span data-i18n="tabClaim">Claim</span><i id="claimDot2"></i></button><button data-t="plot" data-i18n="tabPlot">Plots</button><button data-t="round" data-i18n="tabRound">Floor</button></div>
   </div>
 </div>
 
 <div class="hov" id="hov"></div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <div class="dbg" id="dbg"></div>
-<noscript><p style="padding:80px 24px;color:#ccc" data-i18n="noscript">需要启用 JavaScript 才能查看 EDEN。</p></noscript>
+<noscript><p style="padding:80px 24px;color:#ccc" data-i18n="noscript">JavaScript is required to view EDEN.</p></noscript>
 <script src="assets/eden-v4.js"></script>
 </body>
 </html>
